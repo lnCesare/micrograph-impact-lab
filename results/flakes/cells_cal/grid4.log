@@ -1,0 +1,4 @@
+{} {'f1': 0.772, 'precision': 0.804, 'recall': 0.743, 'merges': 121, 'splits': 125, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.164, 'median_abs_order_error': 0.04, 'max_direction_error_deg': 5.576}
+{"boundary_sensitivity": 0.5} {'f1': 0.77, 'precision': 0.795, 'recall': 0.746, 'merges': 110, 'splits': 135, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.171, 'median_abs_order_error': 0.035, 'max_direction_error_deg': 5.576}
+{"boundary_sensitivity": 0.7} {'f1': 0.764, 'precision': 0.81, 'recall': 0.723, 'merges': 136, 'splits': 110, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.168, 'median_abs_order_error': 0.035, 'max_direction_error_deg': 5.576}
+{"h_px": 6} {'f1': 0.773, 'precision': 0.791, 'recall': 0.756, 'merges': 105, 'splits': 145, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.165, 'median_abs_order_error': 0.043, 'max_direction_error_deg': 3.856}

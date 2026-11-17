@@ -262,7 +262,7 @@ def test_a_drawing_keeps_the_full_image_name(tmp_path):
 def test_junction_pockets_are_not_counted_as_flakes(tmp_path):
     # failure 4 of the private coarse-cell test: textured pockets at triple junctions were measured as flakes
     from src import score_masks
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     g = cells(CellSpec("p", "clean", seed=31, pocket_fraction=0.3))
     path = tmp_path / "p.png"
@@ -290,7 +290,7 @@ def test_pores_inside_coarse_cells_do_not_cut_them(tmp_path):
     # failure 3 of the private coarse-cell test: over-splitting; on the twin most splits ran from a pore to the
     # boundary (the pore was a hole in the interior, and the watershed cut through it)
     from src import score_masks
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     g = cells(CellSpec("d", "clean", seed=41, dots_per_cell=4, pocket_fraction=0.05))
     path = tmp_path / "d.png"
@@ -322,7 +322,7 @@ def test_pieces_with_a_darker_shared_border_are_not_merged():
 
 def test_hairline_and_thick_scratches_across_coarse_cells_are_found(tmp_path):
     # failure 5 of the private coarse-cell test: 2 scratches found in 8 images, not the thick one
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     hits, thick_hit = [], False
     for seed in (51, 52):
@@ -345,7 +345,7 @@ def test_hairline_and_thick_scratches_across_coarse_cells_are_found(tmp_path):
 
 
 def test_no_scratch_is_invented_on_clean_coarse_cells(tmp_path):
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     for seed in (53, 54):
         g = cells(CellSpec("c", "clean", seed=seed))
@@ -353,3 +353,35 @@ def test_no_scratch_is_invented_on_clean_coarse_cells(tmp_path):
         Image.fromarray(g["image"]).save(path)
         res = METHODS["flakes"]([path], {}, tmp_path / str(seed))
         assert (res["defect_maps"][f"c{seed}"] == 1).sum() == 0
+
+
+# --- calibrated coarse-cell twin (2026-11-18) -----------------------------------------------------------------------
+
+def _analyse_cells(img):
+    from src.methods.flakes import DEFAULTS, analyse
+
+    return analyse(img, dict(DEFAULTS, _given=[]))
+
+
+@pytest.mark.xfail(reason="fix 7 (thick scratches at any angle >= 12 deg) not implemented yet: frozen 2026-11-17 17:30", strict=False)
+def test_a_thick_dark_scratch_at_20_deg_to_the_cells_is_found():
+    """The private images have a thick dark scratch ~20 deg off the cells, inside the 25 deg exclusion of the coarse
+    rules: thick scratches are told from boundaries by their width, darkness and length instead (crossing >= 12 deg)."""
+    from src.synth_cells import CellSpec, generate as cells
+
+    found = 0
+    for seed in (51, 52, 53):
+        g = cells(CellSpec("t", "scratched", seed=seed, thick_probability=1.0, thick_angle_deg=20.0, n_hairline=0))
+        r = _analyse_cells(g["image"] / 255.0)
+        thick = g["scratch"]
+        if (ndi.binary_dilation(r["scratch"], iterations=2) & thick).sum() >= 0.4 * thick.sum():
+            found += 1
+    assert found >= 2
+
+
+def test_no_scratch_is_invented_on_clean_calibrated_cells():
+    from src.synth_cells import CellSpec, generate as cells
+
+    for seed in (61, 62):
+        g = cells(CellSpec("c", "clean", seed=seed))
+        assert _analyse_cells(g["image"] / 255.0)["scratch"].mean() < 0.002

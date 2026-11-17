@@ -1,0 +1,49 @@
+..............................................................F.F...x... [ 43%]
+........................................................................ [ 87%]
+.....................                                                    [100%]
+=================================== FAILURES ===================================
+_______________ test_junction_pockets_are_not_counted_as_flakes ________________
+
+tmp_path = PosixPath('/private/var/folders/4_/06dr8y156lbfpb_1_vss45v40000gn/T/pytest-of-cesaregarberino/pytest-121/test_junction_pockets_are_not_0')
+
+    def test_junction_pockets_are_not_counted_as_flakes(tmp_path):
+        # failure 4 of the private coarse-cell test: textured pockets at triple junctions were measured as flakes
+        from src import score_masks
+        from src.synth_cells_v1 import CellSpec, generate as cells
+    
+        g = cells(CellSpec("p", "clean", seed=31, pocket_fraction=0.3))
+        path = tmp_path / "p.png"
+        Image.fromarray(g["image"]).save(path)
+        score = {}
+        for flag in (False, True):
+            res = METHODS["flakes"]([path], {"detect_pockets": flag}, tmp_path / str(flag))
+            lab = np.array(Image.open(tmp_path / str(flag) / "labels" / "p.png"))
+            score[flag] = score_masks.score_image(lab, g["mask"])
+>       assert score[False]["pocket_fp"] >= 5
+E       assert 0 >= 5
+
+tests/test_flakes.py:275: AssertionError
+________________ test_pores_inside_coarse_cells_do_not_cut_them ________________
+
+tmp_path = PosixPath('/private/var/folders/4_/06dr8y156lbfpb_1_vss45v40000gn/T/pytest-of-cesaregarberino/pytest-121/test_pores_inside_coarse_cells0')
+
+    def test_pores_inside_coarse_cells_do_not_cut_them(tmp_path):
+        # failure 3 of the private coarse-cell test: over-splitting; on the twin most splits ran from a pore to the
+        # boundary (the pore was a hole in the interior, and the watershed cut through it)
+        from src import score_masks
+        from src.synth_cells_v1 import CellSpec, generate as cells
+    
+        g = cells(CellSpec("d", "clean", seed=41, dots_per_cell=4, pocket_fraction=0.05))
+        path = tmp_path / "d.png"
+        Image.fromarray(g["image"]).save(path)
+        METHODS["flakes"]([path], {}, tmp_path / "out")
+        s = score_masks.score_image(np.array(Image.open(tmp_path / "out" / "labels" / "d.png")), g["mask"])
+>       assert s["splits"] <= 0.07 * s["n_true"]  # (before the pore filling: 0.15)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       assert 21 <= (0.07 * 136)
+
+tests/test_flakes.py:300: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_flakes.py::test_junction_pockets_are_not_counted_as_flakes
+FAILED tests/test_flakes.py::test_pores_inside_coarse_cells_do_not_cut_them
+2 failed, 162 passed, 1 xfailed in 926.48s (0:15:26)

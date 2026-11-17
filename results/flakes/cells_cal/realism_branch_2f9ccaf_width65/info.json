@@ -1,0 +1,110 @@
+{
+  "clean_0": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 71,
+    "n_used_orientation": 63,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "clean_1": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 68,
+    "n_used_orientation": 50,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "clean_2": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 59,
+    "n_used_orientation": 46,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "clean_3": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 72,
+    "n_used_orientation": 63,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "scratched_0": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 81,
+    "n_used_orientation": 73,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "scratched_1": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 49,
+    "n_used_orientation": 43,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "scratched_2": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 52,
+    "n_used_orientation": 36,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "scratched_3": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 3,
+    "n_flakes": 66,
+    "n_used_orientation": 55,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "soft_0": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 56,
+    "n_used_orientation": 41,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "soft_1": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 41,
+    "n_used_orientation": 33,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "soft_2": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 226,
+    "n_used_orientation": 138,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  },
+  "soft_3": {
+    "flake_width_px_used": 65.0,
+    "mode": "boundaries",
+    "n_scratches": 1,
+    "n_flakes": 35,
+    "n_used_orientation": 29,
+    "n_pockets": 0,
+    "out_of_focus_fraction": 0.0
+  }
+}

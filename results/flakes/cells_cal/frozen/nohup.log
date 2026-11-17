@@ -1,0 +1,12 @@
+=== 17:24:31 code version: cd3472549e
+=== 17:24:31 blind calibrated set (12 images, entropy seed, params {})
+=== 17:26:26 calibrated dev set: holdout, once
+=== 17:27:06 calibrated dev set: dev (frozen code)
+=== 17:28:30 simulated private set (6 sharp + 2 soft, entropy seed)
+=== 17:29:25 simulated private set: method defaults
+=== 18:50:06 simulated private set: adapt fast (default) with the example card
+=== 19:05:02 simulated private set: adapt thorough with the example card
+=== 19:30:52 stress sets: same params, frozen code
+=== 19:42:25 baselines: lamellar_synth and Ti64
+=== 19:44:47 full test suite
+=== 20:00:15 done

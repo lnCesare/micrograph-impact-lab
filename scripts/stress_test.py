@@ -60,7 +60,8 @@ if __name__ == "__main__":
         t = time.time()
         images = [Path(a.sem)] if name == "sem_user" else (TI64_DEV if prefixes == "TI64_DEV" else files(prefixes))
         try:
-            log = adapt(images, name, budget=30 if name == "ti64_dev" else a.budget, mode=MODES.get(name))
+            # thorough: the search of the earlier stress runs (30 / budget configurations, 3 twin images per family)
+            log = adapt(images, name, budget=30 if name == "ti64_dev" else a.budget, mode=MODES.get(name), thorough=True)
             hold = next(r for r in log["twin_scores"] if r["which"] == "chosen" and r["split"] == "holdout")
             summary[name] = {"mode": log["mode"], "mode_reason": log["mode_reason"],
                              "twin_realism_ok": log["twin"]["realism_ok"],

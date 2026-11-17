@@ -8,35 +8,52 @@ Writes <out>/labels/*.png, <out>/score.json (summary, per image, per family) and
 
 import argparse
 import json
+import os
+import subprocess
 import sys
 import time
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+# --code-root: the method of another checkout (e.g. a git worktree of an old commit) makes the labels in a subprocess
+# that imports only that checkout's src.methods; the scoring stays with this checkout's src.score_masks
+CODE_ROOT = os.environ.get("CELLS_CODE_ROOT")
+sys.path.insert(0, CODE_ROOT or str(Path(__file__).resolve().parents[1]))
 
 import numpy as np  # noqa: E402
-from PIL import Image  # noqa: E402
-
-from src import score_masks  # noqa: E402
-from src.methods import METHODS  # noqa: E402
 
 
 def _one(args):
+    from src.methods import METHODS
+
     method, image, params, out = args
     res = METHODS[method]([Path(image)], params, Path(out))
     s = res.get("image_summaries", {}).get(Path(image).stem, {})
     keep = {k: s.get(k) for k in ("flake_width_px_used", "mode", "n_scratches", "n_flakes", "n_used_orientation",
-                                   "n_pockets", "out_of_focus_fraction") if k in s}
+                                   "n_pockets", "out_of_focus_fraction", "soft_fraction") if k in s}
     return Path(image).stem, keep
 
 
-def run(data: Path, split: str, method: str, params: dict, out: Path, workers: int = 6) -> dict:
+def labels(data: Path, split: str, method: str, params: dict, out: Path, workers: int = 6) -> dict:
     names = json.loads((data / "split.json").read_text())[split]
     out.mkdir(parents=True, exist_ok=True)
-    t0 = time.time()
     with ProcessPoolExecutor(workers) as ex:
-        info = dict(ex.map(_one, [(method, str(data / "images" / f"{n}.png"), params, str(out)) for n in names]))
+        return dict(ex.map(_one, [(method, str(data / "images" / f"{n}.png"), params, str(out)) for n in names]))
+
+
+def run(data: Path, split: str, method: str, params: dict, out: Path, workers: int = 6, code_root: Path | None = None) -> dict:
+    from src import score_masks
+
+    t0 = time.time()
+    data, out = Path(data).resolve(), Path(out).resolve()
+    if code_root:
+        out.mkdir(parents=True, exist_ok=True)
+        subprocess.run([sys.executable, str(Path(__file__).resolve()), "--labels-only", "--data", str(data), "--split", split,
+                        "--method", method, "--params", json.dumps(params), "--out", str(out), "--workers", str(workers)],
+                       check=True, cwd=str(code_root), env={**os.environ, "CELLS_CODE_ROOT": str(Path(code_root).resolve())})
+        info = json.loads((out / "info.json").read_text())
+    else:
+        info = labels(data, split, method, params, out, workers)
     res = score_masks.score_dirs(out / "labels", data / "truth" / "masks")
     fam = {}
     for n, r in res["images"].items():
@@ -49,6 +66,7 @@ def run(data: Path, split: str, method: str, params: dict, out: Path, workers: i
                             "max_direction_error_deg": max((r["direction_error_deg"] or 0) for r in rs)}
                         for f, rs in fam.items()}
     res["method"], res["params"], res["info"], res["seconds"] = method, params, info, round(time.time() - t0)
+    res["code_root"] = str(code_root) if code_root else None
     (out / "score.json").write_text(json.dumps(score_masks_clean(res), indent=2) + "\n")
     return res
 
@@ -82,5 +100,11 @@ if __name__ == "__main__":
     ap.add_argument("--params", default="{}")
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=6)
+    ap.add_argument("--code-root", type=Path, help="run the method of another checkout (e.g. a worktree of an old commit)")
+    ap.add_argument("--labels-only", action="store_true", help=argparse.SUPPRESS)
     a = ap.parse_args()
-    show(run(a.data, a.split, a.method, json.loads(a.params), a.out, a.workers))
+    if a.labels_only:
+        info = labels(a.data, a.split, a.method, json.loads(a.params), a.out, a.workers)
+        (a.out / "info.json").write_text(json.dumps(score_masks_clean(info), indent=2) + "\n")
+        sys.exit()
+    show(run(a.data, a.split, a.method, json.loads(a.params), a.out, a.workers, a.code_root))

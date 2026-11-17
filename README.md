@@ -345,13 +345,41 @@ Results go to `results/flakes/adapt/<name>/`:
 - Scratch detection on real texture finds about a third of strong scratches (blind test, F-16).
   The measurements are robust to them anyway: a strong scratch moves them by ≤ 0.12 of the tolerance.
 
-## Coarse cell structures (added 2026-11-17)
+## Coarse cell structures (added 2026-11-17, second round 2026-11-18)
 
 A private test on optical micrographs of a coarse, elongated cell structure showed the tool losing to a plain h-maxima watershed (flake F1 0.64 vs 0.74, aspect ratio −22 %, one image 7° off).
-These images cannot be shared, so the fixes were developed and checked on a code-generated family built from their description, with exact truth.
-Details, numbers and the variants that failed are in [JOURNAL.md](JOURNAL.md) (2026-11-17, "Coarse cell structures").
+These images cannot be shared, so the fixes were developed and checked on code-generated images with exact truth.
+Details, numbers and the variants that failed are in [JOURNAL.md](JOURNAL.md) (2026-11-17, "Coarse cell structures", and 2026-11-18, "Coarse cells, second round").
 
-**The twin family** ([src/synth_cells.py](src/synth_cells.py); `python -m src.synth_cells --out data/coarse_cells`):
+**Second round: a calibration card and a calibrated twin.**
+The first round's twin was built from a description and proved too easy: on the private images the first round's tool scored F1 0.56 (full `src.adapt`) against 0.74 for the tuned watershed, read the cell width as 34 px for cells 51-67 px wide, and collapsed S on two soft images.
+- *Calibration card* ([src/calibration_card.py](src/calibration_card.py)): statistics of a set of images with masks (cell sizes, S, boundary contrast and its invisible share along and across the cells, noise, dots, pockets, illumination, sharpness, soft areas).
+  Only these numbers cross over, never pixels:
+
+  ```shell
+  .venv/bin/python -m src.calibration_card --images <dir> --masks <dir> --out card.json [--scale 0.5]
+  ```
+
+  The private images' numbers ship as [data/cards/coarse_cells_example.json](data/cards/coarse_cells_example.json).
+- *Calibrated twin* ([src/synth_cells.py](src/synth_cells.py); `python -m src.synth_cells --out data/coarse_cells_cal`): a field filled with pebble-like cells, faint beaded boundaries with gaps, inclusions, pockets, scratches, and soft images with a focus gradient, fitted to the card.
+  It reproduces the private failures of the old code (F1 0.63 against 0.64, aspect ratio −23 to −26 % against −22 %, width read at ~0.6 ×, S collapse on soft images); with the width forced to 65 px it is harder than the real images (F1 0.37 against 0.64).
+- *Use it on your images:*
+
+  ```shell
+  .venv/bin/python -m src.adapt <images> --name <set> --calibration card.json   # fast default: 12 configurations
+  .venv/bin/python -m src.adapt <images> --name <set> --calibration card.json --thorough   # 30 configurations
+  ```
+
+  A set is measured as coarse cells when a card is given or the profile finds cells; the twin is then the calibrated cell family, the search also scores segmentation, and the guard refuses settings that merge cells.
+- *Method changes of this round* (cells ≥ 24 px only; laths unchanged): the width from the fundamental spacing of a hysteresis line map (all estimators printed), soft areas found from the width of the boundary lines and left out, boundary detection by hysteresis with a noise floor, and coarse defaults for threshold and watershed seeds.
+- *Results on the calibrated twin* (blind set of 12 images, code and params frozen first; JOURNAL 2026-11-18):
+  - flake F1 **0.774** (clean family 0.857, scratched 0.804, soft 0.556);
+  - median aspect ratio bias −15 %, median S error 0.035, median direction error 1.7° (worst 12°, on a soft image);
+  - the old code on the same kind of images: F1 0.63, AR −25 %.
+  - **The target (F1 ≥ 0.80, AR within 10 %, S ≤ 0.03, direction ≤ 1.5°) is not met**: partly out-of-focus images are the weak point, and thick scratches near the cell direction (fix 7) are not handled yet.
+  - Only the private rerun can say how this transfers to the real images (bar: watershed F1 0.74).
+
+**The first-round twin family** ([src/synth_cells_v1.py](src/synth_cells_v1.py); `python -m src.synth_cells_v1 --out data/coarse_cells`), kept for its tests and results:
 - bright cells ~60–70 px wide, aspect ratio 2.4–3.6, rounded ends, stacked end to end in curved rows (S 0.8–0.9), 90–150 per 1100 × 1400 image;
 - thin dark boundaries (2–5 px), broken and dotted, the end-to-end ones fainter;
 - grey speckled pockets at triple junctions, dark pores inside the cells;
@@ -373,7 +401,7 @@ It reports:
 
 `src.adapt` writes one label PNG per input image at the input's size (0 background, label k = flake k of `flakes.csv`).
 
-**What changed in the method.**
+**What changed in the method (first round).**
 The first two changes act on any image where they apply; the rest only where flakes are ≥ 24 px wide, so the fine-lath behaviour validated on Ti64 is untouched.
 1. *Flake width* from the spacing of the boundary lines along the flakes (scan lines across the local direction, peak of the spacing distribution).
    Where it disagrees strongly with the old Otsu-thickness estimate (> 1.6×, smooth blend up to 1.9×) and has a clear peak, it takes over; disagreements are reported.
@@ -385,7 +413,8 @@ The first two changes act on any image where they apply; the rest only where fla
    Faint hairlines and thick scratches are looked for, and scratches within 25° of the cells are not (they look like boundaries).
 6. *Out-of-focus areas* (sharpness and contrast both low, ≥ 10 % of the image) are left out of the region of interest, and their fraction is reported.
 
-**Results on the twin** (defaults, no API):
+**Results of the first round on its own (uncalibrated) twin** (defaults, no API).
+That twin proved too easy: these numbers did not transfer to the private images (F1 0.56 there against 0.74 for the watershed).
 
 | | dev, before | dev, after | blind set 2, before | **blind set 2, after** |
 |---|---|---|---|---|
@@ -405,8 +434,8 @@ The first two changes act on any image where they apply; the rest only where fla
   This comes from the search's history (knowledge memory, search cache), not from the method; see JOURNAL and TASKS A-14.
 
 **Limits.**
-- The twin is a model of a description, not of the images.
-  It is fair evidence that the tool improves, not that it now beats a watershed tuned on the real images: only the private rerun can say that (`src.adapt` on the 8 images, then `src.score_masks`).
+- The first twin was a model of a description, not of the images, and was too easy; the calibrated twin matches the card's numbers but is still a model.
+  Only the private rerun can say whether the tool now beats a watershed tuned on the real images (`src.calibration_card`, then `src.adapt --calibration`, then `src.score_masks`; TASKS C-8).
 - *Blurred images remain the weak point.*
   The out-of-focus detector is conservative: it flags none of the 47 real images at hand, and misses some blur.
   On the blurred family the aspect ratio is still −12 % (blind set 2) to −23 % (blind set 1), the same failure the private test showed.

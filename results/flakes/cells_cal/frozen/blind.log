@@ -1,0 +1,4 @@
+{"n_images": 12, "n_true": 1286, "n_pred": 1181, "tp": 955, "precision": 0.809, "recall": 0.743, "f1": 0.774, "merges": 119, "splits": 119, "pocket_fp": 0, "median_abs_direction_error_deg": 1.73, "max_direction_error_deg": 11.944, "median_abs_order_error": 0.035, "median_order_bias": -0.035, "median_abs_aspect_ratio_rel_error": 0.154, "median_aspect_ratio_bias": -0.154}
+   clean {'f1': 0.857, 'merges': 47, 'splits': 32, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.068, 'max_direction_error_deg': 3.145}
+   scratched {'f1': 0.804, 'merges': 56, 'splits': 56, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.17, 'max_direction_error_deg': 2.794}
+   soft {'f1': 0.556, 'merges': 16, 'splits': 31, 'pocket_fp': 0, 'median_aspect_ratio_bias': -0.34, 'max_direction_error_deg': 11.944}

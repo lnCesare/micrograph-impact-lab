@@ -1,0 +1,12 @@
+image                             P      R     F1 merge split pocket dir err   S err  AR err
+sim_0                         0.839  0.867  0.852     7    16      0     0.2  -0.019  -0.158
+sim_1                         0.812  0.830  0.821    11    17      0     2.3  -0.029  -0.213
+sim_2                         0.831  0.824  0.828     8    14      0     0.5  -0.100  -0.187
+sim_3                         0.806  0.822  0.814    13    18      0     0.2  -0.061  -0.254
+sim_4                         0.825  0.808  0.817    10    17      0     1.0  -0.089  -0.208
+sim_5                         0.845  0.838  0.842     8    14      0     0.8  -0.049  -0.141
+sim_6                         0.726  0.750  0.738     5    10      0     0.3  -0.078  -0.154
+sim_7                         0.573  0.603  0.588     7    16      0     3.8  -0.083  -0.333
+
+pooled over 8 images: precision 0.798, recall 0.807, F1 0.802; merges 69, splits 122, pocket false positives 0
+median |direction error| 0.64 deg (max 3.83), median |S error| 0.070, median aspect ratio bias -0.197

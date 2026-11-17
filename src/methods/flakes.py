@@ -31,8 +31,11 @@ DEFAULTS = {
     "sigma": 1.0,
     "boundary_width_px": 2.5,
     "boundary_sensitivity": 1.0,
+    "boundary_hysteresis": "auto",
     "detect_scratches": True,
     "detect_pockets": True,
+    "detect_soft": True,
+    "soft_line_ref_px": None,
     "scratch_min_length_px": 200,
     "scratch_min_crossing_deg": 12.0,
     "scratch_max_side_diff_deg": 15.0,
@@ -115,10 +118,18 @@ def flakes(images, params, out_dir, overlay=()):
     - boundary_width_px: 1-8, typical boundary width; sets the ridge filter scales [2.5]
     - boundary_sensitivity: 0.3-3, multiplies the Otsu threshold of the ridge response;
       lower finds more (fainter) boundary, higher only the strongest [1.0]
+    - boundary_hysteresis: "auto" | 0-1, faint boundary (ridge response above this fraction of the threshold) is kept
+      where it connects to boundary above the threshold: beaded, broken boundaries between coarse cells; "auto": 0.4
+      for flakes >= 24 px wide, off below; 0 = off ["auto"]
     - detect_scratches: find straight thin lines that cross the flakes and inpaint them before segmenting [true]
     - detect_pockets: true/false, coarse structures (flakes >= 24 px wide): patches of fine speckle texture without a
       direction (grey "pockets" at triple junctions) are found, and flakes lying at least half on them are marked
       not_a_flake and left out of all statistics [true]
+    - detect_soft: true/false, fields of coarse cells (flakes >= 24 px wide, thin dark lines): soft (out-of-focus)
+      parts, where the boundary lines are wider than ~5 px, are left out of the region of interest, the statistics
+      and the label image; their share is reported as soft_fraction [true]
+    - soft_line_ref_px: 2-10 or null, a set's typical sharp line width (from the adapt tool): the soft thresholds are
+      rescaled by it / 3 px, for images at another magnification [null: thresholds as calibrated]
     - scratch_min_length_px: 50-1000, shortest straight line taken as a scratch [200]
     - scratch_min_crossing_deg: 5-60, a scratch must cross the local flake direction by at least this;
       a straight line closer to the flake direction cannot be told from the flakes and is left alone [12]
@@ -495,8 +506,20 @@ def resolve(p: dict, prof: dict | None, mode: str, shape=None) -> dict:
     if width:
         q.update(profile_mod.scaled_params(width, boundary, p.get("_given", ()), p,
                                            shape=shape or (prof.get("shape") if prof else None)))
+        q.update({k: v for k, v in coarse_overrides(width, mode).items() if k not in p.get("_given", ())})
     q["_width_used"] = width
     return q
+
+
+def coarse_overrides(width: float | None, mode: str) -> dict:
+    """Settings of the boundary reading for coarse cells (flakes >= COARSE_PX wide), where the lath scaling does not
+    hold: the boundaries are faint and beaded, so the threshold is lower (boundary_sensitivity 0.6, with the
+    hysteresis), and the watershed seeds stand higher (h_px 0.12 x the width, not 0.05 x): on the calibrated twin's
+    dev images F1 0.38 -> 0.71 (JOURNAL 2026-11-18). Applied to params not given explicitly (and by src.adapt to its
+    start settings)."""
+    if mode != "boundaries" or not width or width < COARSE_PX:
+        return {}
+    return {"boundary_sensitivity": 0.6, "h_px": round(0.12 * float(width), 2)}
 
 
 def segment_boundaries(clean: np.ndarray, roi: np.ndarray, direction, coherence, p: dict) -> np.ndarray:
@@ -504,7 +527,20 @@ def segment_boundaries(clean: np.ndarray, roi: np.ndarray, direction, coherence,
     bw = float(p["boundary_width_px"])
     ridge = sato(clean, sigmas=[max(bw / 3, 0.7), max(bw / 2, 1.0)], black_ridges=True)
     t = threshold_otsu(ridge[roi]) * p["boundary_sensitivity"]
-    boundary = (ridge > t) | ~roi
+    low = _boundary_hysteresis(p)
+    if low:
+        from skimage.filters import apply_hysteresis_threshold
+
+        # a noise floor: on a soft image the Otsu threshold of a faint ridge map is low, and a fraction of it took
+        # the noise ridges for boundary (they joined up and ate the cells: calibrated twin, soft images F1 0.0-0.2);
+        vals = ridge[roi]
+        med = float(np.median(vals))
+        mad = 1.4826 * float(np.median(np.abs(vals - med)))
+        # (median + 3 MAD: soft images F1 0.0-0.2 -> 0.5-0.7, sharp ones unchanged; 4.5 and 6 MAD merged sharp cells)
+        t = max(t, med + 3 * mad)
+        boundary = apply_hysteresis_threshold(ridge, max(low * t, med + 1.5 * mad), t) | ~roi
+    else:
+        boundary = (ridge > t) | ~roi
     boundary = remove_small_objects(boundary, max_size=7)
     ends = _end_bridge_px(p)
     if (p["bridge_gaps_px"] and p["bridge_gaps_px"] > 1) or ends > 1:
@@ -524,6 +560,16 @@ def segment_boundaries(clean: np.ndarray, roi: np.ndarray, direction, coherence,
         across = remove_small_objects(across, max_size=4)
         boundary = boundary | directional_closing(across, (direction + 90) % 180, coherence, ends)
     return remove_small_holes(~boundary, max_size=_pore_area(p)) & roi
+
+
+def _boundary_hysteresis(p: dict) -> float:
+    """Low threshold of the boundary hysteresis, as a fraction of the threshold: "auto" = 0.4 for coarse flakes
+    (>= 24 px), off below (laths: unchanged)."""
+    v = p.get("boundary_hysteresis", 0)
+    if v != "auto":
+        return float(v or 0)
+    width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    return 0.4 if width >= COARSE_PX else 0.0
 
 
 def _end_bridge_px(p: dict) -> int:
@@ -619,8 +665,25 @@ def analyse(raw: np.ndarray, p: dict) -> dict:
     else:
         modes, reason = [p["mode"]], "set by params"
 
+    # soft (out-of-focus) parts of a field of coarse cells: out of the region of interest, the statistics and the
+    # label image (the private rerun: two partly soft images gave S 0.35 and 0.47 against 0.90 and 0.80)
+    soft_info, soft_fraction = {}, 0.0
+    if p["detect_soft"] and "boundaries" in modes:
+        q0 = resolve(p, prof, "boundaries", gray.shape)
+        cells = (prof["width_check"].get("cells_like") if prof else
+                 bool(q0["_width_used"] and q0["_width_used"] >= profile_mod.COARSE_WIDTH_PX))
+        if cells:
+            soft = profile_mod.soft_regions(gray, roi, q0["_width_used"], line_ref_px=p["soft_line_ref_px"],
+                                            info=soft_info)
+            if soft.any() and soft.mean() < 0.8:
+                roi = roi & ~ndi.binary_dilation(soft, iterations=6)
+                soft_fraction = float(soft.mean())
+
     results = [analyse_mode(raw, gray, roi, resolve(p, prof, m, gray.shape), m, prof) for m in modes]
     best = max(results, key=lambda r: r["coverage"])
+    best["summary"]["soft_fraction"] = round(soft_fraction, 4)
+    if soft_info:
+        best["summary"]["line_scale"] = soft_info
     best["summary"]["mode"] = best["mode"]
     best["summary"]["mode_reason"] = reason
     best["summary"]["out_of_focus_fraction"] = roi_info.get("out_of_focus_fraction", 0.0)

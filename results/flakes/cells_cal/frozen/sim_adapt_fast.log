@@ -1,0 +1,33 @@
+adapt cal_sim_fast: 8 images, code cd3472549e
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 68.5 px
+  width estimators (median over the images, px): Otsu thickness 49.7, line spacing 73.8 (minus the line 69.2), fundamental spacing 68.5, mean intercept 169.7; used: fundamental
+  coarse cells: yes (calibration card given)
+  [1.6 min] profile done
+  twin (coarse cells): fitting to the calibration card
+    twin fit 1/3: worst distance to the card's ranges x1.00
+    twin fit 2/3: worst distance to the card's ranges x1.01
+    twin fit 3/3: worst distance to the card's ranges x1.00
+  twin (coarse cells): built, 6 images, realism ok True (worst card mismatch x1.00)
+  [2.9 min] twin ready
+  [start 0] objective 3.103 (worst family 2.5442604292466275, pooled 2.236036200749611, F1 0.757)
+  [start 0] objective 3.103 (worst family 2.5442604292466275, pooled 2.236036200749611, F1 0.757) cached
+  [h_px=2.466] objective 3.064 (worst family 2.518260429246628, pooled 2.1813073497324926, F1 0.714), 1/12 new, ~3.6 min left
+  [h_px=1.48] objective 3.021 (worst family 2.4403463151707165, pooled 2.3244050339762925, F1 0.714), 2/12 new, ~3.3 min left
+  [h_px=2.22] objective 2.965 (worst family 2.3742604292466285, pooled 2.361987181440513, F1 0.708), 3/12 new, ~2.9 min left
+  [h_px=5.55] objective 3.232 (worst family 2.6582604292466283, pooled 2.295964489949315, F1 0.737), 4/12 new, ~2.6 min left
+  [merge_saddle_ratio=0.65] objective 3.611 (worst family 2.9375018680694627, pooled 2.6931163726117564, F1 0.618), 5/12 new, ~2.3 min left
+  [merge_saddle_ratio=0.8] objective 4.081 (worst family 3.299160115969752, pooled 3.1258189353079198, F1 0.516), 6/12 new, ~2.0 min left
+  [merge_saddle_ratio=1.0] objective 5.061 (worst family 4.178260429246628, pooled 3.530302577437706, F1 0.391), 7/12 new, ~1.6 min left
+  [boundary_sensitivity=0.8] objective 2.166 (worst family 1.7687986917349745, pooled 1.590603862964862, F1 0.763), 8/12 new, ~1.3 min left
+  [boundary_sensitivity=1.0] objective 3.430 (worst family 3.0322604292466293, pooled 1.5920205980079682, F1 0.788), 9/12 new, ~1.0 min left
+  [boundary_sensitivity=1.2] objective 2.714 (worst family 2.308260429246629, pooled 1.6220205980079694, F1 0.756), 10/12 new, ~0.7 min left
+  [merge_border_darkness=0.0] objective 2.075 (worst family 1.66288184015823, pooled 1.6489421133355673, F1 0.760), 11/12 new, ~0.3 min left
+  [merge_border_darkness=0.06] objective 2.522 (worst family 2.0938334806147223, pooled 1.7110519970907927, F1 0.740), 12/12 new, ~0.0 min left
+  [7.2 min] search done
+  real-image guard: start {'rotation': 0.356, 'flakes_used': 126.0, 'median_length_px': 180.87}, chosen {'rotation': 0.6533333333333333, 'flakes_used': 120.5, 'median_length_px': 187.215}: chosen kept
+  [11.7 min] scoring the twin holdout
+  [12.3 min] measuring the real images
+  done in 889 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/cal_sim_fast/report.md
+real 889.78
+user 1602.29
+sys 67.60

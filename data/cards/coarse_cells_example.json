@@ -1,0 +1,46 @@
+{
+  "card_version": 1,
+  "made_by": "by hand, from the numbers measured on the 8 private images (2026-11-17); not computed by src.calibration_card",
+  "source": "8 optical micrographs of a coarse elongated cell structure with hand-corrected masks (private; only these numbers were shared)",
+  "scale": 0.5,
+  "n_images": 8,
+  "n_soft": 2,
+  "image_shape": [1101, 1376],
+  "summary": {
+    "interior_level": [0.96, 0.99],
+    "cell_width_px": [51, 67],
+    "cell_length_px": [151, 220],
+    "cell_aspect_ratio": [2.8, 3.3],
+    "order_parameter": [0.73, 0.92],
+    "n_cells": [57, 135],
+    "contrast_p25": [0.06, 0.11],
+    "contrast_median": [0.11, 0.18],
+    "contrast_p75": [0.18, 0.29],
+    "invisible_fraction_along": [0.13, 0.21],
+    "invisible_fraction_across": [0.09, 0.15],
+    "boundary_fraction": [0.08, 0.12],
+    "noise": [0.008, 0.016],
+    "dots_per_megapixel": [5, 53],
+    "pocket_fraction": [0.003, 0.028],
+    "illumination_range": [0.02, 0.04],
+    "sharpness_median": [0.68, 1.0],
+    "sharpness_p10": [0.45, 0.70]
+  },
+  "soft": {
+    "contrast_median": [0.05, 0.08],
+    "invisible_fraction": [0.29, 0.48],
+    "sharpness_median": [0.39, 0.71],
+    "sharpness_p10": [0.16, 0.33],
+    "ignore_fraction": [0.34, 0.55]
+  },
+  "notes": {
+    "boundary_fraction": "about 10 % of the image (boundaries drawn 2-3 px wide)",
+    "transverse_boundaries": "the end-to-end (transverse) boundaries are not fainter than those along the cells",
+    "scratches": "hairline scratches at ~45 deg to the cells; a thick dark scratch ~20 deg off the cell direction",
+    "cell_width_variation": "within an image cell widths vary by about 2x (thin slivers to wide lenses)",
+    "inclusions": "elongated grey or dark lens-shaped inclusions in the boundaries, 10-60 px long, 3-10 px wide",
+    "pockets": "dark grey speckled clusters at some triple junctions, 20-80 px across",
+    "dots": "dark round pores 3-15 px inside cells, a few black blobs up to ~25 px; a sparse fine speckle of 1-3 px specks",
+    "interiors": "almost white and flat, near saturation"
+  }
+}

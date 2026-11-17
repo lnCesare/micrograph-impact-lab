@@ -1,0 +1,27 @@
+INFO __main__: execute: ok=True metrics={'median_rotation_direction_diff_deg': 0.46855, 'median_rotation_order_abs_diff': 0.006, 'median_rotation_aspect_ratio_rel_diff': 0.0109, 'median_estimator_gap': 0.1403, 'median_order_parameter': 0.5504, 'median_local_order_parameter': 0.8086, 'median_mean_misalignment_deg': 25.7337, 'median_aspect_ratio': 2.801, 'median_n_flakes_used': 1371, 'total_scratches': 0, 'n_images': 13, 'consistency_ratios': {'mean_direction_deg': 0.15618333333333334, 'order_parameter': 0.2, 'aspect_ratio_rel': 0.218}, 'worst_consistency_ratio': 0.218}
+{
+  "ok": true,
+  "dataset": "Ti64",
+  "split": "dev",
+  "metrics": {
+    "median_rotation_direction_diff_deg": 0.46855,
+    "median_rotation_order_abs_diff": 0.006,
+    "median_rotation_aspect_ratio_rel_diff": 0.0109,
+    "median_estimator_gap": 0.1403,
+    "median_order_parameter": 0.5504,
+    "median_local_order_parameter": 0.8086,
+    "median_mean_misalignment_deg": 25.7337,
+    "median_aspect_ratio": 2.801,
+    "median_n_flakes_used": 1371,
+    "total_scratches": 0,
+    "n_images": 13,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.15618333333333334,
+      "order_parameter": 0.2,
+      "aspect_ratio_rel": 0.218
+    },
+    "worst_consistency_ratio": 0.218
+  },
+  "by_corruption_level": null,
+  "error": null
+}

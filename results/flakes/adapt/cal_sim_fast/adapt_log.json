@@ -1,0 +1,2865 @@
+{
+  "name": "cal_sim_fast",
+  "code_version": "cd3472549e",
+  "images": [
+    "data/coarse_cells_cal_sim/images/sim_0.png",
+    "data/coarse_cells_cal_sim/images/sim_1.png",
+    "data/coarse_cells_cal_sim/images/sim_2.png",
+    "data/coarse_cells_cal_sim/images/sim_3.png",
+    "data/coarse_cells_cal_sim/images/sim_4.png",
+    "data/coarse_cells_cal_sim/images/sim_5.png",
+    "data/coarse_cells_cal_sim/images/sim_6.png",
+    "data/coarse_cells_cal_sim/images/sim_7.png"
+  ],
+  "profile": {
+    "mode": "ambiguous",
+    "n_images": 8,
+    "per_image": [
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 71.5,
+            "boundary_width_px": 4.0,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 4.0,
+            "boundary_width_px": 38.47,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 32.8,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 71.5,
+        "boundary_width_px": 4.0,
+        "minority_connectivity": 0.079,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.104,
+        "minority_fraction": 0.035,
+        "noise": 0.0026,
+        "contrast": 0.1137,
+        "noise_to_contrast": 0.0229,
+        "coherence": 0.364,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 228.3,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 38.47,
+          "spacing_width_px": 72.5,
+          "spacing_px": 76.5,
+          "intercept_px": 134.63,
+          "fundamental_px": 71.5,
+          "fundamental_share": 0.414,
+          "n_spacings": 1395,
+          "peak_share": 0.372,
+          "dark_fraction": 0.035,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 62.0,
+            "boundary_width_px": 6.0,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 6.0,
+            "boundary_width_px": 52.5,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 41.23,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 62.0,
+        "boundary_width_px": 6.0,
+        "minority_connectivity": 0.086,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.114,
+        "minority_fraction": 0.031,
+        "noise": 0.0026,
+        "contrast": 0.102,
+        "noise_to_contrast": 0.0259,
+        "coherence": 0.306,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 307.6,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 52.5,
+          "spacing_width_px": 108.0,
+          "spacing_px": 114.0,
+          "intercept_px": 181.51,
+          "fundamental_px": 62.0,
+          "fundamental_share": 0.308,
+          "n_spacings": 983,
+          "peak_share": 0.222,
+          "dark_fraction": 0.031,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 70.5,
+            "boundary_width_px": 4.0,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 4.0,
+            "boundary_width_px": 53.85,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 41.23,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 70.5,
+        "boundary_width_px": 4.0,
+        "minority_connectivity": 0.113,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.074,
+        "minority_fraction": 0.019,
+        "noise": 0.0031,
+        "contrast": 0.098,
+        "noise_to_contrast": 0.0316,
+        "coherence": 0.351,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 312.2,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 53.85,
+          "spacing_width_px": 70.0,
+          "spacing_px": 74.0,
+          "intercept_px": 171.88,
+          "fundamental_px": 70.5,
+          "fundamental_share": 0.393,
+          "n_spacings": 1007,
+          "peak_share": 0.294,
+          "dark_fraction": 0.019,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 65.5,
+            "boundary_width_px": 4.47,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 4.47,
+            "boundary_width_px": 46.86,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 35.61,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 65.5,
+        "boundary_width_px": 4.47,
+        "minority_connectivity": 0.097,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.095,
+        "minority_fraction": 0.037,
+        "noise": 0.0034,
+        "contrast": 0.1412,
+        "noise_to_contrast": 0.0239,
+        "coherence": 0.327,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 268.3,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 46.86,
+          "spacing_width_px": 67.03,
+          "spacing_px": 71.5,
+          "intercept_px": 168.01,
+          "fundamental_px": 65.5,
+          "fundamental_share": 0.312,
+          "n_spacings": 1081,
+          "peak_share": 0.244,
+          "dark_fraction": 0.037,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 66.5,
+            "boundary_width_px": 4.0,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 4.0,
+            "boundary_width_px": 45.12,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 36.0,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 66.5,
+        "boundary_width_px": 4.0,
+        "minority_connectivity": 0.108,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.089,
+        "minority_fraction": 0.032,
+        "noise": 0.0028,
+        "contrast": 0.1137,
+        "noise_to_contrast": 0.0248,
+        "coherence": 0.392,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 264.3,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 45.12,
+          "spacing_width_px": 68.5,
+          "spacing_px": 72.5,
+          "intercept_px": 151.97,
+          "fundamental_px": 66.5,
+          "fundamental_share": 0.373,
+          "n_spacings": 1206,
+          "peak_share": 0.239,
+          "dark_fraction": 0.032,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 71.25,
+            "boundary_width_px": 4.0,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 4.0,
+            "boundary_width_px": 38.0,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 32.25,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 71.25,
+        "boundary_width_px": 4.0,
+        "minority_connectivity": 0.13,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.105,
+        "minority_fraction": 0.04,
+        "noise": 0.0026,
+        "contrast": 0.1176,
+        "noise_to_contrast": 0.0225,
+        "coherence": 0.335,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 220.6,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 38.0,
+          "spacing_width_px": 68.0,
+          "spacing_px": 72.0,
+          "intercept_px": 136.18,
+          "fundamental_px": 71.25,
+          "fundamental_share": 0.384,
+          "n_spacings": 1400,
+          "peak_share": 0.299,
+          "dark_fraction": 0.04,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 72.0,
+            "boundary_width_px": 5.66,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 5.66,
+            "boundary_width_px": 70.0,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 38.83,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 72.0,
+        "boundary_width_px": 5.66,
+        "minority_connectivity": 0.141,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.081,
+        "minority_fraction": 0.022,
+        "noise": 0.0026,
+        "contrast": 0.098,
+        "noise_to_contrast": 0.0264,
+        "coherence": 0.367,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 402.5,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 70.0,
+          "spacing_width_px": 67.84,
+          "spacing_px": 73.5,
+          "intercept_px": 171.48,
+          "fundamental_px": 72.0,
+          "fundamental_share": 0.393,
+          "n_spacings": 1049,
+          "peak_share": 0.373,
+          "dark_fraction": 0.022,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": false
+        }
+      },
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 60.0,
+            "boundary_width_px": 6.32,
+            "flake_phase": "bright"
+          },
+          "phase": {
+            "flake_width_px": 6.32,
+            "boundary_width_px": 76.03,
+            "flake_phase": "dark"
+          },
+          "regions": {
+            "flake_width_px": 44.0,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "bright",
+        "flake_width_px": 60.0,
+        "boundary_width_px": 6.32,
+        "minority_connectivity": 0.096,
+        "majority_connectivity": 1.0,
+        "thickness_ratio": 0.083,
+        "minority_fraction": 0.033,
+        "noise": 0.0025,
+        "contrast": 0.098,
+        "noise_to_contrast": 0.0256,
+        "coherence": 0.292,
+        "roi_fraction": 1.0,
+        "flatten_sigma_px": 430.2,
+        "shape": [
+          1101,
+          1376
+        ],
+        "width_check": {
+          "otsu_px": 76.03,
+          "spacing_width_px": 165.68,
+          "spacing_px": 172.0,
+          "intercept_px": 224.82,
+          "fundamental_px": 60.0,
+          "fundamental_share": 0.282,
+          "n_spacings": 772,
+          "peak_share": 0.219,
+          "dark_fraction": 0.033,
+          "cells_like": true,
+          "used": "fundamental",
+          "spacing_weight": 0.0,
+          "disagree": true
+        }
+      }
+    ],
+    "shape": [
+      1101,
+      1376
+    ],
+    "noise_to_contrast": 0.0252,
+    "minority_fraction": 0.0325,
+    "coherence": 0.34299999999999997,
+    "contrast": 0.10785,
+    "by_mode": {
+      "boundaries": {
+        "flake_width_px": 68.5,
+        "boundary_width_px": 4.234999999999999,
+        "flake_phase": "bright"
+      },
+      "phase": {
+        "flake_width_px": 4.234999999999999,
+        "boundary_width_px": 49.68,
+        "flake_phase": "dark"
+      },
+      "regions": {
+        "flake_width_px": 37.415,
+        "boundary_width_px": null,
+        "flake_phase": "all"
+      }
+    }
+  },
+  "mode": "boundaries",
+  "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+  "twin": {
+    "family": "cells",
+    "mode": "boundaries",
+    "mode_from_profile": "boundaries",
+    "flake_phase": "bright",
+    "shape": [
+      1101,
+      1376
+    ],
+    "n_images": 6,
+    "base_spec": {
+      "mean_direction_deg": 90.0,
+      "cell_width_px": 68.0,
+      "width_spread": 0.22,
+      "length_spread": 0.26,
+      "aspect_ratio": 3.0,
+      "waviness_px": 40.0,
+      "boundary_px": 3,
+      "interior_level": 0.975,
+      "contrast_median": 0.12,
+      "contrast_spread": 0.4,
+      "bead_amplitude": 0.6,
+      "gap_fraction_along": 0.27,
+      "gap_fraction_across": 0.22,
+      "gap_corr_px": 6.0,
+      "inclusions_per_mpx": 12.0,
+      "pocket_fraction": 0.012,
+      "dots_per_mpx": 25.0,
+      "speckle_per_mpx": 600.0,
+      "n_hairline": 0,
+      "thick_probability": 0.0,
+      "thick_angle_deg": null,
+      "n_debris": 0,
+      "blur_px": 0.6,
+      "soft": false,
+      "soft_fraction": [
+        0.27,
+        0.45
+      ],
+      "soft_transition": [
+        0.15,
+        0.35
+      ],
+      "unreadable_blur_px": 3.0,
+      "soft_base_blur_px": 1.9,
+      "oof_blur_px": [
+        5.0,
+        8.0
+      ],
+      "illumination": 0.03,
+      "noise": 0.012,
+      "noise_corr_px": 1.8,
+      "jpeg_quality": 92
+    },
+    "fit_history": [
+      {
+        "iter": 0,
+        "worst_log_ratio": 0.0,
+        "mismatch": {
+          "interior_level": {
+            "twin": 0.9785,
+            "target": [
+              0.96,
+              0.99
+            ],
+            "log_ratio": 0.004,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_width_px": {
+            "twin": 64.9976,
+            "target": [
+              51,
+              67
+            ],
+            "log_ratio": 0.097,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_length_px": {
+            "twin": 205.4768,
+            "target": [
+              151,
+              220
+            ],
+            "log_ratio": 0.102,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_aspect_ratio": {
+            "twin": 3.3447,
+            "target": [
+              2.8,
+              3.3
+            ],
+            "log_ratio": 0.092,
+            "inside": false,
+            "outside": 0.0
+          },
+          "order_parameter": {
+            "twin": 0.7845,
+            "target": [
+              0.73,
+              0.92
+            ],
+            "log_ratio": 0.05,
+            "inside": true,
+            "outside": 0.0
+          },
+          "n_cells": {
+            "twin": 116.0,
+            "target": [
+              57,
+              135
+            ],
+            "log_ratio": 0.189,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_p25": {
+            "twin": 0.0863,
+            "target": [
+              0.06,
+              0.11
+            ],
+            "log_ratio": 0.016,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_median": {
+            "twin": 0.1569,
+            "target": [
+              0.11,
+              0.18
+            ],
+            "log_ratio": 0.079,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_p75": {
+            "twin": 0.2515,
+            "target": [
+              0.18,
+              0.29
+            ],
+            "log_ratio": 0.068,
+            "inside": true,
+            "outside": 0.0
+          },
+          "invisible_fraction_along": {
+            "twin": 0.1542,
+            "target": [
+              0.13,
+              0.21
+            ],
+            "log_ratio": 0.098,
+            "inside": true,
+            "outside": 0.0
+          },
+          "invisible_fraction_across": {
+            "twin": 0.1231,
+            "target": [
+              0.09,
+              0.15
+            ],
+            "log_ratio": 0.026,
+            "inside": true,
+            "outside": 0.0
+          },
+          "boundary_fraction": {
+            "twin": 0.076,
+            "target": [
+              0.08,
+              0.12
+            ],
+            "log_ratio": 0.275,
+            "inside": false,
+            "outside": 0.0
+          },
+          "noise": {
+            "twin": 0.0099,
+            "target": [
+              0.008,
+              0.016
+            ],
+            "log_ratio": 0.196,
+            "inside": true,
+            "outside": 0.0
+          },
+          "dots_per_megapixel": {
+            "twin": 18.4821,
+            "target": [
+              5,
+              53
+            ],
+            "log_ratio": 0.45,
+            "inside": true,
+            "outside": 0.0
+          },
+          "pocket_fraction": {
+            "twin": 0.0137,
+            "target": [
+              0.003,
+              0.028
+            ],
+            "log_ratio": 0.126,
+            "inside": true,
+            "outside": 0.0
+          },
+          "illumination_range": {
+            "twin": 0.0314,
+            "target": [
+              0.02,
+              0.04
+            ],
+            "log_ratio": 0.044,
+            "inside": true,
+            "outside": 0.0
+          },
+          "sharpness_median": {
+            "twin": 0.9689,
+            "target": [
+              0.68,
+              1.0
+            ],
+            "log_ratio": 0.143,
+            "inside": true,
+            "outside": 0.0
+          },
+          "sharpness_p10": {
+            "twin": 0.6905,
+            "target": [
+              0.45,
+              0.7
+            ],
+            "log_ratio": 0.183,
+            "inside": true,
+            "outside": 0.0
+          },
+          "soft_contrast_median": {
+            "twin": 0.0857,
+            "target": [
+              0.05,
+              0.08
+            ],
+            "inside": false,
+            "log_ratio": 0.276,
+            "outside": 0.0
+          },
+          "soft_ignore_fraction": {
+            "twin": 0.3919,
+            "target": [
+              0.34,
+              0.55
+            ],
+            "inside": true,
+            "log_ratio": 0.127,
+            "outside": 0.0
+          }
+        },
+        "base": {
+          "cell_width_px": 68.0,
+          "aspect_ratio": 3.0,
+          "contrast_median": 0.12,
+          "gap_fraction_along": 0.27,
+          "gap_fraction_across": 0.22,
+          "pocket_fraction": 0.012,
+          "dots_per_mpx": 25.0,
+          "soft_base_blur_px": 1.9,
+          "illumination": 0.03,
+          "noise": 0.012
+        }
+      },
+      {
+        "iter": 1,
+        "worst_log_ratio": 0.009,
+        "mismatch": {
+          "interior_level": {
+            "twin": 0.9784,
+            "target": [
+              0.96,
+              0.99
+            ],
+            "log_ratio": 0.003,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_width_px": {
+            "twin": 71.6589,
+            "target": [
+              51,
+              67
+            ],
+            "log_ratio": 0.194,
+            "inside": false,
+            "outside": 0.009
+          },
+          "cell_length_px": {
+            "twin": 191.2019,
+            "target": [
+              151,
+              220
+            ],
+            "log_ratio": 0.03,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_aspect_ratio": {
+            "twin": 2.9506,
+            "target": [
+              2.8,
+              3.3
+            ],
+            "log_ratio": 0.033,
+            "inside": true,
+            "outside": 0.0
+          },
+          "order_parameter": {
+            "twin": 0.8931,
+            "target": [
+              0.73,
+              0.92
+            ],
+            "log_ratio": 0.079,
+            "inside": true,
+            "outside": 0.0
+          },
+          "n_cells": {
+            "twin": 133.5,
+            "target": [
+              57,
+              135
+            ],
+            "log_ratio": 0.33,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_p25": {
+            "twin": 0.0664,
+            "target": [
+              0.06,
+              0.11
+            ],
+            "log_ratio": 0.247,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_median": {
+            "twin": 0.1309,
+            "target": [
+              0.11,
+              0.18
+            ],
+            "log_ratio": 0.102,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_p75": {
+            "twin": 0.2155,
+            "target": [
+              0.18,
+              0.29
+            ],
+            "log_ratio": 0.087,
+            "inside": true,
+            "outside": 0.0
+          },
+          "invisible_fraction_along": {
+            "twin": 0.2015,
+            "target": [
+              0.13,
+              0.21
+            ],
+            "log_ratio": 0.17,
+            "inside": true,
+            "outside": 0.0
+          },
+          "invisible_fraction_across": {
+            "twin": 0.1492,
+            "target": [
+              0.09,
+              0.15
+            ],
+            "log_ratio": 0.218,
+            "inside": true,
+            "outside": 0.0
+          },
+          "boundary_fraction": {
+            "twin": 0.064,
+            "target": [
+              0.08,
+              0.12
+            ],
+            "log_ratio": 0.447,
+            "inside": false,
+            "outside": 0.09
+          },
+          "noise": {
+            "twin": 0.0087,
+            "target": [
+              0.008,
+              0.016
+            ],
+            "log_ratio": 0.327,
+            "inside": true,
+            "outside": 0.0
+          },
+          "dots_per_megapixel": {
+            "twin": 22.4426,
+            "target": [
+              5,
+              53
+            ],
+            "log_ratio": 0.256,
+            "inside": true,
+            "outside": 0.0
+          },
+          "pocket_fraction": {
+            "twin": 0.0116,
+            "target": [
+              0.003,
+              0.028
+            ],
+            "log_ratio": 0.288,
+            "inside": true,
+            "outside": 0.0
+          },
+          "illumination_range": {
+            "twin": 0.0324,
+            "target": [
+              0.02,
+              0.04
+            ],
+            "log_ratio": 0.079,
+            "inside": true,
+            "outside": 0.0
+          },
+          "sharpness_median": {
+            "twin": 0.86,
+            "target": [
+              0.68,
+              1.0
+            ],
+            "log_ratio": 0.024,
+            "inside": true,
+            "outside": 0.0
+          },
+          "sharpness_p10": {
+            "twin": 0.6559,
+            "target": [
+              0.45,
+              0.7
+            ],
+            "log_ratio": 0.132,
+            "inside": true,
+            "outside": 0.0
+          },
+          "soft_contrast_median": {
+            "twin": 0.0762,
+            "target": [
+              0.05,
+              0.08
+            ],
+            "inside": true,
+            "log_ratio": 0.159,
+            "outside": 0.0
+          },
+          "soft_ignore_fraction": {
+            "twin": 0.4411,
+            "target": [
+              0.34,
+              0.55
+            ],
+            "inside": true,
+            "log_ratio": 0.009,
+            "outside": 0.0
+          }
+        },
+        "base": {
+          "cell_width_px": 68.0,
+          "aspect_ratio": 3.0,
+          "contrast_median": 0.12,
+          "gap_fraction_along": 0.27,
+          "gap_fraction_across": 0.22,
+          "pocket_fraction": 0.012,
+          "dots_per_mpx": 25.0,
+          "soft_base_blur_px": 1.9,
+          "illumination": 0.03,
+          "noise": 0.012
+        }
+      },
+      {
+        "iter": 2,
+        "worst_log_ratio": 0.0,
+        "mismatch": {
+          "interior_level": {
+            "twin": 0.9745,
+            "target": [
+              0.96,
+              0.99
+            ],
+            "log_ratio": 0.001,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_width_px": {
+            "twin": 61.3888,
+            "target": [
+              51,
+              67
+            ],
+            "log_ratio": 0.04,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_length_px": {
+            "twin": 180.6532,
+            "target": [
+              151,
+              220
+            ],
+            "log_ratio": 0.026,
+            "inside": true,
+            "outside": 0.0
+          },
+          "cell_aspect_ratio": {
+            "twin": 3.0968,
+            "target": [
+              2.8,
+              3.3
+            ],
+            "log_ratio": 0.015,
+            "inside": true,
+            "outside": 0.0
+          },
+          "order_parameter": {
+            "twin": 0.8766,
+            "target": [
+              0.73,
+              0.92
+            ],
+            "log_ratio": 0.061,
+            "inside": true,
+            "outside": 0.0
+          },
+          "n_cells": {
+            "twin": 147.0,
+            "target": [
+              57,
+              135
+            ],
+            "log_ratio": 0.426,
+            "inside": false,
+            "outside": 0.0
+          },
+          "contrast_p25": {
+            "twin": 0.0648,
+            "target": [
+              0.06,
+              0.11
+            ],
+            "log_ratio": 0.272,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_median": {
+            "twin": 0.1295,
+            "target": [
+              0.11,
+              0.18
+            ],
+            "log_ratio": 0.113,
+            "inside": true,
+            "outside": 0.0
+          },
+          "contrast_p75": {
+            "twin": 0.2166,
+            "target": [
+              0.18,
+              0.29
+            ],
+            "log_ratio": 0.082,
+            "inside": true,
+            "outside": 0.0
+          },
+          "invisible_fraction_along": {
+            "twin": 0.2113,
+            "target": [
+              0.13,
+              0.21
+            ],
+            "log_ratio": 0.218,
+            "inside": false,
+            "outside": 0.0
+          },
+          "invisible_fraction_across": {
+            "twin": 0.155,
+            "target": [
+              0.09,
+              0.15
+            ],
+            "log_ratio": 0.256,
+            "inside": false,
+            "outside": 0.0
+          },
+          "boundary_fraction": {
+            "twin": 0.0764,
+            "target": [
+              0.08,
+              0.12
+            ],
+            "log_ratio": 0.27,
+            "inside": false,
+            "outside": 0.0
+          },
+          "noise": {
+            "twin": 0.0085,
+            "target": [
+              0.008,
+              0.016
+            ],
+            "log_ratio": 0.348,
+            "inside": true,
+            "outside": 0.0
+          },
+          "dots_per_megapixel": {
+            "twin": 23.1027,
+            "target": [
+              5,
+              53
+            ],
+            "log_ratio": 0.227,
+            "inside": true,
+            "outside": 0.0
+          },
+          "pocket_fraction": {
+            "twin": 0.0103,
+            "target": [
+              0.003,
+              0.028
+            ],
+            "log_ratio": 0.413,
+            "inside": true,
+            "outside": 0.0
+          },
+          "illumination_range": {
+            "twin": 0.0242,
+            "target": [
+              0.02,
+              0.04
+            ],
+            "log_ratio": 0.214,
+            "inside": true,
+            "outside": 0.0
+          },
+          "sharpness_median": {
+            "twin": 0.963,
+            "target": [
+              0.68,
+              1.0
+            ],
+            "log_ratio": 0.137,
+            "inside": true,
+            "outside": 0.0
+          },
+          "sharpness_p10": {
+            "twin": 0.7787,
+            "target": [
+              0.45,
+              0.7
+            ],
+            "log_ratio": 0.303,
+            "inside": false,
+            "outside": 0.021
+          },
+          "soft_contrast_median": {
+            "twin": 0.0843,
+            "target": [
+              0.05,
+              0.08
+            ],
+            "inside": false,
+            "log_ratio": 0.26,
+            "outside": 0.0
+          },
+          "soft_ignore_fraction": {
+            "twin": 0.5069,
+            "target": [
+              0.34,
+              0.55
+            ],
+            "inside": true,
+            "log_ratio": 0.13,
+            "outside": 0.0
+          }
+        },
+        "base": {
+          "cell_width_px": 60.5143,
+          "aspect_ratio": 3.0,
+          "contrast_median": 0.12,
+          "gap_fraction_along": 0.27,
+          "gap_fraction_across": 0.22,
+          "pocket_fraction": 0.012,
+          "dots_per_mpx": 25.0,
+          "soft_base_blur_px": 1.9,
+          "illumination": 0.03,
+          "noise": 0.012
+        }
+      }
+    ],
+    "realism": {
+      "interior_level": {
+        "twin": 0.9785,
+        "target": [
+          0.96,
+          0.99
+        ],
+        "log_ratio": 0.004,
+        "inside": true,
+        "outside": 0.0
+      },
+      "cell_width_px": {
+        "twin": 64.9976,
+        "target": [
+          51,
+          67
+        ],
+        "log_ratio": 0.097,
+        "inside": true,
+        "outside": 0.0
+      },
+      "cell_length_px": {
+        "twin": 205.4768,
+        "target": [
+          151,
+          220
+        ],
+        "log_ratio": 0.102,
+        "inside": true,
+        "outside": 0.0
+      },
+      "cell_aspect_ratio": {
+        "twin": 3.3447,
+        "target": [
+          2.8,
+          3.3
+        ],
+        "log_ratio": 0.092,
+        "inside": false,
+        "outside": 0.0
+      },
+      "order_parameter": {
+        "twin": 0.7845,
+        "target": [
+          0.73,
+          0.92
+        ],
+        "log_ratio": 0.05,
+        "inside": true,
+        "outside": 0.0
+      },
+      "n_cells": {
+        "twin": 116.0,
+        "target": [
+          57,
+          135
+        ],
+        "log_ratio": 0.189,
+        "inside": true,
+        "outside": 0.0
+      },
+      "contrast_p25": {
+        "twin": 0.0863,
+        "target": [
+          0.06,
+          0.11
+        ],
+        "log_ratio": 0.016,
+        "inside": true,
+        "outside": 0.0
+      },
+      "contrast_median": {
+        "twin": 0.1569,
+        "target": [
+          0.11,
+          0.18
+        ],
+        "log_ratio": 0.079,
+        "inside": true,
+        "outside": 0.0
+      },
+      "contrast_p75": {
+        "twin": 0.2515,
+        "target": [
+          0.18,
+          0.29
+        ],
+        "log_ratio": 0.068,
+        "inside": true,
+        "outside": 0.0
+      },
+      "invisible_fraction_along": {
+        "twin": 0.1542,
+        "target": [
+          0.13,
+          0.21
+        ],
+        "log_ratio": 0.098,
+        "inside": true,
+        "outside": 0.0
+      },
+      "invisible_fraction_across": {
+        "twin": 0.1231,
+        "target": [
+          0.09,
+          0.15
+        ],
+        "log_ratio": 0.026,
+        "inside": true,
+        "outside": 0.0
+      },
+      "boundary_fraction": {
+        "twin": 0.076,
+        "target": [
+          0.08,
+          0.12
+        ],
+        "log_ratio": 0.275,
+        "inside": false,
+        "outside": 0.0
+      },
+      "noise": {
+        "twin": 0.0099,
+        "target": [
+          0.008,
+          0.016
+        ],
+        "log_ratio": 0.196,
+        "inside": true,
+        "outside": 0.0
+      },
+      "dots_per_megapixel": {
+        "twin": 18.4821,
+        "target": [
+          5,
+          53
+        ],
+        "log_ratio": 0.45,
+        "inside": true,
+        "outside": 0.0
+      },
+      "pocket_fraction": {
+        "twin": 0.0137,
+        "target": [
+          0.003,
+          0.028
+        ],
+        "log_ratio": 0.126,
+        "inside": true,
+        "outside": 0.0
+      },
+      "illumination_range": {
+        "twin": 0.0314,
+        "target": [
+          0.02,
+          0.04
+        ],
+        "log_ratio": 0.044,
+        "inside": true,
+        "outside": 0.0
+      },
+      "sharpness_median": {
+        "twin": 0.9689,
+        "target": [
+          0.68,
+          1.0
+        ],
+        "log_ratio": 0.143,
+        "inside": true,
+        "outside": 0.0
+      },
+      "sharpness_p10": {
+        "twin": 0.6905,
+        "target": [
+          0.45,
+          0.7
+        ],
+        "log_ratio": 0.183,
+        "inside": true,
+        "outside": 0.0
+      },
+      "soft_contrast_median": {
+        "twin": 0.0857,
+        "target": [
+          0.05,
+          0.08
+        ],
+        "inside": false,
+        "log_ratio": 0.276,
+        "outside": 0.0
+      },
+      "soft_ignore_fraction": {
+        "twin": 0.3919,
+        "target": [
+          0.34,
+          0.55
+        ],
+        "inside": true,
+        "log_ratio": 0.127,
+        "outside": 0.0
+      }
+    },
+    "realism_worst_log_ratio": 0.0,
+    "structure_worst_log_ratio": 0.0,
+    "realism_ok": true,
+    "card": true,
+    "upsample": 1,
+    "overrides": {},
+    "generator_version": "19e241e4e3",
+    "twin_card_summary": {
+      "interior_level": [
+        0.9725,
+        0.9843
+      ],
+      "cell_width_px": [
+        59.2963,
+        74.8698
+      ],
+      "cell_length_px": [
+        182.9915,
+        285.2551
+      ],
+      "cell_aspect_ratio": [
+        2.8472,
+        3.7394
+      ],
+      "order_parameter": [
+        0.6862,
+        0.8815
+      ],
+      "n_cells": [
+        71.0,
+        131.0
+      ],
+      "contrast_p25": [
+        0.076,
+        0.0887
+      ],
+      "contrast_median": [
+        0.144,
+        0.1606
+      ],
+      "contrast_p75": [
+        0.232,
+        0.2731
+      ],
+      "invisible_fraction_along": [
+        0.1376,
+        0.1793
+      ],
+      "invisible_fraction_across": [
+        0.1175,
+        0.1354
+      ],
+      "boundary_fraction": [
+        0.0589,
+        0.0954
+      ],
+      "noise": [
+        0.0065,
+        0.0116
+      ],
+      "dots_per_megapixel": [
+        13.2015,
+        29.0434
+      ],
+      "pocket_fraction": [
+        0.0078,
+        0.0164
+      ],
+      "illumination_range": [
+        0.0265,
+        0.0391
+      ],
+      "sharpness_median": [
+        0.8852,
+        1.0
+      ],
+      "sharpness_p10": [
+        0.6528,
+        0.8054
+      ]
+    },
+    "twin_card_soft": {
+      "contrast_median": [
+        0.0757,
+        0.0956
+      ],
+      "invisible_fraction": [
+        0.2354,
+        0.3195
+      ],
+      "sharpness_median": [
+        0.385,
+        0.482
+      ],
+      "sharpness_p10": [
+        0.2728,
+        0.3019
+      ],
+      "ignore_fraction": [
+        0.3773,
+        0.4065
+      ]
+    },
+    "width_px": null,
+    "want": {
+      "generator_version": "19e241e4e3",
+      "per_family": 2,
+      "card": "{\"boundary_fraction\": [0.08, 0.12], \"cell_aspect_ratio\": [2.8, 3.3], \"cell_length_px\": [151, 220], \"cell_width_px\": [51, 67], \"contrast_median\": [0.11, 0.18], \"contrast_p25\": [0.06, 0.11], \"contrast_p75\": [0.18, 0.29], \"dots_per_megapixel\": [5, 53], \"illumination_range\": [0.02, 0.04], \"interior_level\": [0.96, 0.99], \"invisible_fraction_across\": [0.09, 0.15], \"invisible_fraction_along\": [0.13, 0.21], \"n_cells\": [57, 135], \"noise\": [0.008, 0.016], \"order_parameter\": [0.73, 0.92], \"pocket_fraction\": [0.003, 0.028], \"sharpness_median\": [0.68, 1.0], \"sharpness_p10\": [0.45, 0.7]}",
+      "width": 68.0
+    }
+  },
+  "starts": [
+    {
+      "mode": "boundaries",
+      "flake_phase": "auto",
+      "phase_offset": 0.0,
+      "flake_width_px": null,
+      "polarity": "auto",
+      "roi": "auto",
+      "crop_bottom_px": 0,
+      "flatten_px": 274.0,
+      "sigma": 1.0,
+      "boundary_width_px": 2.5,
+      "boundary_sensitivity": 0.6,
+      "boundary_hysteresis": "auto",
+      "detect_scratches": true,
+      "detect_pockets": true,
+      "detect_soft": true,
+      "soft_line_ref_px": null,
+      "scratch_min_length_px": 275,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.35,
+      "scratch_line_gap_px": 40,
+      "scratch_ridge_factor": 1.0,
+      "bridge_gaps_px": 40,
+      "bridge_ends_px": 0,
+      "merge_border_darkness": "auto",
+      "direction_sigma_px": "boundary",
+      "h_px": 8.22,
+      "merge_saddle_ratio": 0.5,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.9,
+      "min_area_px": 1408,
+      "min_solidity": 0.75,
+      "branch_test": "skeleton",
+      "min_aspect_for_orientation": 1.5,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "weight": "area",
+      "tile_px": 550
+    }
+  ],
+  "warm_start": null,
+  "chosen_params": {
+    "boundary_hysteresis": "auto",
+    "boundary_sensitivity": 0.8,
+    "boundary_width_px": 2.5,
+    "branch_test": "skeleton",
+    "bridge_ends_px": 0,
+    "bridge_gaps_px": 40,
+    "crop_bottom_px": 0,
+    "detect_pockets": true,
+    "detect_scratches": true,
+    "detect_soft": true,
+    "direction_sigma_px": "boundary",
+    "flake_phase": "auto",
+    "flake_width_px": null,
+    "flatten_px": 274.0,
+    "gb_alpha_length_factor": 4.0,
+    "gb_alpha_min_misfit_deg": 25.0,
+    "h_px": 2.22,
+    "merge_border_darkness": 0.0,
+    "merge_max_offaxis_deg": 30.0,
+    "merge_min_fill": 0.9,
+    "merge_saddle_ratio": 0.5,
+    "min_area_px": 1408,
+    "min_aspect_for_orientation": 1.5,
+    "min_solidity": 0.75,
+    "mode": "boundaries",
+    "phase_offset": 0.0,
+    "polarity": "auto",
+    "roi": "auto",
+    "scratch_line_gap_px": 40,
+    "scratch_max_side_diff_deg": 15.0,
+    "scratch_min_continuity": 0.45,
+    "scratch_min_contrast": 0.1,
+    "scratch_min_contrast_fraction": 0.35,
+    "scratch_min_crossing_deg": 12.0,
+    "scratch_min_length_px": 275,
+    "scratch_ridge_factor": 1.0,
+    "sigma": 1.0,
+    "soft_line_ref_px": null,
+    "tile_px": 550,
+    "weight": "area"
+  },
+  "twin_scores": [
+    {
+      "which": "start",
+      "split": "dev",
+      "metrics": {
+        "worst_tolerance_ratio": 2.236036200749611,
+        "worst_family_tolerance_ratio": 2.5442604292466275,
+        "median_direction_error_deg": 0.3684864852781402,
+        "median_order_abs_error": 0.04590102990039846,
+        "median_misalignment_abs_error_deg": 2.1158520874286566,
+        "median_aspect_ratio_rel_error": 0.33540543011244167,
+        "median_aspect_ratio_bias": -0.33540543011244167,
+        "median_flake_orientation_error_deg": 0.9500000000000028,
+        "flake_recall": 0.8023255813953488,
+        "flake_precision": 0.7319884726224783,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.757201646090535,
+        "merges": 9,
+        "splits": 63
+      },
+      "objective": 3.1032694794340303,
+      "by_family": {
+        "clean": 1.058,
+        "scratched": 2.275,
+        "soft": 2.544
+      }
+    },
+    {
+      "which": "start",
+      "split": "holdout",
+      "metrics": {
+        "worst_tolerance_ratio": 1.853924153750509,
+        "worst_family_tolerance_ratio": 2.858801824328754,
+        "median_direction_error_deg": 0.5975088297462747,
+        "median_order_abs_error": 0.059939971491476673,
+        "median_misalignment_abs_error_deg": 3.0336808479627866,
+        "median_aspect_ratio_rel_error": 0.2780886230625763,
+        "median_aspect_ratio_bias": -0.2780886230625763,
+        "median_flake_orientation_error_deg": 1.5090000000000146,
+        "flake_recall": 0.7981927710843374,
+        "flake_precision": 0.7315634218289085,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.75177304964539,
+        "merges": 19,
+        "splits": 70
+      },
+      "objective": 3.322282862766381,
+      "by_family": {
+        "clean": 1.854,
+        "scratched": 1.565,
+        "soft": 2.859
+      }
+    },
+    {
+      "which": "chosen",
+      "split": "dev",
+      "metrics": {
+        "worst_tolerance_ratio": 1.6489421133355673,
+        "worst_family_tolerance_ratio": 1.66288184015823,
+        "median_direction_error_deg": 0.8646864852781277,
+        "median_order_abs_error": 0.04160102990039838,
+        "median_misalignment_abs_error_deg": 2.055052087428656,
+        "median_aspect_ratio_rel_error": 0.2473413170003351,
+        "median_aspect_ratio_bias": -0.2473413170003351,
+        "median_flake_orientation_error_deg": 0.9430000000000014,
+        "flake_recall": 0.7790697674418605,
+        "flake_precision": 0.7614678899082569,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7602836879432624,
+        "merges": 14,
+        "splits": 58
+      },
+      "objective": 2.075117368492122,
+      "by_family": {
+        "clean": 1.663,
+        "scratched": 1.41,
+        "soft": 1.649
+      }
+    },
+    {
+      "which": "chosen",
+      "split": "holdout",
+      "metrics": {
+        "worst_tolerance_ratio": 1.759598688018522,
+        "worst_family_tolerance_ratio": 3.589121164126352,
+        "median_direction_error_deg": 1.4508328528177685,
+        "median_order_abs_error": 0.07693997149147669,
+        "median_misalignment_abs_error_deg": 3.185880847962787,
+        "median_aspect_ratio_rel_error": 0.26393980320277827,
+        "median_aspect_ratio_bias": -0.26393980320277827,
+        "median_flake_orientation_error_deg": 1.061,
+        "flake_recall": 0.8012048192771084,
+        "flake_precision": 0.7337278106508875,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7676767676767676,
+        "merges": 14,
+        "splits": 60
+      },
+      "objective": 4.029020836130982,
+      "by_family": {
+        "clean": 1.76,
+        "scratched": 1.297,
+        "soft": 3.589
+      }
+    }
+  ],
+  "consistency": {
+    "median_rotation_direction_diff_deg": 0.5710500000000001,
+    "median_rotation_order_abs_diff": 0.0196,
+    "median_rotation_aspect_ratio_rel_diff": 0.00785,
+    "median_estimator_gap": 0.6501,
+    "median_order_parameter": 0.7602500000000001,
+    "median_local_order_parameter": 0.7865500000000001,
+    "median_mean_misalignment_deg": 17.64125,
+    "median_aspect_ratio": 2.50575,
+    "median_n_flakes_used": 120.5,
+    "total_scratches": 2,
+    "n_images": 6,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.19035000000000002,
+      "order_parameter": 0.6533333333333333,
+      "aspect_ratio_rel": 0.15699999999999997
+    },
+    "worst_consistency_ratio": 0.6533333333333333
+  },
+  "plans": [],
+  "twin_trusted": true,
+  "set_by_eye": false,
+  "upsample_factor": 1,
+  "two_scales": null,
+  "overrides": {},
+  "real_image_guard": {
+    "start": {
+      "rotation": 0.356,
+      "flakes_used": 126.0,
+      "median_length_px": 180.87
+    },
+    "chosen": {
+      "rotation": 0.6533333333333333,
+      "flakes_used": 120.5,
+      "median_length_px": 187.215
+    },
+    "keep_chosen": true,
+    "reason": "",
+    "cells": true,
+    "twin_length_px": 221.371,
+    "by_eye": false
+  },
+  "memory_notes": [],
+  "reviews": [],
+  "usage": [],
+  "trials": [
+    {
+      "objective": 3.1032694794340303,
+      "metrics": {
+        "worst_tolerance_ratio": 2.236036200749611,
+        "worst_family_tolerance_ratio": 2.5442604292466275,
+        "median_direction_error_deg": 0.3684864852781402,
+        "median_order_abs_error": 0.04590102990039846,
+        "median_misalignment_abs_error_deg": 2.1158520874286566,
+        "median_aspect_ratio_rel_error": 0.33540543011244167,
+        "median_aspect_ratio_bias": -0.33540543011244167,
+        "median_flake_orientation_error_deg": 0.9500000000000028,
+        "flake_recall": 0.8023255813953488,
+        "flake_precision": 0.7319884726224783,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.757201646090535,
+        "merges": 9,
+        "splits": 63
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 8.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "start 0"
+    },
+    {
+      "objective": 3.1032694794340303,
+      "metrics": {
+        "worst_tolerance_ratio": 2.236036200749611,
+        "worst_family_tolerance_ratio": 2.5442604292466275,
+        "median_direction_error_deg": 0.3684864852781402,
+        "median_order_abs_error": 0.04590102990039846,
+        "median_misalignment_abs_error_deg": 2.1158520874286566,
+        "median_aspect_ratio_rel_error": 0.33540543011244167,
+        "median_aspect_ratio_bias": -0.33540543011244167,
+        "median_flake_orientation_error_deg": 0.9500000000000028,
+        "flake_recall": 0.8023255813953488,
+        "flake_precision": 0.7319884726224783,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.757201646090535,
+        "merges": 9,
+        "splits": 63
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 8.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "start 0"
+    },
+    {
+      "objective": 3.0635872666797512,
+      "metrics": {
+        "worst_tolerance_ratio": 2.1813073497324926,
+        "worst_family_tolerance_ratio": 2.518260429246628,
+        "median_direction_error_deg": 0.9351135147218699,
+        "median_order_abs_error": 0.04010102990039843,
+        "median_misalignment_abs_error_deg": 1.7469520874286566,
+        "median_aspect_ratio_rel_error": 0.3271961024598739,
+        "median_aspect_ratio_bias": -0.3271961024598739,
+        "median_flake_orientation_error_deg": 1.3489999999999966,
+        "flake_recall": 0.7761627906976745,
+        "flake_precision": 0.667574931880109,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.713903743315508,
+        "merges": 10,
+        "splits": 78
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.466,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "h_px=2.466"
+    },
+    {
+      "objective": 3.0214475736647897,
+      "metrics": {
+        "worst_tolerance_ratio": 2.3244050339762925,
+        "worst_family_tolerance_ratio": 2.4403463151707165,
+        "median_direction_error_deg": 0.31473242549608926,
+        "median_order_abs_error": 0.037501029900398386,
+        "median_misalignment_abs_error_deg": 1.8014520874286575,
+        "median_aspect_ratio_rel_error": 0.34866075509644384,
+        "median_aspect_ratio_bias": -0.34866075509644384,
+        "median_flake_orientation_error_deg": 1.4840000000000089,
+        "flake_recall": 0.7761627906976745,
+        "flake_precision": 0.6437994722955145,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.713903743315508,
+        "merges": 11,
+        "splits": 85
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 1.48,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "h_px=1.48"
+    },
+    {
+      "objective": 2.964757224606757,
+      "metrics": {
+        "worst_tolerance_ratio": 2.361987181440513,
+        "worst_family_tolerance_ratio": 2.3742604292466285,
+        "median_direction_error_deg": 0.5814401723184233,
+        "median_order_abs_error": 0.04460102990039838,
+        "median_misalignment_abs_error_deg": 2.0695520874286544,
+        "median_aspect_ratio_rel_error": 0.3542980772160769,
+        "median_aspect_ratio_bias": -0.3542980772160769,
+        "median_flake_orientation_error_deg": 1.3930000000000007,
+        "flake_recall": 0.7703488372093024,
+        "flake_precision": 0.6594594594594595,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7076101468624834,
+        "merges": 11,
+        "splits": 81
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "h_px=2.22"
+    },
+    {
+      "objective": 3.232251551733957,
+      "metrics": {
+        "worst_tolerance_ratio": 2.295964489949315,
+        "worst_family_tolerance_ratio": 2.6582604292466283,
+        "median_direction_error_deg": 0.34331351472187066,
+        "median_order_abs_error": 0.06970102990039839,
+        "median_misalignment_abs_error_deg": 3.3196520874286577,
+        "median_aspect_ratio_rel_error": 0.3443946734923972,
+        "median_aspect_ratio_bias": -0.3443946734923972,
+        "median_flake_orientation_error_deg": 1.2620000000000005,
+        "flake_recall": 0.7994186046511628,
+        "flake_precision": 0.6847826086956522,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7372654155495979,
+        "merges": 8,
+        "splits": 78
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 5.55,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "h_px=5.55"
+    },
+    {
+      "objective": 3.6107809612224018,
+      "metrics": {
+        "worst_tolerance_ratio": 2.6931163726117564,
+        "worst_family_tolerance_ratio": 2.9375018680694627,
+        "median_direction_error_deg": 1.1824324254960743,
+        "median_order_abs_error": 0.10220102990039848,
+        "median_misalignment_abs_error_deg": 4.388052087428655,
+        "median_aspect_ratio_rel_error": 0.4039674558917634,
+        "median_aspect_ratio_bias": -0.4039674558917634,
+        "median_flake_orientation_error_deg": 1.7789999999999964,
+        "flake_recall": 0.7354651162790697,
+        "flake_precision": 0.5707317073170731,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.6178266178266179,
+        "merges": 4,
+        "splits": 128
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.65,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "merge_saddle_ratio=0.65"
+    },
+    {
+      "objective": 4.080614849796732,
+      "metrics": {
+        "worst_tolerance_ratio": 3.1258189353079198,
+        "worst_family_tolerance_ratio": 3.299160115969752,
+        "median_direction_error_deg": 1.2764598276815775,
+        "median_order_abs_error": 0.10044062104116802,
+        "median_misalignment_abs_error_deg": 3.8507760900611068,
+        "median_aspect_ratio_rel_error": 0.4688728402961879,
+        "median_aspect_ratio_bias": -0.4688728402961879,
+        "median_flake_orientation_error_deg": 2.304000000000002,
+        "flake_recall": 0.6656976744186046,
+        "flake_precision": 0.48705882352941177,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.5157657657657657,
+        "merges": 1,
+        "splits": 159
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.8,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "merge_saddle_ratio=0.8"
+    },
+    {
+      "objective": 5.060836073606055,
+      "metrics": {
+        "worst_tolerance_ratio": 3.530302577437706,
+        "worst_family_tolerance_ratio": 4.178260429246628,
+        "median_direction_error_deg": 2.9801598276815753,
+        "median_order_abs_error": 0.172140621041168,
+        "median_misalignment_abs_error_deg": 6.390152087428657,
+        "median_aspect_ratio_rel_error": 0.5295453866156559,
+        "median_aspect_ratio_bias": -0.5295453866156559,
+        "median_flake_orientation_error_deg": 3.2835000000000036,
+        "flake_recall": 0.563953488372093,
+        "flake_precision": 0.3835616438356164,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.3911290322580645,
+        "merges": 0,
+        "splits": 200
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 1.0,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "merge_saddle_ratio=1.0"
+    },
+    {
+      "objective": 2.16644965747619,
+      "metrics": {
+        "worst_tolerance_ratio": 1.590603862964862,
+        "worst_family_tolerance_ratio": 1.7687986917349745,
+        "median_direction_error_deg": 0.5770864852781301,
+        "median_order_abs_error": 0.042201029900398424,
+        "median_misalignment_abs_error_deg": 1.6629583166229693,
+        "median_aspect_ratio_rel_error": 0.2385905794447293,
+        "median_aspect_ratio_bias": -0.2385905794447293,
+        "median_flake_orientation_error_deg": 0.9230000000000018,
+        "flake_recall": 0.7906976744186046,
+        "flake_precision": 0.7441176470588236,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7629733520336606,
+        "merges": 14,
+        "splits": 63
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.8,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "boundary_sensitivity=0.8"
+    },
+    {
+      "objective": 3.4302655787486214,
+      "metrics": {
+        "worst_tolerance_ratio": 1.5920205980079682,
+        "worst_family_tolerance_ratio": 3.0322604292466293,
+        "median_direction_error_deg": 2.1677401723184246,
+        "median_order_abs_error": 0.07960102990039841,
+        "median_misalignment_abs_error_deg": 3.3678520874286555,
+        "median_aspect_ratio_rel_error": 0.19912126012493647,
+        "median_aspect_ratio_bias": -0.19912126012493647,
+        "median_flake_orientation_error_deg": 1.0314999999999976,
+        "flake_recall": 0.7906976744186046,
+        "flake_precision": 0.8044871794871795,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7884057971014493,
+        "merges": 22,
+        "splits": 44
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "boundary_sensitivity=1.0"
+    },
+    {
+      "objective": 2.7137655787486215,
+      "metrics": {
+        "worst_tolerance_ratio": 1.6220205980079694,
+        "worst_family_tolerance_ratio": 2.308260429246629,
+        "median_direction_error_deg": 2.1703401723184186,
+        "median_order_abs_error": 0.08110102990039847,
+        "median_misalignment_abs_error_deg": 3.1733520874286576,
+        "median_aspect_ratio_rel_error": 0.21588162039411027,
+        "median_aspect_ratio_bias": -0.21588162039411027,
+        "median_flake_orientation_error_deg": 0.9625000000000021,
+        "flake_recall": 0.7267441860465116,
+        "flake_precision": 0.8125,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.75642965204236,
+        "merges": 30,
+        "splits": 37
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 1.2,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "boundary_sensitivity=1.2"
+    },
+    {
+      "objective": 2.075117368492122,
+      "metrics": {
+        "worst_tolerance_ratio": 1.6489421133355673,
+        "worst_family_tolerance_ratio": 1.66288184015823,
+        "median_direction_error_deg": 0.8646864852781277,
+        "median_order_abs_error": 0.04160102990039838,
+        "median_misalignment_abs_error_deg": 2.055052087428656,
+        "median_aspect_ratio_rel_error": 0.2473413170003351,
+        "median_aspect_ratio_bias": -0.2473413170003351,
+        "median_flake_orientation_error_deg": 0.9430000000000014,
+        "flake_recall": 0.7790697674418605,
+        "flake_precision": 0.7614678899082569,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7602836879432624,
+        "merges": 14,
+        "splits": 58
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.8,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": 0.0,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "merge_border_darkness=0.0"
+    },
+    {
+      "objective": 2.5215964798874206,
+      "metrics": {
+        "worst_tolerance_ratio": 1.7110519970907927,
+        "worst_family_tolerance_ratio": 2.0938334806147223,
+        "median_direction_error_deg": 0.6714864852781375,
+        "median_order_abs_error": 0.03294062104116802,
+        "median_misalignment_abs_error_deg": 1.229776090061108,
+        "median_aspect_ratio_rel_error": 0.2566577995636189,
+        "median_aspect_ratio_bias": -0.2566577995636189,
+        "median_flake_orientation_error_deg": 0.9714999999999989,
+        "flake_recall": 0.7790697674418605,
+        "flake_precision": 0.7146974063400576,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7403314917127072,
+        "merges": 12,
+        "splits": 72
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.8,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": 0.06,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "merge_border_darkness=0.06"
+    },
+    {
+      "objective": 3.1032694794340303,
+      "metrics": {
+        "worst_tolerance_ratio": 2.236036200749611,
+        "worst_family_tolerance_ratio": 2.5442604292466275,
+        "median_direction_error_deg": 0.3684864852781402,
+        "median_order_abs_error": 0.04590102990039846,
+        "median_misalignment_abs_error_deg": 2.1158520874286566,
+        "median_aspect_ratio_rel_error": 0.33540543011244167,
+        "median_aspect_ratio_bias": -0.33540543011244167,
+        "median_flake_orientation_error_deg": 0.9500000000000028,
+        "flake_recall": 0.8023255813953488,
+        "flake_precision": 0.7319884726224783,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.757201646090535,
+        "merges": 9,
+        "splits": 63
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 8.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "start dev"
+    },
+    {
+      "objective": 3.322282862766381,
+      "metrics": {
+        "worst_tolerance_ratio": 1.853924153750509,
+        "worst_family_tolerance_ratio": 2.858801824328754,
+        "median_direction_error_deg": 0.5975088297462747,
+        "median_order_abs_error": 0.059939971491476673,
+        "median_misalignment_abs_error_deg": 3.0336808479627866,
+        "median_aspect_ratio_rel_error": 0.2780886230625763,
+        "median_aspect_ratio_bias": -0.2780886230625763,
+        "median_flake_orientation_error_deg": 1.5090000000000146,
+        "flake_recall": 0.7981927710843374,
+        "flake_precision": 0.7315634218289085,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.75177304964539,
+        "merges": 19,
+        "splits": 70
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.6,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 8.22,
+        "merge_border_darkness": "auto",
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "start holdout"
+    },
+    {
+      "objective": 2.075117368492122,
+      "metrics": {
+        "worst_tolerance_ratio": 1.6489421133355673,
+        "worst_family_tolerance_ratio": 1.66288184015823,
+        "median_direction_error_deg": 0.8646864852781277,
+        "median_order_abs_error": 0.04160102990039838,
+        "median_misalignment_abs_error_deg": 2.055052087428656,
+        "median_aspect_ratio_rel_error": 0.2473413170003351,
+        "median_aspect_ratio_bias": -0.2473413170003351,
+        "median_flake_orientation_error_deg": 0.9430000000000014,
+        "flake_recall": 0.7790697674418605,
+        "flake_precision": 0.7614678899082569,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7602836879432624,
+        "merges": 14,
+        "splits": 58
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.8,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": 0.0,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "chosen dev"
+    },
+    {
+      "objective": 4.029020836130982,
+      "metrics": {
+        "worst_tolerance_ratio": 1.759598688018522,
+        "worst_family_tolerance_ratio": 3.589121164126352,
+        "median_direction_error_deg": 1.4508328528177685,
+        "median_order_abs_error": 0.07693997149147669,
+        "median_misalignment_abs_error_deg": 3.185880847962787,
+        "median_aspect_ratio_rel_error": 0.26393980320277827,
+        "median_aspect_ratio_bias": -0.26393980320277827,
+        "median_flake_orientation_error_deg": 1.061,
+        "flake_recall": 0.8012048192771084,
+        "flake_precision": 0.7337278106508875,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0,
+        "segmentation_f1": 0.7676767676767676,
+        "merges": 14,
+        "splits": 60
+      },
+      "params": {
+        "boundary_hysteresis": "auto",
+        "boundary_sensitivity": 0.8,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_ends_px": 0,
+        "bridge_gaps_px": 40,
+        "crop_bottom_px": 0,
+        "detect_pockets": true,
+        "detect_scratches": true,
+        "detect_soft": true,
+        "direction_sigma_px": "boundary",
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 274.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 2.22,
+        "merge_border_darkness": 0.0,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 1408,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 40,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 275,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "soft_line_ref_px": null,
+        "tile_px": 550,
+        "weight": "area"
+      },
+      "tag": "chosen holdout"
+    }
+  ],
+  "seconds": 889
+}

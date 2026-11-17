@@ -1,0 +1,13 @@
+sem_user: identical
+ti64_dev: identical
+banded_islands_ma17081847: identical
+ti_basketweave_ma19010080: identical
+colour_lamellar_ma16020804: identical
+duplex_bands_mixed: identical
+purple_flakes_L10: 2 differences: L10__rank046 mean_direction_deg 179.903 -> 179.8892; L10__rank046 n_used_orientation 19 -> 20
+tial_lamellar_L26: identical
+pearlite_L02: identical
+needles_L23: identical
+widmanstaetten_L18: identical
+bainite_L06: 4 differences: rotation 0.6785333333333333 -> 0.6851333333333334; L06__rank063 order_parameter 0.7841 -> 0.7784; L06__rank063 mean_direction_deg 31.3394 -> 31.1436; L06__rank063 median_aspect_ratio 2.292 -> 2.2505
+tial_regions_L26: identical

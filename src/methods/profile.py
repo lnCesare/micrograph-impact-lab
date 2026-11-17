@@ -24,6 +24,7 @@ from skimage.morphology import remove_small_objects, skeletonize
 # the 13 lamellar Ti-6Al-4V dev images (1292 x 968 px), medians. Holdout images not used.
 REFERENCE_FLAKE_WIDTH_PX = 10.0
 REFERENCE_BOUNDARY_WIDTH_PX = 5.66
+COARSE_WIDTH_PX = 24.0  # cells at least this wide get the coarse-cell treatment (also COARSE_PX in flakes.py)
 DEFAULT_BOUNDARY_WIDTH_PARAM = 2.5  # the method's boundary_width_px (Sato scale) at the reference
 
 
@@ -215,6 +216,81 @@ def out_of_focus(gray: np.ndarray, roi: np.ndarray, min_fraction: float = 0.1, r
     return np.isin(lab_g, np.unique(lab_g[core & (lab_g > 0)])) & (lab_g > 0)
 
 
+LINE_SCALES = (1.0, 1.5, 2.0, 3.0, 4.0, 5.5, 7.5)  # (a 10 px scale picks up broad shading)
+
+
+def line_scale_map(gray: np.ndarray, roi: np.ndarray, window: float) -> np.ndarray:
+    """Local width of the dark lines (px): at each line pixel, the scale whose scale-normalised ridge response
+    (sigma^2 x the larger Hessian eigenvalue) is strongest; line pixels: response above its Otsu threshold and
+    line-like (|smaller eigenvalue| < half the larger one: dots and pocket blobs drop out), at a line's centre
+    (gradient < sigma x the eigenvalue: not a step edge) and away from the image frame; averaged over line pixels
+    with a gaussian window. Blur widens every line, and noise hardly moves the peak scale (unlike |Laplacian|, which
+    falls to the noise floor in a blurred area: 60-70 % of the sharp level on the calibrated coarse-cell twin)."""
+    from skimage.feature import hessian_matrix, hessian_matrix_eigvals
+
+    resp, ridge = [], []
+    for s in LINE_SCALES:
+        l1, l2 = hessian_matrix_eigvals(hessian_matrix(gray, sigma=s, order="rc", use_gaussian_derivatives=True))
+        resp.append(s ** 2 * np.maximum(l1, 0))
+        # line-like (not a blob) and at a line's centre (not on the dark side of a step edge: pocket and dot rims
+        # respond about equally at every scale)
+        ridge.append((np.abs(l2) < 0.5 * np.maximum(l1, 1e-12))
+                     & (ndi.gaussian_gradient_magnitude(gray, s) < s * np.maximum(l1, 0)))
+    resp, ridge = np.stack(resp), np.stack(ridge)
+    best = np.argmax(resp, axis=0)
+    strength = resp.max(axis=0)
+    inner = np.zeros(gray.shape, bool)
+    m = int(2 * max(LINE_SCALES)) + 1   # the filters' reach: along the image frame every scale responds
+    inner[m:-m, m:-m] = True
+    line = roi & inner & np.take_along_axis(ridge, best[None], 0)[0] & (strength > threshold_otsu(strength[roi & inner]))
+    scale = np.asarray(LINE_SCALES)[best]
+    num = gaussian(np.where(line, scale, 0.0), window)
+    den = gaussian(line.astype(float), window)
+    return np.where(den > 1e-3, num / np.maximum(den, 1e-9), np.nan)
+
+
+SHARP_LINE_SCALE_PX = 3.0  # line scale of sharp boundaries of the calibrated coarse-cell twin (2.5-3.4 px)
+
+
+def soft_regions(gray: np.ndarray, roi: np.ndarray, flake_width: float | None, core_px: float = 5.2,
+                 grow_px: float = 4.6, min_fraction: float = 0.08, line_ref_px: float | None = None,
+                 info: dict | None = None) -> np.ndarray:
+    """Soft (out-of-focus) parts of a field of cells, from the width of its boundary lines (line_scale_map, windows
+    of ~0.7 cell width): cores where the lines are at least core_px wide, each at least min_fraction of the image,
+    grown over the field where they are at least grow_px wide. The thresholds are at the scale of the analysed
+    images (lines 2-5 px); line_ref_px (a set's typical sharp line scale, from src.adapt) rescales them by
+    line_ref_px / SHARP_LINE_SCALE_PX for a set at another magnification. A per-image reference does not work: the
+    best-focused side of a soft image is itself soft (its lines read 4.2-4.5 px against 2.5-3.4 on sharp images).
+    On the calibrated twin (3 seeds, 16 images): nothing on sharp images (their lines read <= 5.4 px at the 99th
+    percentile, scattered); 44-97 % of each unreadable area found, and up to 25 % of the field taken from the readable
+    transition band, where the blur grows towards unreadable. Only for coarse cells (flakes >= COARSE_WIDTH_PX).
+    (Failure of the private rerun: two partly out-of-focus images gave S 0.35 and 0.47 against 0.90 and 0.80.)"""
+    out = np.zeros(gray.shape, bool)
+    if not flake_width or not np.isfinite(flake_width) or flake_width < COARSE_WIDTH_PX or roi.sum() < 1000:
+        return out
+    B = line_scale_map(gray, roi, window=max(40.0, 0.7 * flake_width))
+    have = np.isfinite(B) & roi
+    if have.sum() < 1000:
+        return out
+    k = float(np.clip(line_ref_px / SHARP_LINE_SCALE_PX, 0.7, 3.0)) if line_ref_px else 1.0
+    B = np.where(have, B, 0.0)
+    if info is not None:
+        info.update(line_scale_p20_px=round(float(np.percentile(B[have], 20)), 2),
+                    line_scale_median_px=round(float(np.median(B[have])), 2), soft_threshold_scale=round(k, 3))
+    cores = ndi.binary_opening((B >= k * core_px) & roi, iterations=4)
+    lab, n = ndi.label(cores)
+    if not n:
+        return out
+    sizes = np.bincount(lab.ravel())
+    big = sizes >= min_fraction * gray.size
+    big[0] = False
+    if not big.any():
+        return out
+    grown, _ = ndi.label((B >= k * grow_px) & roi)
+    keep = np.unique(grown[big[lab] & (grown > 0)])
+    return np.isin(grown, keep) & (grown > 0)
+
+
 def textured_regions(gray: np.ndarray, roi: np.ndarray, flake_width: float | None) -> np.ndarray:
     """Patches of fine speckle texture that are not flakes (grey "pockets" at triple junctions of coarse cells):
     a high density of small intensity extrema (5 px neighbourhood, prominence > 3 x the pixel noise; > 4 x the
@@ -290,8 +366,30 @@ def _connectivity(phase: np.ndarray) -> float:
     return float(sizes.max() / max(sizes.sum(), 1))
 
 
+def fundamental_spacing(s: np.ndarray, sigma: float = 0.12) -> tuple[float | None, float]:
+    """The spacing x that best explains a set of spacings as x, 2x and 3x (one or two boundaries missed between two
+    crossings): a comb score on a log scale (weights 1, 0.6, 0.3; width 0.12), maximised over x; then the octave check
+    (spacings near 2x at least 1.5 times as common as near x: x is a sub-harmonic of extra lines, dots and pocket
+    texture crossed mid-cell, and 2x is taken); refined by the median of the spacings within +-25 % of x.
+    Returns (x, share of spacings within +-25 % of it)."""
+    s = np.asarray(s, float)
+    if s.size < 10:
+        return None, 0.0
+    ls = np.log(s)
+    grid = np.exp(np.linspace(np.log(6.0), np.log(max(np.percentile(s, 90), 7.0)), 200))
+    score = [sum(wk * np.exp(-0.5 * ((ls - np.log(k * x)) / sigma) ** 2).sum() for k, wk in ((1, 1.0), (2, 0.6), (3, 0.3)))
+             for x in grid]
+    x = float(grid[int(np.argmax(score))])
+    share = lambda v: float(((s >= 0.75 * v) & (s <= 1.25 * v)).mean())
+    for _ in range(2):  # octave check: spacings near 2x much more common than near x: x is a sub-harmonic (extra lines)
+        if share(2 * x) >= 1.5 * share(x):
+            x = 2 * x
+    near = s[(s >= 0.75 * x) & (s <= 1.25 * x)]
+    return (float(np.median(near)) if near.size else x), float(near.size / s.size)
+
+
 def boundary_spacing(gray: np.ndarray, roi: np.ndarray, dark_lines: bool = True, exclude: np.ndarray | None = None,
-                     n_lines: int = 240, seed: int = 0) -> dict:
+                     n_lines: int = 240, seed: int = 0, hysteresis_low: float = 0.45) -> dict:
     """Spacing of the boundary lines across the flakes: thin lines (Sato ridges, 1-3 px) that run along the local
     flake direction (within 25 deg of the coarse structure-tensor direction) are crossed by scan lines laid across
     that direction; the spacing is the most common distance between consecutive crossings (log-histogram peak,
@@ -299,14 +397,20 @@ def boundary_spacing(gray: np.ndarray, roi: np.ndarray, dark_lines: bool = True,
     directions) and the boundaries between flakes stacked end to end (across the direction) drop out of the line map;
     a missing stretch of boundary makes one spacing twice as long, which moves the median but not the peak.
     Also returned: the mean intercept (scan length / crossings), which a broken boundary biases up and stray lines
-    bias down, as a cross-check."""
+    bias down, as a cross-check.
+    And (2026-11-18) the same scan on a second line map, by hysteresis (ridges above the Otsu threshold, extended
+    along ridges above hysteresis_low x it): faint, beaded boundaries are then crossed where the first map has gaps,
+    and fundamental_px is the comb fit of those spacings (fundamental_spacing), robust to the missed boundaries that
+    put the plain peak at 2-3x the spacing (calibrated coarse-cell twin: within 20 % on 12 of 12 images, the plain
+    peak on 8). The first map's numbers are unchanged."""
     h, w = gray.shape
     valid = roi.copy() if exclude is None else roi & ~exclude
-    out = {"spacing_px": None, "intercept_px": None, "n_spacings": 0, "peak_share": 0.0, "reliable": False}
+    out = {"spacing_px": None, "intercept_px": None, "n_spacings": 0, "peak_share": 0.0, "reliable": False,
+           "fundamental_px": None, "fundamental_share": 0.0, "n_spacings_hysteresis": 0}
     if valid.sum() < 1000:
         return out
     from skimage.feature import hessian_matrix, structure_tensor
-    from skimage.filters import sato
+    from skimage.filters import apply_hysteresis_threshold, sato
 
     sm = gaussian(gray, 1.0)
     ridge = sato(sm, sigmas=[1.0, 2.0, 3.0], black_ridges=dark_lines)
@@ -320,12 +424,24 @@ def boundary_spacing(gray: np.ndarray, roi: np.ndarray, dark_lines: bool = True,
     d = np.abs((line_dir - tex_dir) % 180)
     along = lines & (np.minimum(d, 180 - d) <= 25)
     along = remove_small_objects(along, max_size=15)
+    lines_h = apply_hysteresis_threshold(ridge, hysteresis_low * t, t) & valid
+    along_h = remove_small_objects(lines_h & (np.minimum(d, 180 - d) <= 25), max_size=15)
     rng = np.random.default_rng(seed)
     starts = np.flatnonzero(valid.ravel())
     starts = rng.choice(starts, size=min(n_lines, starts.size), replace=False)
     reach = int(min(h, w) * 0.6)
     steps = np.arange(-reach, reach + 1)
-    spacings, total_len, crossings = [], 0, 0
+    spacings, spacings_h, total_len, crossings = [], [], 0, 0
+
+    def centres_of(seg):
+        rises = np.flatnonzero(np.diff(seg.astype(np.int8)) == 1) + 1
+        falls = np.flatnonzero(np.diff(seg.astype(np.int8)) == -1) + 1
+        if seg[0]:
+            rises = np.r_[0, rises]
+        if seg[-1]:
+            falls = np.r_[falls, seg.size]
+        return (rises + falls[: rises.size]) / 2.0
+
     for st in starts:
         r0, c0 = divmod(int(st), w)
         theta = np.deg2rad(tex_dir[r0, c0])
@@ -346,17 +462,20 @@ def boundary_spacing(gray: np.ndarray, roi: np.ndarray, dark_lines: bool = True,
         if hi - lo < 20:
             continue
         seg = along[rr[lo:hi + 1], cc[lo:hi + 1]]
-        rises = np.flatnonzero(np.diff(seg.astype(np.int8)) == 1) + 1
-        falls = np.flatnonzero(np.diff(seg.astype(np.int8)) == -1) + 1
-        if seg[0]:
-            rises = np.r_[0, rises]
-        if seg[-1]:
-            falls = np.r_[falls, seg.size]
-        centres = (rises + falls[: rises.size]) / 2.0
+        centres = centres_of(seg)
+        centres_h = centres_of(along_h[rr[lo:hi + 1], cc[lo:hi + 1]])
+        if centres_h.size >= 2:
+            spacings_h.extend(np.diff(centres_h).tolist())
         total_len += hi - lo + 1
         crossings += centres.size
         if centres.size >= 2:
             spacings.extend(np.diff(centres).tolist())
+    s_h = np.asarray([v for v in spacings_h if v >= 3])
+    out["n_spacings_hysteresis"] = int(s_h.size)
+    if s_h.size >= 30:
+        f, share = fundamental_spacing(s_h)
+        out["fundamental_px"] = round(f, 2) if f else None
+        out["fundamental_share"] = round(share, 3)
     s = np.asarray([v for v in spacings if v >= 3])
     out["n_spacings"] = int(s.size)
     if crossings:
@@ -444,12 +563,26 @@ def profile(gray: np.ndarray, roi: np.ndarray | None = None) -> dict:
     use_spacing = weight > 0
     if use_spacing:
         width_b = t_maj + weight * (width_s - t_maj)
+    used = "spacing" if weight >= 0.5 else "otsu"
+    # cells (2026-11-18): a field of wide cells between thin dark lines (spacing >= 24 px, lines under a quarter of it,
+    # the dark phase a minority under 30 %) takes the fundamental spacing of the hysteresis line map. The private rerun
+    # read 34 px for cells 51-67 px wide: the Otsu thickness is pulled down by dots, pockets and broken lines, and the
+    # plain spacing peak was never clear enough (peak share 0.2-0.39 < 0.4 on the calibrated twin). Laths (Ti64,
+    # ~10 px) are never cells-like, so their width is unchanged.
+    fund = spacing.get("fundamental_px")
+    cells_like = bool(fund and fund >= COARSE_WIDTH_PX and minority_name == "dark" and dark_frac <= 0.3
+                      and (not np.isfinite(t_min) or t_min <= 0.25 * fund))
+    if cells_like:
+        width_b, used = float(fund), "fundamental"
+    ref_w = width_b if np.isfinite(width_b) else None
+    disagree = bool(disagree or (ref_w and np.isfinite(t_maj) and t_maj > 0 and max(ref_w, t_maj) / min(ref_w, t_maj) > 1.3))
     width_check = {"otsu_px": round(float(t_maj), 2) if np.isfinite(t_maj) else None,
                    "spacing_width_px": round(float(width_s), 2) if width_s else None,
                    "spacing_px": spacing["spacing_px"], "intercept_px": spacing["intercept_px"],
+                   "fundamental_px": fund, "fundamental_share": spacing.get("fundamental_share"),
                    "n_spacings": spacing["n_spacings"], "peak_share": spacing["peak_share"],
-                   "used": "spacing" if weight >= 0.5 else "otsu", "spacing_weight": round(weight, 3),
-                   "disagree": disagree}
+                   "dark_fraction": round(float(dark_frac), 3), "cells_like": cells_like,
+                   "used": used, "spacing_weight": round(weight, 3), "disagree": disagree}
     by_mode = {
         "boundaries": {"flake_width_px": width_b, "boundary_width_px": t_min, "flake_phase": other[minority_name]},
         "phase": {"flake_width_px": t_island, "boundary_width_px": t_matrix, "flake_phase": island_phase},

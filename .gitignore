@@ -9,6 +9,7 @@ __pycache__/
 # The dataset stays outside the repository; only data/sample/ is committed.
 data/*
 !data/sample/
+!data/cards/
 
 # run.py --dry-run output
 results/_dry_run/
@@ -59,3 +60,7 @@ results/flakes/baseline_v9/*/outputs/
 results/flakes/baseline_v10/*/outputs/flakes.csv
 results/flakes/baseline_v10/*/outputs/overlays/
 results/flakes/baseline_v10/*/outputs/rotated/
+# baseline_v11 (2026-11-17, code cd3472549e): identical in number to v10; execute.json holds the numbers
+results/flakes/baseline_v11/*/outputs/flakes.csv
+results/flakes/baseline_v11/*/outputs/overlays/
+results/flakes/baseline_v11/*/outputs/rotated/

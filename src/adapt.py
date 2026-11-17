@@ -1,13 +1,15 @@
 """Adapt the flakes method to a new set of images and measure them: the tool for a folder of your own micrographs.
 
     python -m src.adapt path/to/images/ --name my_ti64 [--mode boundaries|phase] [--um-per-px 0.2]
-                        [--budget 30] [--live 2] [--dry-run]
+                        [--budget 12] [--thorough] [--calibration card.json] [--live 2] [--dry-run]
 
 Steps (all state in results/flakes/adapt/<name>/):
 1. profile: what kind of flake image this is (boundary network or phase islands), flake and boundary width, noise;
 2. first pass on the real images with scaled defaults (typical flake length, for the twin);
 3. twin: code-generated images with exact per-flake truth, fitted to the real profile (src/twin.py), with a realism
-   check; 2/3 of the twin images are for tuning (dev), 1/3 are held out;
+   check; fields of coarse cells (the profile says so, or --calibration is given) get the calibrated coarse-cell
+   twin (src/synth_cells.py), fitted to the calibration card when there is one; part of the twin images are for
+   tuning (dev), the rest are held out;
 4. warm start from the knowledge memory: the params that worked on the most similar image set measured before;
 5. search: many configurations evaluated on the twin dev images, in parallel, cached (src/search.py);
 6. optional agent stage (--live N, bills the Anthropic API): Claude plans the next search from all trials so far,
@@ -33,11 +35,11 @@ from scipy import ndimage as ndi
 from skimage.filters import gaussian
 import pandas as pd
 
-from src import axial, consistency, knowledge, twin
+from src import axial, calibration_card, consistency, knowledge, synth_cells, twin
 from src.config import load_config
 from src.execute import code_version
 from src.methods import METHODS
-from src.methods.flakes import CHOICES, DEFAULTS
+from src.methods.flakes import CHOICES, DEFAULTS, coarse_overrides
 from src.methods.profile import scaled_params
 from src.search import Searcher, default_space, objective
 
@@ -144,6 +146,7 @@ def resolved_start(profile: dict, mode: str, extra: dict | None = None) -> dict:
     p = {k: v for k, v in DEFAULTS.items() if k != "um_per_px"}
     boundary = m.get("boundary_width_px") if mode == "boundaries" else None
     p.update(scaled_params(m.get("flake_width_px") or 10.0, boundary, (), DEFAULTS, shape=profile.get("shape")))
+    p.update(coarse_overrides(m.get("flake_width_px"), mode))  # (coarse cells: their own threshold and seeds)
     p.update(mode=mode, flake_width_px=None, flake_phase=m.get("flake_phase", "auto") if mode == "phase" else "auto")
     p.update(extra or {})
     return p
@@ -241,28 +244,42 @@ def _fmt(v, nd=2):
     return "n/a" if v is None else f"{v:.{nd}f}"
 
 
-def real_image_guard(sample: list[Path], start: dict, chosen: dict, out: Path, tolerances: dict) -> dict:
+def real_image_guard(sample: list[Path], start: dict, chosen: dict, out: Path, tolerances: dict, cells: bool = False,
+                     twin_length_px: float | None = None) -> dict:
     """The twin cannot see everything: settings tuned on it are kept only if, on the real images, they are not
     clearly less stable under rotation than the start settings, and do not collapse the number of flakes
     (label-free checks). Found on the basketweave set: a 6 % better twin objective came with a rotation check of 3.9
     instead of 1.2 (and 4x fewer flakes). A moderate drop in the number of flakes is no fault by itself: on Ti64 the
     tuned settings keep laths whole instead of cutting them (654 flakes per image instead of 1604, twin holdout
-    0.51 instead of 1.16), so only a collapse below a quarter counts."""
+    0.51 instead of 1.16), so only a collapse below a quarter counts.
+    Fields of coarse cells (cells=True) are stricter, because the rotation check passes a consistently merged
+    segmentation (the private rerun: F1 0.56 with 188 merges): the chosen settings are refused when they keep under
+    60 % of the start's flakes, or make the flakes' median length over 1.5 x the twin's true median length
+    (twin_length_px) and over 1.2 x the start's."""
     res = {}
     for which, params in (("start", start), ("chosen", chosen)):
         real = measure_real(sample, params, out / which, workers=6)
         cons = consistency.check(METHODS["flakes"], sample, params, out / which / "consistency",
                                  {"image_summaries": real["image_summaries"]}, tolerances)
+        lengths = [s["median_length_px"] for s in real["image_summaries"].values() if s.get("median_length_px")]
         res[which] = {"rotation": cons["metrics"].get("worst_consistency_ratio"),
-                      "flakes_used": float(np.median([s["n_used_orientation"] for s in real["image_summaries"].values()]))}
+                      "flakes_used": float(np.median([s["n_used_orientation"] for s in real["image_summaries"].values()])),
+                      "median_length_px": float(np.median(lengths)) if lengths else None}
     a, b = res["start"], res["chosen"]
     worse_rotation = b["rotation"] is not None and a["rotation"] is not None and \
         b["rotation"] > max(1.0, 1.25 * a["rotation"])
     lost_flakes = b["flakes_used"] < 0.25 * a["flakes_used"]
-    res["keep_chosen"] = not (worse_rotation or lost_flakes)
-    res["reason"] = ("" if res["keep_chosen"] else
-                     ("fewer than a quarter of the flakes" if lost_flakes else "") + (" and " if lost_flakes and worse_rotation else "")
-                     + ("a worse rotation check" if worse_rotation else ""))
+    merged = False
+    if cells:
+        longer = bool(twin_length_px and b["median_length_px"] and a["median_length_px"]
+                      and b["median_length_px"] > 1.5 * twin_length_px and b["median_length_px"] > 1.2 * a["median_length_px"])
+        merged = b["flakes_used"] < 0.6 * a["flakes_used"] or longer
+    res["keep_chosen"] = not (worse_rotation or lost_flakes or merged)
+    reasons = ([("fewer than a quarter of the flakes")] if lost_flakes else []) + \
+        (["fewer flakes or longer ones than the start and the twin allow (merged cells)"] if merged and not lost_flakes else []) + \
+        (["a worse rotation check"] if worse_rotation else [])
+    res["reason"] = " and ".join(reasons)
+    res["cells"], res["twin_length_px"] = cells, twin_length_px
     return res
 
 
@@ -547,11 +564,19 @@ def write_report(out: Path, ctx: dict) -> None:
 
 # --- main ---------------------------------------------------------------------------------------------------------
 
-def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 30, live: int = 0, dry_run: bool = False,
-          um_per_px: float | None = None, workers: int = 6, results_root: Path | None = None,
+def adapt(images: list[Path], name: str, mode: str | None = None, budget: int | None = None, live: int = 0,
+          dry_run: bool = False, um_per_px: float | None = None, workers: int = 6, results_root: Path | None = None,
           twin_root: Path | None = None, use_knowledge: bool = True, record_knowledge: bool = True,
-          flake_width: float | None = None, flake_phase: str | None = None, log=print) -> dict:
+          flake_width: float | None = None, flake_phase: str | None = None, calibration: Path | None = None,
+          thorough: bool = False, log=print) -> dict:
     t0 = time.monotonic()
+    # the fast default (2026-11-18): 12 configurations on a twin of 2 images per family; --thorough: 30 on 3
+    budget = budget if budget is not None else (30 if thorough else 12)
+    per_family = 3 if thorough else 2
+
+    def stamp(msg: str) -> None:
+        log(f"  [{(time.monotonic() - t0) / 60:.1f} min] {msg}")
+
     results_root = Path(results_root or ROOT / "results" / "flakes")
     out = results_root / "adapt" / name
     out.mkdir(parents=True, exist_ok=True)
@@ -577,7 +602,24 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
     prof["by_mode"][mode].update(overrides)
     log(f"  profile: {mode} ({mode_reason}); flake width {prof['by_mode'][mode]['flake_width_px']} px"
         + (f" (set by the user: {overrides})" if overrides else ""))
-    scales = None if flake_width else two_scales(images, prof, mode)
+    # fields of coarse cells: the calibrated coarse-cell twin (src/synth_cells.py) instead of the lath twin
+    card = calibration_card.load_card(calibration) if calibration else None
+    per_image = prof.get("per_image", [])
+    wcs = [pi.get("width_check", {}) for pi in per_image]
+    votes = [bool(w.get("cells_like")) for w in wcs]
+    cells = bool(mode == "boundaries" and (card is not None or (votes and sum(votes) >= 0.5 * len(votes))))
+
+    def med(key):
+        v = [w[key] for w in wcs if isinstance(w.get(key), (int, float))]
+        return round(float(np.median(v)), 1) if v else None
+
+    used = [w.get("used") for w in wcs if w.get("used")]
+    log(f"  width estimators (median over the images, px): Otsu thickness {med('otsu_px')}, line spacing "
+        f"{med('spacing_px')} (minus the line {med('spacing_width_px')}), fundamental spacing {med('fundamental_px')}, "
+        f"mean intercept {med('intercept_px')}; used: {max(set(used), key=used.count) if used else 'n/a'}")
+    log(f"  coarse cells: {'yes' if cells else 'no'} ("
+        + ("calibration card given" if card is not None else f"{sum(votes)} of {len(votes)} images cells-like") + ")")
+    scales = None if flake_width or cells else two_scales(images, prof, mode)
     if scales:
         log(f"  two scales: {scales['area_share']:.0%} of the {scales['phase']} phase is in structures "
             f"~{scales['coarse_width_px']} px wide; measuring the fine scale ({scales['fine_width_px']} px)")
@@ -589,19 +631,42 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
         prof["by_mode"][mode].update({k: (v * factor if k == "flake_width_px" else v) for k, v in overrides.items()})
         log(f"  fine flakes: analysed at {factor}x size; flake width now {prof['by_mode'][mode]['flake_width_px']} px")
 
-    # 2. first pass (typical flake length for the twin)
+    # 2. first pass (typical flake length for the lath twin; the coarse-cell twin does not need it)
     start = resolved_start(prof, mode)
     sample = images[:: max(len(images) // 4, 1)][:4]
-    first = measure_real(sample, start, out / "first_pass", workers)
-    lengths = [s["median_length_px"] for s in first["image_summaries"].values() if s.get("median_length_px")]
-    length = float(np.median(lengths)) if lengths else None
-    real_structure = {k: (float(np.median(v)) if (v := [s[k] for s in first["image_summaries"].values() if s.get(k)])
-                          else None) for k in twin.STRUCTURE_KEYS}
-    method_check = {"params": start, "real": real_structure}
+    length, method_check = None, None
+    if not cells:
+        first = measure_real(sample, start, out / "first_pass", workers)
+        lengths = [s["median_length_px"] for s in first["image_summaries"].values() if s.get("median_length_px")]
+        length = float(np.median(lengths)) if lengths else None
+        real_structure = {k: (float(np.median(v)) if (v := [s[k] for s in first["image_summaries"].values() if s.get(k)])
+                              else None) for k in twin.STRUCTURE_KEYS}
+        method_check = {"params": start, "real": real_structure}
+    stamp("profile done")
 
     # 3. twin
+    if cells:
+        twin_dir = twin_dir.parent / f"{name}__cells"
     old_info = json.loads((twin_dir / "twin_info.json").read_text()) if (twin_dir / "twin_info.json").exists() else {}
-    if (old_info.get("mode") == mode and old_info.get("structure_worst_log_ratio") is not None
+    want = {"generator_version": synth_cells.generator_version(), "per_family": per_family,
+            "card": json.dumps(card.get("summary") if card else None, sort_keys=True),
+            "width": round(float(prof["by_mode"][mode]["flake_width_px"] or 0), 0)}
+    if cells:
+        if old_info.get("want") == want:
+            tinfo = old_info
+            log("  twin (coarse cells): reused")
+        else:
+            if twin_dir.exists():
+                shutil.rmtree(twin_dir)
+            log("  twin (coarse cells): " + ("fitting to the calibration card" if card is not None
+                                             else f"drawn at the measured cell width {want['width']:.0f} px (no calibration card)"))
+            tinfo = synth_cells.build_cells_twin(twin_dir, card=card, width_px=None if card else prof["by_mode"][mode]["flake_width_px"],
+                                                 shape=prof["shape"], per_family=per_family, holdout=1, seed=0, log=log)
+            tinfo["want"] = want
+            (twin_dir / "twin_info.json").write_text(json.dumps(tinfo, indent=2, default=float) + "\n")
+            log(f"  twin (coarse cells): built, {tinfo['n_images']} images, realism ok {tinfo['realism_ok']} "
+                f"(worst {'card' if card is not None else 'width'} mismatch x{np.exp(tinfo['realism_worst_log_ratio']):.2f})")
+    elif (old_info.get("mode") == mode and old_info.get("structure_worst_log_ratio") is not None
             and old_info.get("upsample", 1) == factor and old_info.get("overrides", {}) == overrides
             and old_info.get("generator_version") == twin.generator_version()
             and abs(np.log((old_info.get("real_profile", {}).get("by_mode", {}).get(mode, {}).get("flake_width_px") or 1e-9)
@@ -612,7 +677,7 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
         if twin_dir.exists():
             shutil.rmtree(twin_dir)
         tinfo = twin.build_twin(images, twin_dir, mode=mode, length_px=length, seed=0, method_check=method_check,
-                                upsample=factor, fit_paths=original_images, overrides=overrides)
+                                upsample=factor, fit_paths=original_images, overrides=overrides, per_family=per_family)
         log(f"  twin: built, realism ok {tinfo['realism_ok']} (worst profile mismatch x{np.exp(tinfo['realism_worst_log_ratio']):.2f}, "
             f"flake shape as measured by the method x{np.exp(tinfo['structure_worst_log_ratio']):.2f})")
 
@@ -643,10 +708,11 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
         return bool(info["realism_ok"] and recall >= 0.3), recall
 
     searcher = Searcher(twin_dir, tinfo["dev"], results_root / "search_cache", cv, workers=workers, log=log)
-    res = searcher.run(starts, default_space(mode), budget=0)  # the starts only
+    stamp("twin ready")
+    res = searcher.run(starts, default_space(mode, cells=cells), budget=0)  # the starts only
     twin_trusted, start_recall = trusted(tinfo, res)
     if twin_trusted:
-        res = searcher.run(starts, default_space(mode), budget=budget)  # the starts come from the cache
+        res = searcher.run(starts, default_space(mode, cells=cells), budget=budget)  # the starts come from the cache
         best = res["best"]
     else:
         log(f"  twin not trusted (realism ok {tinfo['realism_ok']}, start flake recall {start_recall:.2f}): "
@@ -738,8 +804,15 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
     if (twin_trusted or set_by_eye) and best["params"] != guard_start:
         # on the same images as the final rotation check: on 3 images with ~50 flakes each the check is too noisy
         # to decide (banded set: 1.50 on 3 images, 0.43 on 6, for the same settings)
+        stamp("search done")
+        twin_length = None
+        if cells and (twin_dir / "truth" / "flakes.csv").exists():
+            tf = pd.read_csv(twin_dir / "truth" / "flakes.csv")
+            tf = tf[tf.image.isin(tinfo["dev"]) & ~tf.touches_edge]
+            twin_length = float(tf.major_px.median()) if len(tf) else None
         guard = real_image_guard(images[:6], guard_start, best["params"], out / "guard",
-                                 load_config(ROOT / "config.yaml")["flakes"]["consistency_tolerances"])
+                                 load_config(ROOT / "config.yaml")["flakes"]["consistency_tolerances"],
+                                 cells=cells, twin_length_px=twin_length)
         guard["by_eye"] = set_by_eye
         log(f"  real-image guard: start {guard['start']}, chosen {guard['chosen']}: "
             + ("chosen kept" if guard["keep_chosen"] else f"start kept ({guard['reason']})"))
@@ -748,6 +821,7 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
             set_by_eye = False
 
     # 7. twin holdout, once
+    stamp("scoring the twin holdout")
     twin_scores = []
     for which, params in (("start", res["start_best"]["params"]), ("chosen", best["params"])):
         for split, names in (("dev", tinfo["dev"]), ("holdout", tinfo["holdout"])):
@@ -756,6 +830,7 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
                                 "by_family": t.get("by_family")})
 
     # 8. real images
+    stamp("measuring the real images")
     final_params = dict(best["params"]) | ({"um_per_px": um_per_px / factor} if um_per_px else {})
     real = measure_real(images, final_params, out, workers)
     write_input_size_labels(original_images, images, out / "labels")
@@ -796,11 +871,20 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
                 f"pooled {f2(hold['metrics']['worst_tolerance_ratio'])} (<= 1 means within the tolerances of config.yaml); "
                 f"dev {f2(dev['metrics']['worst_family_tolerance_ratio'])}: a gap shows how much the search fitted the dev twin images.")
     sw = tinfo.get("structure_worst_log_ratio")
-    conf.append("The twin resembles the real images" + ("" if tinfo["realism_ok"] else " only roughly") +
-                f" (worst profile mismatch x{np.exp(tinfo['realism_worst_log_ratio']):.2f}"
-                + (f"; flake aspect ratio and width as measured by the method differ by up to x{np.exp(sw):.2f}" if sw is not None else "")
-                + "); the twin accuracy carries over only as far as that, and only for structures the generator draws "
-                "(straight laths in colonies).")
+    if tinfo.get("family") == "cells":
+        conf.append("The twin is the calibrated coarse-cell family (src/synth_cells.py: cells with faint beaded "
+                    "boundaries, pockets, inclusions, scratches and soft regions), "
+                    + (f"fitted to the calibration card (worst card mismatch x{np.exp(tinfo['realism_worst_log_ratio']):.2f})"
+                       if tinfo.get("card") else
+                       f"drawn at the measured cell width (mismatch x{np.exp(tinfo['realism_worst_log_ratio']):.2f}); without a "
+                       "calibration card its boundaries, noise and soft areas follow the example card of the private images")
+                    + "; the twin accuracy carries over only as far as the twin resembles these images.")
+    else:
+        conf.append("The twin resembles the real images" + ("" if tinfo["realism_ok"] else " only roughly") +
+                    f" (worst profile mismatch x{np.exp(tinfo['realism_worst_log_ratio']):.2f}"
+                    + (f"; flake aspect ratio and width as measured by the method differ by up to x{np.exp(sw):.2f}" if sw is not None else "")
+                    + "); the twin accuracy carries over only as far as that, and only for structures the generator draws "
+                    "(straight laths in colonies).")
     cr = cons["metrics"].get("worst_consistency_ratio")
     rot = cons["metrics"]
     halves = [(r["order_parameter_ci95"][1] - r["order_parameter_ci95"][0]) / 2 for r in rows if r.get("order_parameter_ci95")]
@@ -880,7 +964,13 @@ def main(argv=None) -> None:
     parser.add_argument("--name", required=True, help="name of this image set (results/flakes/adapt/<name>/)")
     parser.add_argument("--mode", choices=["boundaries", "phase", "regions"], help="force the reading of the image "
                         "(regions: flakes told apart by grey-level steps, no boundary lines; never chosen automatically)")
-    parser.add_argument("--budget", type=int, default=30, help="configurations to evaluate on the twin (default 30)")
+    parser.add_argument("--budget", type=int, default=None,
+                        help="configurations to evaluate on the twin (default 12; 30 with --thorough)")
+    parser.add_argument("--thorough", action="store_true",
+                        help="the slower search of before 2026-11-18: 30 configurations, 3 twin images per family")
+    parser.add_argument("--calibration", type=Path,
+                        help="a calibration card (src.calibration_card) of these or similar images, with masks: "
+                             "the coarse-cell twin is fitted to it")
     parser.add_argument("--live", type=int, default=0, help="agent rounds with Claude (bills the API; default 0)")
     parser.add_argument("--dry-run", action="store_true", help="run one agent round with canned answers, no API")
     parser.add_argument("--um-per-px", type=float, help="scale, to report lengths in um")
@@ -892,7 +982,8 @@ def main(argv=None) -> None:
     args = parser.parse_args(argv)
     adapt(collect(args.images), args.name, mode=args.mode, budget=args.budget, live=args.live, dry_run=args.dry_run,
           um_per_px=args.um_per_px, workers=args.workers, use_knowledge=not args.no_knowledge,
-          record_knowledge=not args.no_knowledge, flake_width=args.flake_width, flake_phase=args.flake_phase)
+          record_knowledge=not args.no_knowledge, flake_width=args.flake_width, flake_phase=args.flake_phase,
+          calibration=args.calibration, thorough=args.thorough)
 
 
 if __name__ == "__main__":

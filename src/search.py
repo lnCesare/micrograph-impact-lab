@@ -58,10 +58,24 @@ SPACE_REGIONS = {  # boundary_sensitivity scales the threshold on the grey-level
     "merge_min_fill": ("abs", [0.8, 0.9, 0.97]),
     "min_area_px": ("mul", [0.5, 2.0]),
 }
-INTEGER = {"bridge_gaps_px", "min_area_px", "scratch_line_gap_px", "scratch_min_length_px", "tile_px"}
+# fields of coarse cells (src/synth_cells.py twins): the failure is merging, so the merge and seed params lead
+SPACE_CELLS = {
+    "h_px": ("mul", [0.3, 0.6, 1.5, 2.5]),
+    "merge_saddle_ratio": ("abs", [0.5, 0.65, 0.8, 1.0]),
+    "boundary_sensitivity": ("abs", [0.6, 0.8, 1.0, 1.2]),
+    "merge_border_darkness": ("abs", [0.0, 0.06, 0.12, 0.2]),
+    "bridge_gaps_px": ("mul", [0.0, 0.5, 1.5]),
+    "bridge_ends_px": ("abs", [0, 10, 20]),
+    "min_area_px": ("mul", [0.3, 0.6, 1.5]),
+    "sigma": ("mul", [0.7, 1.4]),
+}
+INTEGER = {"bridge_gaps_px", "bridge_ends_px", "min_area_px", "scratch_line_gap_px", "scratch_min_length_px", "tile_px"}
+SEGMENTATION_TOLERANCE = 0.2  # on a twin with masks (coarse cells): 1 - F1 over this is a tolerance ratio (F1 0.8 -> 1)
 
 
-def default_space(mode: str) -> dict:
+def default_space(mode: str, cells: bool = False) -> dict:
+    if cells and mode == "boundaries":
+        return dict(SPACE_CELLS)
     return dict({"boundaries": SPACE_BOUNDARIES, "phase": SPACE_PHASE, "regions": SPACE_REGIONS}[mode])
 
 
@@ -78,10 +92,17 @@ def _run_one(args):
 
 
 def objective(metrics: dict) -> float:
+    """Worst family's tolerance ratio + a quarter of the pooled one; on a twin with masks (coarse cells) the
+    segmentation counts as one more ratio, (1 - F1) / SEGMENTATION_TOLERANCE: merged cells can keep direction and S
+    near the truth (the private rerun: S error 0.04, F1 0.56), so the statistics alone do not see them."""
     worst = metrics.get("worst_family_tolerance_ratio")
     pooled = metrics.get("worst_tolerance_ratio")
     if worst is None or pooled is None:
         return float("inf")
+    f1 = metrics.get("segmentation_f1")
+    if f1 is not None:
+        seg = (1.0 - f1) / SEGMENTATION_TOLERANCE
+        worst, pooled = max(worst, seg), max(pooled, seg)
     return float(worst + 0.25 * pooled)
 
 
@@ -100,6 +121,8 @@ class Searcher:
                 t = json.loads(line)
                 self.cache[t["key"]] = t
         self.trials: list[dict] = []
+        masks = self.root / "truth" / "masks"
+        self.masks_dir = masks if masks.exists() else None  # a coarse-cell twin: segmentation is scored too
 
     def evaluate(self, params: dict, names: list[str] | None = None, tag: str = "") -> dict:
         names = names or self.names
@@ -117,11 +140,16 @@ class Searcher:
             result = {"predictions": {n: p for n, p, _, _ in parts}, "image_summaries": {n: s for n, _, s, _ in parts},
                       "defect_maps": {n: d for n, _, _, d in parts}}
             scored = evaluate.score_flakes(self.cfg, names, result, Path(tmp) / "labels", truth_root=self.root)
-        m = scored["metrics"]
+            m = scored["metrics"]
+            if self.masks_dir is not None:
+                from src import score_masks
+
+                seg = score_masks.score_dirs(Path(tmp) / "labels", self.masks_dir)["summary"]
+                m["segmentation_f1"], m["merges"], m["splits"] = seg.get("f1"), seg.get("merges"), seg.get("splits")
         keep = ("worst_tolerance_ratio", "worst_family_tolerance_ratio", "median_direction_error_deg",
                 "median_order_abs_error", "median_misalignment_abs_error_deg", "median_aspect_ratio_rel_error",
                 "median_aspect_ratio_bias", "median_flake_orientation_error_deg", "flake_recall", "flake_precision",
-                "scratch_precision", "scratch_recall_crossing")
+                "scratch_precision", "scratch_recall_crossing", "segmentation_f1", "merges", "splits")
         t = {"key": key, "params": params, "names": "dev" if names == self.names else f"{len(names)} images",
              "metrics": {k: m.get(k) for k in keep}, "objective": objective(m),
              "by_family": {f: round(v["worst_tolerance_ratio"], 3) for f, v in scored["by_family"].items()
@@ -136,13 +164,19 @@ class Searcher:
     def run(self, starts: list[dict], space: dict, budget: int, seed: int = 0) -> dict:
         rng = np.random.default_rng(seed)
         evaluated = 0
+        t_start = time.monotonic()
 
         def ev(p, tag):
             nonlocal evaluated
             t = self.evaluate(p, tag=tag)
             evaluated += 0 if t.get("cached") else 1
+            seg = t["metrics"].get("segmentation_f1")
+            spent = time.monotonic() - t_start
+            eta = (f", {evaluated}/{budget} new, ~{spent / evaluated * max(budget - evaluated, 0) / 60:.1f} min left"
+                   if evaluated and budget else "")
             self.log(f"  [{tag}] objective {t['objective']:.3f} (worst family {t['metrics']['worst_family_tolerance_ratio']}, "
-                     f"pooled {t['metrics']['worst_tolerance_ratio']}){' cached' if t.get('cached') else ''}")
+                     f"pooled {t['metrics']['worst_tolerance_ratio']}" + (f", F1 {seg:.3f}" if seg is not None else "")
+                     + f"){' cached' if t.get('cached') else ''}{eta}")
             return t
 
         results = [ev(s, f"start {i}") for i, s in enumerate(starts)]
@@ -174,8 +208,8 @@ class Searcher:
             p = dict(best["params"])
             for name in rng.choice(names, size=int(rng.integers(1, 4)), replace=False):
                 kind, values = space[name]
-                if p.get(name) is None:
-                    continue
+                if not isinstance(p.get(name), (int, float)) or isinstance(p.get(name), bool):
+                    continue  # (None, or a choice such as "auto": the coordinate pass sets it)
                 if kind == "mul":
                     p[name] = p[name] * float(np.exp(rng.normal(0, 0.3)))
                 else:

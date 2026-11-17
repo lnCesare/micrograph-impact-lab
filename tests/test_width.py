@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 
 from src.methods.profile import boundary_spacing, profile
-from src.synth_cells import CellSpec, generate as cells
+from src.synth_cells_v1 import CellSpec, generate as cells
 from src.synth_lamellar import Spec, generate as laths
 
 
@@ -34,3 +34,37 @@ def test_fine_laths_keep_about_the_old_width():
     p = profile(g)
     new, old = p["by_mode"]["boundaries"]["flake_width_px"], p["width_check"]["otsu_px"]
     assert 0.75 * old <= new <= 1.3 * old
+
+
+# --- calibrated twin (2026-11-18): the private rerun read 34 px for cells 51-67 px wide (minor axis) ---------------
+
+ESTIMATORS = ("otsu_px", "spacing_px", "spacing_width_px", "fundamental_px", "intercept_px", "used")
+
+
+@pytest.fixture(scope="module")
+def calibrated():
+    from src.synth_cells import default_specs, generate
+
+    specs = default_specs(seed=21, per_family=1, holdout=0)          # one clean, one scratched, one soft image
+    out = []
+    for s in specs:
+        g = generate(s)
+        inner = [f["minor_px"] for f in g["flakes"] if not f["touches_edge"]]
+        out.append((s.family, g["image"] / 255.0, float(np.median(inner))))
+    return out
+
+
+def test_calibrated_cells_width_within_20_percent_incl_soft(calibrated):
+    for family, img, true_minor in calibrated:
+        p = profile(img)
+        wc = p["width_check"]
+        width = p["by_mode"]["boundaries"]["flake_width_px"]
+        assert all(k in wc for k in ESTIMATORS)                       # every estimator is reported ...
+        assert wc["used"] == "fundamental" and wc["cells_like"]       # ... and which one was used
+        assert abs(width - true_minor) / true_minor <= 0.2, (family, width, true_minor, wc)
+
+
+def test_laths_are_not_taken_for_cells():
+    g = laths(Spec("l", "t", seed=3, kappa=25, shape=(500, 640), lath_width_px=(7, 12), boundary_px=2.0))["image"] / 255.0
+    wc = profile(g)["width_check"]
+    assert not wc["cells_like"] and wc["used"] != "fundamental"

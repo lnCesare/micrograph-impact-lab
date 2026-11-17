@@ -34,5 +34,5 @@ def test_only_the_evaluator_and_the_paster_know_where_the_pasted_scratches_are()
     readers = sorted(str(p.relative_to(src)) for p in src.rglob("*.py")
                      if '"truth"' in p.read_text() and '"scratch"' in p.read_text())
     # (the generators write the truth of their own images: synth_lamellar, and synth_cells for the coarse cells)
-    assert set(readers) <= {"evaluate.py", "scratch_paste.py", "synth_lamellar.py", "synth_cells.py"}, readers
+    assert set(readers) <= {"evaluate.py", "scratch_paste.py", "synth_lamellar.py", "synth_cells.py", "synth_cells_v1.py"}, readers
 

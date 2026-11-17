@@ -130,7 +130,7 @@ def test_scaled_params_are_capped_by_the_image_size():
 def test_the_method_resolves_reachable_params_on_coarse_cells():
     from src.methods.flakes import DEFAULTS, resolve
     from src.methods.profile import profile as prof_fn
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     g = cells(CellSpec("r", "clean", seed=13))["image"] / 255.0
     pr = prof_fn(g)
@@ -141,7 +141,7 @@ def test_the_method_resolves_reachable_params_on_coarse_cells():
 
 def test_an_out_of_focus_region_is_found_and_left_out():
     from src.methods.profile import out_of_focus
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     g = cells(CellSpec("b", "blurred", seed=21, blur=True))
     img = g["image"] / 255.0
@@ -157,7 +157,7 @@ def test_sharp_images_have_no_out_of_focus_region(which):
     from PIL import Image as PILImage
 
     from src.methods.profile import load, out_of_focus
-    from src.synth_cells import CellSpec, generate as cells
+    from src.synth_cells_v1 import CellSpec, generate as cells
 
     if which == "cells":
         img = cells(CellSpec("c", "clean", seed=22))["image"] / 255.0
@@ -166,3 +166,29 @@ def test_sharp_images_have_no_out_of_focus_region(which):
     else:
         img = load("data/sample/Ti64/Ti64_21.jpg")
     assert out_of_focus(img, np.ones(img.shape, bool)).mean() < 0.02
+
+
+# --- soft regions of a field of cells (2026-11-18): the private soft images gave S 0.35 / 0.47 against 0.90 / 0.80 ---
+
+@pytest.fixture(scope="module")
+def calibrated_soft_and_sharp():
+    from src.synth_cells import default_specs, generate as cells
+
+    specs = [s for s in default_specs(seed=33, per_family=2, holdout=0) if s.family in ("soft", "clean")]
+    return [(s.family, cells(s)) for s in specs]
+
+
+def test_soft_regions_of_cells_are_found_from_the_line_scale(calibrated_soft_and_sharp):
+    from src.methods.profile import soft_regions
+
+    for family, g in calibrated_soft_and_sharp:
+        img = g["image"] / 255.0
+        p = profile(img)
+        assert p["width_check"]["cells_like"]
+        soft = soft_regions(img, np.ones(img.shape, bool), p["by_mode"]["boundaries"]["flake_width_px"])
+        if family == "soft":
+            truth = g["mask"] == 3
+            assert (soft & truth).sum() >= 0.5 * truth.sum()       # most of the unreadable part is found ...
+            assert (soft & ~truth).mean() <= 0.25                  # ... and part of the readable transition band
+        else:
+            assert soft.mean() <= 0.02                             # sharp images: nothing

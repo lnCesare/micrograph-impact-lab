@@ -179,3 +179,48 @@ def test_adapt_writes_one_label_png_per_input_at_the_input_size(tmp_path):
         assert arr.shape == np.array(Image.open(p)).shape[:2]
         assert arr.max() >= 5 and arr.min() == 0
     assert log["upsample_factor"] > 1  # the second image was analysed enlarged, its labels are at its own size
+
+
+# --- coarse cells (2026-11-18) --------------------------------------------------------------------------------------
+
+def test_the_guard_refuses_merged_cells_but_not_fewer_laths(tmp_path, monkeypatch):
+    """The rotation check passes a consistently merged segmentation: for cells, keeping half the flakes (and longer
+    ones) is refused; for laths, fewer flakes are no fault by themselves (Ti64: laths kept whole)."""
+    import src.adapt as A
+
+    def fake_measure(sample, params, out_dir, workers=6):
+        n, length = (100, 180.0) if params["tag"] == "start" else (50, 320.0)
+        return {"image_summaries": {"a": {"n_used_orientation": n, "median_length_px": length}}}
+
+    monkeypatch.setattr(A, "measure_real", fake_measure)
+    monkeypatch.setattr(A.consistency, "check", lambda *a, **k: {"metrics": {"worst_consistency_ratio": 0.3}})
+    start, chosen = {"tag": "start"}, {"tag": "chosen"}
+    cells = A.real_image_guard([Path("a.png")], start, chosen, tmp_path, {}, cells=True, twin_length_px=190.0)
+    laths = A.real_image_guard([Path("a.png")], start, chosen, tmp_path, {}, cells=False)
+    assert not cells["keep_chosen"] and "merged" in cells["reason"]
+    assert laths["keep_chosen"]
+
+
+def test_adapt_takes_the_coarse_cell_twin_with_a_calibration_card(tmp_path):
+    from src import calibration_card as cc
+    from src.synth_cells import default_specs, generate as cells
+
+    shape = (480, 600)
+    paths = []
+    for s in [x for x in default_specs(seed=5, per_family=1, holdout=0, shape=shape) if x.family != "soft"]:
+        p = tmp_path / "real" / f"{s.name}.png"
+        p.parent.mkdir(exist_ok=True)
+        Image.fromarray(cells(s)["image"]).save(p)
+        paths.append(p)
+    card = cc.load_card(Path(__file__).resolve().parents[1] / "data" / "cards" / "coarse_cells_example.json")
+    card["image_shape"] = list(shape)
+    (tmp_path / "card.json").write_text(json.dumps(card))
+    lines = []
+    log = adapt(paths, "cells", budget=2, workers=2, results_root=tmp_path / "results", twin_root=tmp_path / "twins",
+                use_knowledge=False, record_knowledge=False, calibration=tmp_path / "card.json", log=lines.append)
+    text = "\n".join(map(str, lines))
+    assert "coarse cells: yes" in text and "fundamental spacing" in text and "min left" in text
+    assert log["twin"]["family"] == "cells" and log["twin"]["card"]
+    assert any(t["metrics"].get("segmentation_f1") is not None for t in log["trials"])
+    out = tmp_path / "results" / "adapt" / "cells"
+    assert (out / "report.md").exists() and len(list((out / "labels").glob("*.png"))) == len(paths)
