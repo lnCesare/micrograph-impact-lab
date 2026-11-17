@@ -1,0 +1,79 @@
+# Configuration of the research loop. Paths are relative to this file.
+
+# The open question the loop works on. Every Claude call sees it.
+question: >
+  Can an agent loop tune a classical grain segmentation pipeline so that grain count
+  and mean grain size on optical micrographs match ground truth within 10%,
+  and how does accuracy degrade with image noise,
+  and can scratches and pores be detected and kept from corrupting the grain measurements?
+  Checked by computation: an evaluator compares the pipeline's grains with exact
+  per-grain ground truth (synthetic micrographs) and expert grain-boundary masks
+  (real 316L stainless steel), on a dev split; a holdout split is used once at the end.
+
+# One model per role. Every live run bills the Anthropic API; use --dry-run for development.
+# effort: low | medium | high | xhigh | max (more effort, deeper reasoning, more tokens).
+models:
+  planner: {model: claude-opus-5-5, effort: high}      # picks the next experiment
+  librarian: {model: claude-opus-5-5, effort: medium}  # searches the literature
+  reviewer: {model: claude-opus-5-5, effort: high}     # critiques each result
+
+limits:
+  max_iterations: 20     # total across all runs; run.py stops when results/state.json reaches it
+  max_tokens: 16000      # per Claude call
+  history_in_prompt: 10  # past iterations the planner sees
+  max_searches: 5        # web searches per literature step
+  max_continuations: 3   # resumes of a paused server-tool turn
+
+steps:
+  literature: false       # off at the scientist's request (2026-11-16): not useful for this work; true | first_only | false
+  llm_review: true   # let the reviewer judge each result after the automatic checks
+
+# The project target every iteration is judged by; the planner does not choose it.
+# This one is for the grain datasets (synthetic, 316L); the flake datasets have theirs under flakes:.
+target: {metric: max_rel_error, threshold: 0.10, direction: "<="}
+
+# Flakes: shape and alignment of the laths (flakes) of lamellar microstructures such as Ti-6Al-4V.
+# Datasets: lamellar_synth (code-generated, exact per-flake truth; src/synth_lamellar.py)
+# and Ti64 (real optical micrographs, no ground truth). Their loop state is kept in results/flakes/.
+flakes:
+  question: >
+    Can an agent loop tune a classical segmentation pipeline so that, on optical micrographs of
+    lamellar microstructures, the orientation of each flake, the mean direction and order parameter
+    of each image, the misalignment of the flakes and their aspect ratio are measured within stated
+    tolerances, while grain (colony) boundaries are kept and polishing scratches are found and kept
+    from cutting or merging flakes?
+    Checked by computation: on code-generated lamellar micrographs with exact per-flake ground truth
+    (dev split; holdout used once at the end); on real Ti-6Al-4V micrographs, which have no ground truth,
+    by self-consistency (rotating the image must rotate the result) and by the reviewer reading the drawings.
+  # Tolerances are the scientist's call: each error divided by its tolerance; the target is the worst ratio <= 1.
+  tolerances:
+    mean_direction_deg: 5.0         # median error of the image mean direction (images with true S >= 0.3)
+    order_parameter: 0.05           # median |S predicted - S true|
+    misalignment_deg: 5.0           # median error of the image mean misalignment
+    aspect_ratio_rel: 0.15          # median relative error of the image median aspect ratio
+    flake_orientation_deg: 5.0      # median orientation error of matched flakes (IoU >= 0.5)
+  consistency_tolerances:           # Ti64: the image rotated by 90 deg must give the same numbers, rotated
+    mean_direction_deg: 3.0
+    order_parameter: 0.03
+    aspect_ratio_rel: 0.05
+  scratch_tolerances:              # Ti64_scratched: measurements on a scratched copy vs on the clean original
+    mean_direction_deg: 3.0
+    order_parameter: 0.03
+    aspect_ratio_rel: 0.05
+  target: {metric: worst_tolerance_ratio, threshold: 1.0, direction: "<="}         # lamellar_synth
+  target_real: {metric: worst_consistency_ratio, threshold: 1.0, direction: "<="}  # Ti64
+  target_scratched: {metric: worst_scratch_robustness_ratio, threshold: 1.0, direction: "<="}  # Ti64_scratched
+
+# What the inner loop evaluates on. Only the dev split; the holdout is for run.py --final.
+eval:
+  dataset: synthetic             # synthetic | 316L (grains); lamellar_synth | Ti64 | Ti64_scratched (flakes)
+  synthetic_variant: corrupted   # corrupted | clean (same ground truth)
+
+paths:
+  # The dataset folder stays outside the repository; MICROGRAPHS_DIR overrides this default.
+  dataset: ../hackathon_micrographs
+  lamellar_synth: data/lamellar_synth   # generated on first use by src/synth_lamellar.py
+  Ti64_scratched: data/Ti64_scratched   # generated once by src/scratch_paste.py (seed from OS entropy, truth hidden)
+  splits: data/splits.json
+  results: results
+  journal: JOURNAL.md

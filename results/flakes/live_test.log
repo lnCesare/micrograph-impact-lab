@@ -1,0 +1,100 @@
+adapt sem_user_live: 1 images, code 2d70afd967
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 4.47 px
+  fine flakes: analysed at 3x size; flake width now 10.0 px
+  twin: built, realism ok False (worst profile mismatch x1.80, flake shape as measured by the method x1.24)
+  warm start from pearlite_L02 (distance 0.37), ti_basketweave_ma19010080 (distance 0.49)
+  [start 0] objective 6.265 (worst family 5.414481533753766, pooled 3.4024577974494514)
+  [start 1] objective 5.951 (worst family 4.951481533753766, pooled 3.996226998952956)
+  [start 2] objective 5.951 (worst family 4.951481533753766, pooled 3.996226998952956) cached
+  twin not trusted (realism ok False, start flake recall 0.11): no search; the scaled defaults are used
+  agent review 1: reject, reading correct: unsure
+  agent plan 1: reading keep; The reject was driven mainly by the SEM data bar and by merges across thin bright beta ribs. If so, cutting the bottom ~70 rows, fixing bright-boundary polarity
+  agent round 1: params set from the drawings (twin not trusted): {'crop_bottom_px': 70, 'polarity': 'bright_boundaries', 'boundary_width_px': 1.5, 'boundary_sensitivity': 0.8, 'min_area_px': 50}
+  agent review 2: reject, reading correct: unsure
+  agent plan 2: reading keep; The rejected real drawings come from three causes that these params can reach. (1) The SEM data bar is not fully removed by crop_bottom_px=70, the second review
+  agent round 2: params set from the drawings (twin not trusted): {'crop_bottom_px': 120, 'boundary_sensitivity': 0.65, 'bridge_gaps_px': 14}
+  done in 333 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user_live/report.md
+{"sem_user_live": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_trusted": false, "set_by_eye": true, "twin_holdout_worst_family": 10.890561408940886, "consistency": 1.02, "tokens": {"input": 25269, "output": 9220}, "usd_list_price": 0.285, "seconds": 333}}
+adapt tial_lamellar_L26_live: 1 images, code 2d70afd967
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 18.44 px
+  two scales: 42% of the dark phase is in structures ~78.7 px wide; measuring the fine scale (18.44 px)
+  twin: built, realism ok False (worst profile mismatch x1.37, flake shape as measured by the method x1.36)
+  warm start from ti_basketweave_ma19010080 (distance 0.47), pearlite_L02 (distance 0.70)
+  [start 0] objective 3.289 (worst family 2.7842498458885587, pooled 2.017392444924888)
+  [start 1] objective 0.599 (worst family 0.5094804230538293, pooled 0.35840000000000033)
+  [start 2] objective 0.599 (worst family 0.5094804230538293, pooled 0.35944000000000054)
+  twin not trusted (realism ok False, start flake recall 0.82): no search; the scaled defaults are used
+  agent review 1: reject, reading correct: no
+  agent plan 1: reading regions; Most flakes in the current drawings are colony-sized packets, not lamellae, because the boundary reading uses the thin bright laths as separators and merges sim
+  agent round 1: params set from the drawings (twin not trusted): {'mode': 'regions', 'flake_width_px': 'auto', 'sigma': 1.0, 'h_px': 0.5, 'bridge_gaps_px': 0, 'min_area_px': 40, 'merge_saddle_ratio': 0.5, 'merge_max_offaxis_deg': 20.0, 'merge_min_fill': 0.9, 'flatten_px': 40, 'scratch_min_crossing_deg': 25.0, 'tile_px': 160}
+  agent review 2: reject, reading correct: no
+  agent plan 2: reading regions; With a twin rebuilt for the regions reading (abutting lamellae at 4-5 grey levels, no separating lines), the worst family and the -30 to -43% aspect-ratio bias 
+  agent round 2: params set from the drawings (twin not trusted): {'mode': 'regions', 'sigma': 0.8, 'boundary_width_px': 3.0, 'boundary_sensitivity': 0.8, 'min_area_px': 30, 'merge_max_offaxis_deg': 20.0, 'bridge_gaps_px': 0, 'scratch_min_crossing_deg': 25.0, 'scratch_min_length_px': 369, 'scratch_line_gap_px': 22}
+  done in 566 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/tial_lamellar_L26_live/report.md
+{"tial_lamellar_L26_live": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_trusted": false, "set_by_eye": true, "twin_holdout_worst_family": 3.755312821851835, "consistency": 0.32143333333333335, "tokens": {"input": 25576, "output": 8472}, "usd_list_price": 0.272, "seconds": 566}}
+adapt bainite_L06_live: 1 images, code 2d70afd967
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 23.41 px
+  two scales: 35% of the bright phase is in structures ~91.3 px wide; measuring the fine scale (23.41 px)
+  twin: built, realism ok False (worst profile mismatch x2.00, flake shape as measured by the method x1.15)
+  warm start from ti_basketweave_ma19010080 (distance 0.81), pearlite_L02 (distance 1.06)
+  [start 0] objective 2.520 (worst family 2.1862126740159327, pooled 1.3362855499979591)
+  [start 1] objective 2.030 (worst family 1.7047063969649743, pooled 1.3)
+  [start 2] objective 2.008 (worst family 1.6831965108605176, pooled 1.3)
+  twin not trusted (realism ok False, start flake recall 0.75): no search; the scaled defaults are used
+  agent review 1: reject, reading correct: no
+  agent plan 1: reading phase; The boundary reading is the main error, not any single parameter. In the TEM bainite image the bright ferrite is a connected matrix and the dark tapered plates 
+  [start 0] objective 1.228 (worst family 1.0942510351856605, pooled 0.5359999999999993)
+  [start 0] objective 1.228 (worst family 1.0942510351856605, pooled 0.5359999999999993) cached
+  [phase_offset=-0.12] objective 1.591 (worst family 1.4318788229701307, pooled 0.6358780652526538)
+  [phase_offset=-0.06] objective 1.365 (worst family 1.2252510351856616, pooled 0.5604000000000013)
+  [phase_offset=0.06] objective 1.191 (worst family 1.0602510351856609, pooled 0.5223000000000013)
+  [phase_offset=0.12] objective 1.161 (worst family 1.0342510351856615, pooled 0.5087999999999994)
+  [h_px=0.475] objective 1.162 (worst family 1.0342510351856615, pooled 0.5089999999999989)
+  [h_px=1.9] objective 1.162 (worst family 1.0342510351856615, pooled 0.5089999999999989)
+  [h_px=3.325] objective 1.163 (worst family 1.0352510351856614, pooled 0.5089999999999989)
+  [merge_saddle_ratio=0.35] objective 1.161 (worst family 1.0342510351856615, pooled 0.5087999999999994)
+  [merge_saddle_ratio=0.65] objective 1.161 (worst family 1.0342510351856615, pooled 0.5081000000000018)
+  [merge_saddle_ratio=0.8] objective 1.161 (worst family 1.0342510351856615, pooled 0.5076000000000022)
+  [merge_min_fill=0.8] objective 1.161 (worst family 1.0342510351856615, pooled 0.5076000000000022)
+  [merge_min_fill=0.97] objective 1.161 (worst family 1.0342510351856615, pooled 0.5076000000000022)
+  [sigma=1.33] objective 1.196 (worst family 1.0672510351856612, pooled 0.5153999999999996)
+  [sigma=2.66] objective 1.205 (worst family 1.0822510351856618, pooled 0.48959999999999865)
+  [min_area_px=54] objective 1.298 (worst family 1.1628788229701315, pooled 0.5423999999999978)
+  [min_area_px=216] objective 0.976 (worst family 0.8612510351856617, pooled 0.4600000000000023)
+  [flatten_px=37.94] objective 1.034 (worst family 0.9172510351856622, pooled 0.46670000000000017)
+  [flatten_px=151.76] objective 0.988 (worst family 0.8742510351856614, pooled 0.45400000000000207)
+  [random] objective 1.101 (worst family 0.9802510351856608, pooled 0.48479999999999845)
+  [random] objective 0.976 (worst family 0.8612510351856617, pooled 0.4600000000000023) cached
+  [random] objective 0.918 (worst family 0.8062510351856611, pooled 0.4455099999999989)
+  agent review 2: reject, reading correct: yes
+  agent plan 2: reading keep; The low real-image aspect ratio (about 2, against visible plate length-to-width ratios of about 8-15) comes mainly from the distance-transform watershed splitti
+  [start 0] objective 0.636 (worst family 0.5260371138648781, pooled 0.44180000000000064)
+  [h_px=0.95] objective 0.636 (worst family 0.5260371138648781, pooled 0.4400999999999996)
+  [h_px=1.5] objective 0.636 (worst family 0.5260371138648781, pooled 0.4408000000000015)
+  [h_px=2.0] objective 0.636 (worst family 0.5260371138648781, pooled 0.44180000000000064) cached
+  [h_px=2.5] objective 0.636 (worst family 0.5260371138648781, pooled 0.44180000000000064)
+  [h_px=3.5] objective 0.636 (worst family 0.5260371138648781, pooled 0.44180000000000064)
+  [merge_max_offaxis_deg=20] objective 0.989 (worst family 0.8770371138648783, pooled 0.4469999999999999)
+  [merge_max_offaxis_deg=30] objective 0.836 (worst family 0.7250371138648781, pooled 0.4439999999999998)
+  [merge_max_offaxis_deg=50] objective 0.617 (worst family 0.5070371138648783, pooled 0.43999999999999917)
+  [min_aspect_for_orientation=1.5] objective 0.879 (worst family 0.7692510351856618, pooled 0.43999999999999917)
+  [min_aspect_for_orientation=2.5] objective 1.450 (worst family 1.3404135149853895, pooled 0.43999999999999917)
+  real-image guard: start {'rotation': 1.6433333333333333, 'flakes_used': 342.0}, chosen {'rotation': 0.64, 'flakes_used': 200.0}: chosen kept
+  done in 806 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/bainite_L06_live/report.md
+{"bainite_L06_live": {"mode": "phase", "mode_reason": "switched by the agent after review 1: The real image is a TEM bright-field micrograph of bainite (0.2 \u00b5m bar). It shows bright ferrite between discrete dark lenticular plates at roughly 30\u00b0. The plates vary in width, taper and stop part-way, so they are not continuous thin boundary lines. That makes the boundary reading a poor fit: the ", "twin_trusted": true, "set_by_eye": false, "twin_holdout_worst_family": 0.9057702021217251, "consistency": 0.64, "tokens": {"input": 30431, "output": 8358}, "usd_list_price": 0.289, "seconds": 806}}
+adapt needles_L23_live: 1 images, code 2d70afd967
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 4.0 px
+  twin: built, realism ok False (worst profile mismatch x1.41, flake shape as measured by the method x1.32)
+  warm start from duplex_bands_mixed (distance 1.55), colour_lamellar_ma16020804 (distance 1.76)
+  [start 0] objective 4.191 (worst family 3.5049170653706887, pooled 2.7441982529722586)
+  [start 1] objective 5.449 (worst family 4.678047065370689, pooled 3.0843908898681827)
+  [start 2] objective 5.331 (worst family 4.525817065370687, pooled 3.2223307295595878)
+  twin not trusted (realism ok False, start flake recall 0.98): no search; the scaled defaults are used
+  agent review 1: reject, reading correct: no
+  agent plan 1: reading phase; The rejected drawing measured the wrong phase. Switching flake_phase from dark to bright should make the coloured flakes coincide with the long bright primary-c
+  agent round 1: params set from the drawings (twin not trusted): {'mode': 'phase', 'flake_phase': 'bright', 'min_area_px': 200, 'min_aspect_for_orientation': 3.0, 'gb_alpha_length_factor': 0, 'detect_scratches': False, 'sigma': 1.5, 'phase_offset': 0.05}
+  agent review 2: reject, reading correct: yes
+  agent plan 2: reading keep; Raising min_area_px from 200 to 500, raising phase_offset from 0.05 to 0.10, and narrowing merge_max_offaxis_deg from 30 to 15 will remove most coloured eutecti
+  agent round 2: params set from the drawings (twin not trusted): {'min_area_px': 500, 'phase_offset': 0.1, 'merge_max_offaxis_deg': 15}
+  done in 283 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/needles_L23_live/report.md
+{"needles_L23_live": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_trusted": false, "set_by_eye": true, "twin_holdout_worst_family": 15.388977463723078, "consistency": 0.3966666666666667, "tokens": {"input": 24737, "output": 8042}, "usd_list_price": 0.26, "seconds": 283}}

@@ -1,0 +1,159 @@
+{
+  "lamellar_synth": {
+    "time": "2026-11-17T06:04:40",
+    "best_iteration": 8,
+    "method": "flakes",
+    "params": {},
+    "dev": {
+      "median_direction_error_deg": 0.25001487606290596,
+      "median_order_abs_error": 0.011920388409070087,
+      "median_order_bias": -0.011920388409070087,
+      "median_misalignment_abs_error_deg": 0.6114057519872,
+      "median_aspect_ratio_rel_error": 0.029314172272108543,
+      "median_aspect_ratio_bias": -0.01188175399644742,
+      "median_flake_orientation_error_deg": 1.4499999999999886,
+      "flake_recall": 0.9448247422680413,
+      "flake_precision": 0.9315549609064682,
+      "median_image_flake_recall": 0.9665681299963049,
+      "n_images": 24,
+      "n_images_direction": 20,
+      "shape_population": {
+        "matched": 0.9288068388647297,
+        "fragment": 0.039059425583715564,
+        "merged": 0.0032339869281045753,
+        "gb_alpha": 0.012524721603563474,
+        "on_boundary": 0.0
+      },
+      "matched_aspect_ratio_ratio": 1.0459503688348266,
+      "tolerance_ratios": {
+        "mean_direction_deg": 0.050002975212581194,
+        "order_parameter": 0.23840776818140175,
+        "misalignment_deg": 0.12228115039744,
+        "aspect_ratio_rel": 0.1954278151473903,
+        "flake_orientation_deg": 0.2899999999999977
+      },
+      "worst_tolerance_ratio": 0.2899999999999977,
+      "n_images_without_truth": 0,
+      "scratch_precision": 0.9198808292004139,
+      "scratch_recall_crossing": 0.8175029305440565,
+      "scratch_recall_parallel": 0.27349470238607976,
+      "worst_family_tolerance_ratio": 0.6571163316318879
+    },
+    "holdout": {
+      "median_direction_error_deg": 0.12107681201900533,
+      "median_order_abs_error": 0.012722250484853925,
+      "median_order_bias": -0.012722250484853925,
+      "median_misalignment_abs_error_deg": 0.5029165181847972,
+      "median_aspect_ratio_rel_error": 0.03377648472911511,
+      "median_aspect_ratio_bias": -0.02498488964581483,
+      "median_flake_orientation_error_deg": 1.4269999999999925,
+      "flake_recall": 0.9594511390623626,
+      "flake_precision": 0.9518826580806725,
+      "median_image_flake_recall": 0.9568507462686566,
+      "n_images": 12,
+      "n_images_direction": 11,
+      "shape_population": {
+        "matched": 0.9502463033159171,
+        "fragment": 0.026106048027830234,
+        "merged": 0.0036978230894580705,
+        "gb_alpha": 0.012224264705882353,
+        "on_boundary": 0.0027568779449764404
+      },
+      "matched_aspect_ratio_ratio": 0.99361894976061,
+      "tolerance_ratios": {
+        "mean_direction_deg": 0.024215362403801066,
+        "order_parameter": 0.2544450096970785,
+        "misalignment_deg": 0.10058330363695944,
+        "aspect_ratio_rel": 0.22517656486076743,
+        "flake_orientation_deg": 0.2853999999999985
+      },
+      "worst_tolerance_ratio": 0.2853999999999985,
+      "n_images_without_truth": 0,
+      "scratch_precision": 0.8762958399185663,
+      "scratch_recall_crossing": 0.7752012936136163,
+      "scratch_recall_parallel": 0.21110264051562824,
+      "worst_family_tolerance_ratio": 0.5995058230239251
+    },
+    "gap": {
+      "median_direction_error_deg": -0.12893806404390062,
+      "median_order_abs_error": 0.000801862075783838,
+      "median_order_bias": -0.000801862075783838,
+      "median_misalignment_abs_error_deg": -0.10848923380240283,
+      "median_aspect_ratio_rel_error": 0.0044623124570065675,
+      "median_aspect_ratio_bias": -0.013103135649367409,
+      "median_flake_orientation_error_deg": -0.022999999999996135,
+      "flake_recall": 0.014626396794321317,
+      "flake_precision": 0.02032769717420435,
+      "median_image_flake_recall": -0.009717383727648299,
+      "n_images": -12,
+      "n_images_direction": -9,
+      "matched_aspect_ratio_ratio": -0.05233141907421657,
+      "worst_tolerance_ratio": -0.004599999999999216,
+      "n_images_without_truth": 0,
+      "scratch_precision": -0.04358498928184762,
+      "scratch_recall_crossing": -0.0423016369304402,
+      "scratch_recall_parallel": -0.062392061870451515,
+      "worst_family_tolerance_ratio": -0.057610508607962796
+    },
+    "holdout_outputs": "final_lamellar_synth/"
+  },
+  "Ti64": {
+    "time": "2026-11-17T06:11:30",
+    "best_iteration": 9,
+    "method": "flakes",
+    "params": {},
+    "dev": {
+      "median_rotation_direction_diff_deg": 0.46855,
+      "median_rotation_order_abs_diff": 0.006,
+      "median_rotation_aspect_ratio_rel_diff": 0.0109,
+      "median_estimator_gap": 0.1403,
+      "median_order_parameter": 0.5504,
+      "median_local_order_parameter": 0.8086,
+      "median_mean_misalignment_deg": 25.7337,
+      "median_aspect_ratio": 2.801,
+      "median_n_flakes_used": 1371,
+      "total_scratches": 0,
+      "n_images": 13,
+      "consistency_ratios": {
+        "mean_direction_deg": 0.15618333333333334,
+        "order_parameter": 0.2,
+        "aspect_ratio_rel": 0.218
+      },
+      "worst_consistency_ratio": 0.218
+    },
+    "holdout": {
+      "median_rotation_direction_diff_deg": 0.2062,
+      "median_rotation_order_abs_diff": 0.0055,
+      "median_rotation_aspect_ratio_rel_diff": 0.012,
+      "median_estimator_gap": 0.1863,
+      "median_order_parameter": 0.3041,
+      "median_local_order_parameter": 0.7867,
+      "median_mean_misalignment_deg": 33.2125,
+      "median_aspect_ratio": 3.228,
+      "median_n_flakes_used": 1476,
+      "total_scratches": 0,
+      "n_images": 7,
+      "consistency_ratios": {
+        "mean_direction_deg": 0.06873333333333333,
+        "order_parameter": 0.18333333333333332,
+        "aspect_ratio_rel": 0.24
+      },
+      "worst_consistency_ratio": 0.24
+    },
+    "gap": {
+      "median_rotation_direction_diff_deg": -0.26235,
+      "median_rotation_order_abs_diff": -0.0005000000000000004,
+      "median_rotation_aspect_ratio_rel_diff": 0.0011000000000000003,
+      "median_estimator_gap": 0.045999999999999985,
+      "median_order_parameter": -0.24630000000000002,
+      "median_local_order_parameter": -0.02190000000000003,
+      "median_mean_misalignment_deg": 7.4788,
+      "median_aspect_ratio": 0.42700000000000005,
+      "median_n_flakes_used": 105,
+      "total_scratches": 0,
+      "n_images": -6,
+      "worst_consistency_ratio": 0.021999999999999992
+    },
+    "holdout_outputs": "final_Ti64/"
+  }
+}

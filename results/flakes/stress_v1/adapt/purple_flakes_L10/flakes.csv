@@ -1,0 +1,8 @@
+image,flake,orientation_deg,length_px,width_px,aspect_ratio,area_px,solidity,branched,centroid_row,centroid_col,touches_edge,crossed_by_scratch,used_for_orientation,used_for_shape,gb_alpha_like,misalignment_deg
+L10__rank046__40MIN-G500-00,1,177.1,420.2,101.9,4.124,28520,0.763,False,91.8,179.5,True,False,True,False,False,1.61
+L10__rank046__40MIN-G500-00,2,177.9,315.5,89.21,3.537,18900,0.748,False,87.6,501.1,True,False,True,False,False,0.83
+L10__rank046__40MIN-G500-00,3,0.88,670.2,41.56,16.13,18012,0.614,False,190,319.6,True,False,True,False,False,2.17
+L10__rank046__40MIN-G500-00,4,178.9,774.7,46.42,16.69,21719,0.594,False,291.1,338.6,True,False,True,False,False,0.2
+L10__rank046__40MIN-G500-00,5,178.7,714.2,60.08,11.89,29131,0.729,False,370,287.6,True,False,True,False,False,0.06
+L10__rank046__40MIN-G500-00,6,0.79,114.8,34.7,3.308,2535,0.701,False,430.5,190.4,False,False,True,True,False,2.08
+L10__rank046__40MIN-G500-00,7,179.7,430.4,54.67,7.872,14782,0.748,False,456.7,468.6,True,False,True,False,False,1.03

@@ -1,0 +1,52 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.DS_Store
+.idea/
+.env
+
+# The dataset stays outside the repository; only data/sample/ is committed.
+data/*
+!data/sample/
+
+# run.py --dry-run output
+results/_dry_run/
+!data/splits.json
+
+# label images can be regenerated from method + params; overlays, predictions.csv and JSON stay
+results/**/labels/
+
+# Overlays of the synthetic set are near-copies of its images, which are not redistributed (provenance unconfirmed).
+# They stay on disk for the reviewer. 316L overlays (CC BY 4.0) are committed.
+# A new synthetic iteration must be added to this list.
+results/baseline/synthetic/outputs/overlays/
+results/iter_001/outputs/overlays/
+results/iter_002/outputs/overlays/
+results/iter_003/outputs/overlays/
+results/iter_004/outputs/overlays/
+results/iter_005/outputs/overlays/
+results/iter_009/outputs/overlays/
+results/iter_010/outputs/overlays/
+results/final_synthetic/outputs/overlays/
+
+# Local shell file with the API key: never commit it
+.zshrc
+
+# Shows a synthetic holdout image: not redistributed
+what_the_method_does.png
+# Figures of synthetic images: not redistributed (docs/before_after_synthetic.png is committed with the scientist's agreement).
+before_after.png
+
+# Flakes: dry runs, and the resampled disks of the consistency check (regenerated on every run)
+results/flakes/_dry_run/
+results/**/rotated/
+# per-flake tables of loop iterations are ~2 MB each; regenerate them from plan.json params (baseline and final are kept)
+results/flakes/iter_*/outputs/flakes.csv
+
+# Flakes adapt tool: regenerable intermediates (enlarged copies of the inputs, guard and first-pass measurements)
+results/**/upsampled/
+results/**/guard/
+results/**/first_pass/
+# the scientist's own SEM image, to reproduce results/flakes/adapt/sem_user*
+!data/user/

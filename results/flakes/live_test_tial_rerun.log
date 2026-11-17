@@ -1,0 +1,18 @@
+adapt tial_lamellar_L26_live: 1 images, code 2d70afd967
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 18.44 px
+  two scales: 42% of the dark phase is in structures ~78.7 px wide; measuring the fine scale (18.44 px)
+  twin: reused
+  warm start from ti_basketweave_ma19010080 (distance 0.47), pearlite_L02 (distance 0.70)
+  [start 0] objective 3.289 (worst family 2.7842498458885587, pooled 2.017392444924888) cached
+  [start 1] objective 0.599 (worst family 0.5094804230538293, pooled 0.35840000000000033) cached
+  [start 2] objective 0.599 (worst family 0.5094804230538293, pooled 0.35944000000000054) cached
+  twin not trusted (realism ok False, start flake recall 0.82): no search; the scaled defaults are used
+  agent review 1: reject, reading correct: no
+  agent plan 1: reading regions; The boundary reading is what merges touching lamellae into wide blocks on this image, which looks like back-scattered-electron (BSE) TiAl. If so, the regions re
+  [start 0] objective 3.053 (worst family 2.5615637302052803, pooled 1.9657346885835878)
+  agent review 2: reject, reading correct: yes
+  agent plan 2: reading keep; On the real image, the two faults the reviewer saw have separate causes. Equiaxed white or dark patches counted as flakes come from min_aspect_for_orientation =
+  agent round 2: params set from the drawings (twin not trusted): {'min_aspect_for_orientation': 2.0, 'sigma': 0.8}
+  real-image guard: start {'rotation': 0.5478666666666666, 'flakes_used': 4199.0}, chosen {'rotation': 0.5824666666666667, 'flakes_used': 4002.0}: chosen kept
+  done in 532 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/tial_lamellar_L26_live/report.md
+{"tial_lamellar_L26_live": {"mode": "regions", "mode_reason": "switched by the agent after review 1: Confidence about 0.7. The real micrograph looks like a back-scattered electron image of lamellar TiAl/Ti. Lamellae appear as strips of several grey levels (white, light grey, dark grey, black) that touch each other. There are no thin dark boundary lines between them. The boundary reading (flakes bet", "twin_trusted": false, "set_by_eye": true, "twin_holdout_worst_family": 2.4719977921793665, "consistency": 0.5824666666666667, "tokens": {"input": 24394, "output": 8039}, "usd_list_price": 0.258, "seconds": 532}}

@@ -1,0 +1,18 @@
+adapt sem_user_live: 1 images, code ee7e0ea300
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 4.0 px
+  fine flakes: analysed at 3x size; flake width now 8.25 px
+  twin: reused
+  warm start from pearlite_L02 (distance 0.38), ti64_dev (distance 0.51)
+  [start 0] objective 6.265 (worst family 5.414481533753766, pooled 3.4024577974494514)
+  [start 1] objective 10.553 (worst family 9.025481533753766, pooled 6.111790547994129)
+  [start 2] objective 6.246 (worst family 5.4694815337537666, pooled 3.1064563346256056)
+  twin not trusted (realism ok False, start flake recall 0.30): no search; the scaled defaults are used
+  agent review 1: reject, reading correct: yes
+  agent plan 1: reading keep; If the over-merging the reviewer saw in the upper half (regions spanning many parallel laths, real median width 17 px against about 10 px measured lath spacing)
+  agent round 1: params set from the drawings (twin not trusted): {'polarity': 'bright_boundaries', 'boundary_width_px': 2.0, 'boundary_sensitivity': 0.8, 'scratch_min_crossing_deg': 20, 'scratch_min_length_px': 500}
+  agent review 2: reject, reading correct: yes
+  agent plan 2: reading keep; On the real BSE image, the lengthwise cutting of laths (median AR about 2.1) comes mainly from the distance-transform watershed with the low h_px=0.5 and from t
+  agent round 2: params set from the drawings (twin not trusted): {'h_px': 1.5, 'bridge_gaps_px': 12, 'min_area_px': 50, 'boundary_sensitivity': 0.7}
+  real-image guard: start {'rotation': 0.4545333333333333, 'flakes_used': 1303.0}, chosen {'rotation': 0.9700000000000001, 'flakes_used': 1591.0}: chosen kept
+  done in 359 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user_live/report.md
+{"sem_user_live": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_trusted": false, "set_by_eye": true, "twin_holdout_worst_family": 9.568561408940887, "consistency": 0.9700000000000001, "tokens": {"input": 24937, "output": 8273}, "usd_list_price": 0.265, "seconds": 359}}

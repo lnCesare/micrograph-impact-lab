@@ -1,0 +1,184 @@
+{
+  "ok": true,
+  "dataset": "Ti64_scratched",
+  "split": "dev",
+  "method": "flakes",
+  "params": {},
+  "code_version": "16247f132c",
+  "n_images": 13,
+  "metrics": {
+    "median_scratch_direction_shift_deg": 0.046299999999999994,
+    "median_scratch_order_shift": 0.0012,
+    "median_scratch_aspect_ratio_shift": 0.0021,
+    "scratch_robustness_ratios": {
+      "mean_direction_deg": 0.015433333333333332,
+      "order_parameter": 0.04,
+      "aspect_ratio_rel": 0.041999999999999996
+    },
+    "worst_scratch_robustness_ratio": 0.041999999999999996,
+    "median_scratch_direction_shift_deg_no_handling": 0.046299999999999994,
+    "median_scratch_order_shift_no_handling": 0.0012,
+    "median_scratch_aspect_ratio_shift_no_handling": 0.003,
+    "scratch_robustness_ratios_no_handling": {
+      "mean_direction_deg": 0.015433333333333332,
+      "order_parameter": 0.04,
+      "aspect_ratio_rel": 0.06
+    },
+    "worst_scratch_robustness_ratio_no_handling": 0.06,
+    "scratch_precision": 0.9621380846325167,
+    "scratch_recall_crossing": 0.029635111087619147,
+    "scratch_recall_parallel": 0.0016085790884718498,
+    "median_flakes_used_change": -0.0007,
+    "n_images": 13
+  },
+  "by_family": {},
+  "per_image": {
+    "Ti64_21": {
+      "order_shift": 0.0008,
+      "direction_shift_deg": 0.0314,
+      "aspect_ratio_shift": 0.0004,
+      "order_shift_no_handling": 0.0008,
+      "direction_shift_deg_no_handling": 0.0314,
+      "aspect_ratio_shift_no_handling": 0.0004,
+      "flakes_used_change": -0.0062,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_22": {
+      "order_shift": 0.0007,
+      "direction_shift_deg": 0.0107,
+      "aspect_ratio_shift": 0.0044,
+      "order_shift_no_handling": 0.0007,
+      "direction_shift_deg_no_handling": 0.0107,
+      "aspect_ratio_shift_no_handling": 0.0044,
+      "flakes_used_change": -0.0007,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_23": {
+      "order_shift": 0.0,
+      "direction_shift_deg": 0.4268,
+      "aspect_ratio_shift": 0.0044,
+      "order_shift_no_handling": 0.0,
+      "direction_shift_deg_no_handling": 0.4268,
+      "aspect_ratio_shift_no_handling": 0.0044,
+      "flakes_used_change": 0.0057,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_24": {
+      "order_shift": 0.0009,
+      "direction_shift_deg": 0.0243,
+      "aspect_ratio_shift": 0.0009,
+      "order_shift_no_handling": 0.0009,
+      "direction_shift_deg_no_handling": 0.0243,
+      "aspect_ratio_shift_no_handling": 0.0009,
+      "flakes_used_change": 0.0012,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_28": {
+      "order_shift": 0.0018,
+      "direction_shift_deg": 0.4014,
+      "aspect_ratio_shift": 0.0006,
+      "order_shift_no_handling": 0.0018,
+      "direction_shift_deg_no_handling": 0.4014,
+      "aspect_ratio_shift_no_handling": 0.0006,
+      "flakes_used_change": -0.0072,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_29": {
+      "order_shift": 0.0032,
+      "direction_shift_deg": 0.3139,
+      "aspect_ratio_shift": 0.0047,
+      "order_shift_no_handling": 0.0032,
+      "direction_shift_deg_no_handling": 0.3139,
+      "aspect_ratio_shift_no_handling": 0.0047,
+      "flakes_used_change": 0.0093,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_32": {
+      "order_shift": 0.0003,
+      "aspect_ratio_shift": 0.0015,
+      "order_shift_no_handling": 0.0066,
+      "aspect_ratio_shift_no_handling": 0.0031,
+      "flakes_used_change": -0.0024,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.0608
+    },
+    "Ti64_33": {
+      "order_shift": 0.0026,
+      "direction_shift_deg": 0.0869,
+      "aspect_ratio_shift": 0.0008,
+      "order_shift_no_handling": 0.0026,
+      "direction_shift_deg_no_handling": 0.0869,
+      "aspect_ratio_shift_no_handling": 0.0008,
+      "flakes_used_change": 0.0007,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_34": {
+      "order_shift": 0.001,
+      "direction_shift_deg": 0.0435,
+      "aspect_ratio_shift": 0.002,
+      "order_shift_no_handling": 0.001,
+      "direction_shift_deg_no_handling": 0.0435,
+      "aspect_ratio_shift_no_handling": 0.002,
+      "flakes_used_change": -0.0022,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_36": {
+      "order_shift": 0.0049,
+      "aspect_ratio_shift": 0.0021,
+      "order_shift_no_handling": 0.0047,
+      "aspect_ratio_shift_no_handling": 0.0079,
+      "flakes_used_change": 0.0024,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.1121
+    },
+    "Ti64_37": {
+      "order_shift": 0.0018,
+      "direction_shift_deg": 0.0423,
+      "aspect_ratio_shift": 0.003,
+      "order_shift_no_handling": 0.0018,
+      "direction_shift_deg_no_handling": 0.0423,
+      "aspect_ratio_shift_no_handling": 0.003,
+      "flakes_used_change": 0.0027,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_38": {
+      "order_shift": 0.0015,
+      "aspect_ratio_shift": 0.0023,
+      "order_shift_no_handling": 0.0006,
+      "aspect_ratio_shift_no_handling": 0.0,
+      "flakes_used_change": -0.0037,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.234
+    },
+    "Ti64_39": {
+      "order_shift": 0.0012,
+      "direction_shift_deg": 0.0491,
+      "aspect_ratio_shift": 0.0138,
+      "order_shift_no_handling": 0.0012,
+      "direction_shift_deg_no_handling": 0.0491,
+      "aspect_ratio_shift_no_handling": 0.0138,
+      "flakes_used_change": -0.0046,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    }
+  },
+  "checks": {
+    "every_image_has_flakes": true,
+    "order_parameter_in_range": true
+  },
+  "overlays": [
+    "outputs/overlays/Ti64_21.jpg",
+    "outputs/overlays/Ti64_28.jpg",
+    "outputs/overlays/Ti64_34.jpg"
+  ],
+  "seconds": 174.24
+}

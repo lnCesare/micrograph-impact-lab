@@ -1,0 +1,160 @@
+adapt sem_user: 1 images, code bda0a7c33b
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 4.47 px
+  fine flakes: analysed at 3x size; flake width now 10.0 px
+  twin: built, realism ok False (worst profile mismatch x1.80, flake shape as measured by the method x1.77)
+  [start 0] objective 0.814 (worst family 0.6888331839301987, pooled 0.5009431187309077) cached
+  twin not trusted (realism ok False, start flake recall 0.98): no search; the scaled defaults are used
+  done in 50 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user/report.md
+{"sem_user": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.589, "twin_structure_mismatch": 0.572, "twin_trusted": false, "upsample_factor": 3, "twin_holdout_worst_family": 0.9324041621486057, "twin_holdout_pooled": 0.3953449147076171, "consistency": 0.4545333333333333, "consistency_ratios": {"mean_direction_deg": 0.4545333333333333, "order_parameter": 0.21333333333333335, "aspect_ratio_rel": 0.218}, "median_n_flakes_used": 944, "warm_started_from": null, "seconds": 50}}
+adapt ti64_dev: 13 images, code bda0a7c33b
+  profile: boundaries (minority phase is a connected thin network); flake width 10.0 px
+  twin: built, realism ok True (worst profile mismatch x1.07, flake shape as measured by the method x1.25)
+  [start 0] objective 0.997 (worst family 0.8725503077587293, pooled 0.49913353364612223)
+  [start 0] objective 0.997 (worst family 0.8725503077587293, pooled 0.49913353364612223) cached
+  [boundary_sensitivity=0.7] objective 0.832 (worst family 0.7175503077587297, pooled 0.45653700492235605)
+  [boundary_sensitivity=0.85] objective 0.883 (worst family 0.7605503077587294, pooled 0.490133533646121)
+  [boundary_sensitivity=1.0] objective 0.997 (worst family 0.8725503077587293, pooled 0.49913353364612223) cached
+  [boundary_sensitivity=1.2] objective 1.079 (worst family 0.9245503077587303, pooled 0.6167306534145323)
+  [boundary_sensitivity=1.4] objective 1.122 (worst family 0.9705503077587296, pooled 0.6040134077442494)
+  [bridge_gaps_px=0] objective 0.844 (worst family 0.7205503077587294, pooled 0.49281975925207333)
+  [bridge_gaps_px=4] objective 0.834 (worst family 0.7195503077587295, pooled 0.45781975925207274)
+  [bridge_gaps_px=14] objective 0.935 (worst family 0.8185503077587286, pooled 0.46473065341453124)
+  [bridge_gaps_px=20] objective 0.954 (worst family 0.835550307758729, pooled 0.47313353364612176)
+  [h_px=0.25] objective 0.928 (worst family 0.7875503077587298, pooled 0.5614168790204832)
+  [h_px=1.0] objective 0.732 (worst family 0.633550307758729, pooled 0.39400000000000046)
+  [h_px=3.5] objective 0.542 (worst family 0.4475503077587295, pooled 0.3779999999999973)
+  [merge_saddle_ratio=0.35] objective 0.542 (worst family 0.4475503077587295, pooled 0.3779999999999973)
+  [merge_saddle_ratio=0.65] objective 0.586 (worst family 0.4915503077587291, pooled 0.3780000000000001)
+  [merge_saddle_ratio=0.8] objective 0.620 (worst family 0.5244365262232871, pooled 0.3804000000000002)
+  [merge_min_fill=0.8] objective 0.542 (worst family 0.4475503077587295, pooled 0.3779999999999973)
+  [merge_min_fill=0.97] objective 0.542 (worst family 0.4475503077587295, pooled 0.37790999999999875)
+  [sigma=0.7] objective 0.508 (worst family 0.4123999999999981, pooled 0.3831999999999994)
+  [sigma=0.98] objective 0.546 (worst family 0.4515503077587302, pooled 0.37600000000000194)
+  [boundary_width_px=1.75] objective 0.571 (worst family 0.47455030775872986, pooled 0.3839999999999975)
+  [boundary_width_px=3.5] objective 0.567 (worst family 0.47355030775872886, pooled 0.3745999999999981)
+  [min_area_px=15] objective 0.508 (worst family 0.4123999999999981, pooled 0.3832000000000001)
+  [min_area_px=60] objective 0.506 (worst family 0.41059999999999947, pooled 0.37999999999999545)
+  [scratch_min_contrast_fraction=0.25] objective 0.503 (worst family 0.4079999999999998, pooled 0.379200000000003)
+  [scratch_min_contrast_fraction=0.35] objective 0.506 (worst family 0.41059999999999947, pooled 0.37999999999999545) cached
+  [scratch_min_contrast_fraction=0.5] objective 0.506 (worst family 0.41059999999999947, pooled 0.37999999999999545)
+  [random] objective 0.509 (worst family 0.41399999999999865, pooled 0.38199999999999934)
+  [random] objective 0.504 (worst family 0.4089999999999982, pooled 0.3794000000000011)
+  [random] objective 0.503 (worst family 0.4079999999999998, pooled 0.37920000000000015)
+  [random] objective 0.547 (worst family 0.4515503077587302, pooled 0.3800000000000011)
+  [random] objective 0.503 (worst family 0.4079999999999998, pooled 0.37999999999999545)
+  [random] objective 0.485 (worst family 0.3943000000000012, pooled 0.36399999999999866)
+  done in 839 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/ti64_dev/report.md
+{"ti64_dev": {"mode": "boundaries", "mode_reason": "minority phase is a connected thin network", "twin_realism_ok": true, "twin_profile_mismatch": 0.063, "twin_structure_mismatch": 0.223, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 0.43289999999999934, "twin_holdout_pooled": 0.35800000000000126, "consistency": 0.19499999999999998, "consistency_ratios": {"mean_direction_deg": 0.08086666666666666, "order_parameter": 0.125, "aspect_ratio_rel": 0.19499999999999998}, "median_n_flakes_used": 667.0, "warm_started_from": null, "seconds": 839}}
+adapt banded_islands_ma17081847: 7 images, code bda0a7c33b
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 13.42 px
+  twin: built, realism ok False (worst profile mismatch x1.27, flake shape as measured by the method x1.74)
+  warm start from ti64_dev (distance 5.92)
+  [start 0] objective 0.629 (worst family 0.5376633539810867, pooled 0.36599999999999683)
+  [start 1] objective 1.016 (worst family 0.8919346563861554, pooled 0.4974179018184585)
+  twin not trusted (realism ok False, start flake recall 0.97): no search; the scaled defaults are used
+  done in 90 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/banded_islands_ma17081847/report.md
+{"banded_islands_ma17081847": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": false, "twin_profile_mismatch": 0.241, "twin_structure_mismatch": 0.553, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 0.6606451612903224, "twin_holdout_pooled": 0.36259999999999765, "consistency": 0.5129999999999999, "consistency_ratios": {"mean_direction_deg": 0.16396666666666668, "order_parameter": 0.45000000000000007, "aspect_ratio_rel": 0.5129999999999999}, "median_n_flakes_used": 147.0, "warm_started_from": "ti64_dev (distance 5.92)", "seconds": 90}}
+adapt ti_basketweave_ma19010080: 4 images, code bda0a7c33b
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 15.22 px
+  twin: built, realism ok False (worst profile mismatch x1.66, flake shape as measured by the method x1.67)
+  warm start from ti64_dev (distance 0.74)
+  [start 0] objective 1.255 (worst family 1.0471484075522663, pooled 0.8318489111834626)
+  [start 1] objective 0.663 (worst family 0.5607142631045646, pooled 0.4072000000000003)
+  twin not trusted (realism ok False, start flake recall 0.75): no search; the scaled defaults are used
+  done in 75 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/ti_basketweave_ma19010080/report.md
+{"ti_basketweave_ma19010080": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.509, "twin_structure_mismatch": 0.513, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 1.0986137403800167, "twin_holdout_pooled": 0.6624376844016466, "consistency": 1.1666666666666667, "consistency_ratios": {"mean_direction_deg": null, "order_parameter": 1.1666666666666667, "aspect_ratio_rel": 0.67}, "median_n_flakes_used": 221.5, "warm_started_from": "ti64_dev (distance 0.74)", "seconds": 75}}
+adapt colour_lamellar_ma16020804: 3 images, code bda0a7c33b
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 4.47 px
+  fine flakes: analysed at 3x size; flake width now 12.17 px
+  twin: built, realism ok False (worst profile mismatch x1.53, flake shape as measured by the method x2.50)
+  warm start from ti64_dev (distance 5.85)
+  [start 0] objective 1.226 (worst family 1.0860676523686879, pooled 0.5590326429361796)
+  [start 1] objective 1.528 (worst family 1.268521903323666, pooled 1.0365696639022408)
+  twin not trusted (realism ok False, start flake recall 0.98): no search; the scaled defaults are used
+  done in 103 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/colour_lamellar_ma16020804/report.md
+{"colour_lamellar_ma16020804": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": false, "twin_profile_mismatch": 0.427, "twin_structure_mismatch": 0.918, "twin_trusted": false, "upsample_factor": 3, "twin_holdout_worst_family": 1.1574200187657007, "twin_holdout_pooled": 0.6108356846468093, "consistency": 0.38666666666666666, "consistency_ratios": {"mean_direction_deg": 0.09763333333333334, "order_parameter": 0.38666666666666666, "aspect_ratio_rel": 0.32399999999999995}, "median_n_flakes_used": 789, "warm_started_from": "ti64_dev (distance 5.85)", "seconds": 103}}
+adapt duplex_bands_mixed: 4 images, code bda0a7c33b
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 10.385 px
+  twin: built, realism ok False (worst profile mismatch x1.19, flake shape as measured by the method x1.55)
+  warm start from ti64_dev (distance 5.65)
+  [start 0] objective 0.463 (worst family 0.38109271176863685, pooled 0.3282402836649646)
+  [start 1] objective 1.688 (worst family 1.4242099134886026, pooled 1.0549742261756399)
+  twin not trusted (realism ok False, start flake recall 0.99): no search; the scaled defaults are used
+  done in 110 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/duplex_bands_mixed/report.md
+{"duplex_bands_mixed": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": false, "twin_profile_mismatch": 0.176, "twin_structure_mismatch": 0.438, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 0.4635998182505578, "twin_holdout_pooled": 0.3100000000000023, "consistency": 0.953, "consistency_ratios": {"mean_direction_deg": 0.07971666666666667, "order_parameter": 0.051666666666666666, "aspect_ratio_rel": 0.953}, "median_n_flakes_used": 336.5, "warm_started_from": "ti64_dev (distance 5.65)", "seconds": 110}}
+adapt purple_flakes_L10: 1 images, code bda0a7c33b
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 30.07 px
+  twin: built, realism ok True (worst profile mismatch x1.26, flake shape as measured by the method x1.29)
+  warm start from ti64_dev (distance 6.44)
+  [start 0] objective 1.846 (worst family 1.6010022558406183, pooled 0.9802826442535006)
+  [start 1] objective 1.775 (worst family 1.592673872728098, pooled 0.7280272834417272)
+  [start 0] objective 1.846 (worst family 1.6010022558406183, pooled 0.9802826442535006) cached
+  [start 1] objective 1.775 (worst family 1.592673872728098, pooled 0.7280272834417272) cached
+  [phase_offset=-0.12] objective 2.466 (worst family 2.215983129961642, pooled 0.9981069985370657)
+  [phase_offset=-0.06] objective 2.039 (worst family 1.8437615489850023, pooled 0.7826726451549715)
+  [phase_offset=0.06] objective 2.666 (worst family 2.458983129961642, pooled 0.8266726451549711)
+  [phase_offset=0.12] objective 2.360 (worst family 2.1859831299616417, pooled 0.6946279253570875)
+  [h_px=7.194] objective 1.461 (worst family 1.2372000000000014, pooled 0.893505226786368)
+  [h_px=14.388] objective 1.775 (worst family 1.592673872728098, pooled 0.7280272834417272) cached
+  [h_px=25.179] objective 9.666 (worst family 9.327238451014997, pooled 1.355714489668811)
+  [merge_saddle_ratio=0.35] objective 1.461 (worst family 1.2372000000000014, pooled 0.893505226786368)
+  [merge_saddle_ratio=0.65] objective 1.461 (worst family 1.2372000000000014, pooled 0.893505226786368)
+  [merge_saddle_ratio=0.8] objective 1.461 (worst family 1.2372000000000014, pooled 0.893505226786368)
+  [merge_min_fill=0.8] objective 1.461 (worst family 1.2372000000000014, pooled 0.893505226786368)
+  [merge_min_fill=0.9] objective 1.461 (worst family 1.2372000000000014, pooled 0.893505226786368)
+  [sigma=1.473] objective 1.899 (worst family 1.6789831299616413, pooled 0.8804165113163676)
+  [sigma=2.947] objective 1.813 (worst family 1.5779148541521582, pooled 0.939672645154972)
+  [min_area_px=272] objective 1.717 (worst family 1.4939976151946996, pooled 0.893505226786368)
+  [min_area_px=1086] objective 2.440 (worst family 2.2693726848813984, pooled 0.6813147422078947)
+  [flatten_px=60.14] objective 1.832 (worst family 1.6065623725455647, pooled 0.8999228593075559)
+  [flatten_px=240.56] objective 1.778 (worst family 1.547800000000001, pooled 0.9190215995457818)
+  [random] objective 1.604 (worst family 1.381200000000001, pooled 0.8905052267863683)
+  [random] objective 1.604 (worst family 1.3649831299616415, pooled 0.9566726451549712)
+  [random] objective 1.605 (worst family 1.381200000000001, pooled 0.893505226786368)
+  done in 239 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/purple_flakes_L10/report.md
+{"purple_flakes_L10": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": true, "twin_profile_mismatch": 0.23, "twin_structure_mismatch": 0.251, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 1.9102807041436787, "twin_holdout_pooled": 1.1913143436501017, "consistency": 3.178, "consistency_ratios": {"mean_direction_deg": 0.5065666666666667, "order_parameter": 0.08, "aspect_ratio_rel": 3.178}, "median_n_flakes_used": 20, "warm_started_from": "ti64_dev (distance 6.44)", "seconds": 239}}
+adapt tial_lamellar_L26: 1 images, code bda0a7c33b
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 18.44 px
+  twin: built, realism ok False (worst profile mismatch x1.49, flake shape as measured by the method x1.65)
+  warm start from ti64_dev (distance 0.93)
+  [start 0] objective 2.591 (worst family 2.113700478030714, pooled 1.91093567696042)
+  [start 1] objective 0.636 (worst family 0.5296182572939134, pooled 0.42400000000000093)
+  twin not trusted (realism ok False, start flake recall 0.77): no search; the scaled defaults are used
+  done in 263 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/tial_lamellar_L26/report.md
+{"tial_lamellar_L26": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.399, "twin_structure_mismatch": 0.503, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 2.137444597771603, "twin_holdout_pooled": 1.7625631675920206, "consistency": 0.974, "consistency_ratios": {"mean_direction_deg": 0.0159, "order_parameter": 0.73, "aspect_ratio_rel": 0.974}, "median_n_flakes_used": 989, "warm_started_from": "ti64_dev (distance 0.93)", "seconds": 263}}
+adapt pearlite_L02: 1 images, code bda0a7c33b
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 10.0 px
+  twin: built, realism ok False (worst profile mismatch x2.30, flake shape as measured by the method x1.28)
+  warm start from ti64_dev (distance 0.51)
+  [start 0] objective 1.170 (worst family 0.9509277654716807, pooled 0.8763458458979227)
+  [start 1] objective 0.493 (worst family 0.39919999999999617, pooled 0.3759999999999991)
+  twin not trusted (realism ok False, start flake recall 0.89): no search; the scaled defaults are used
+  done in 82 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/pearlite_L02/report.md
+{"pearlite_L02": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.834, "twin_structure_mismatch": 0.25, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 1.3330087901329435, "twin_holdout_pooled": 0.7689252134915139, "consistency": 4.21, "consistency_ratios": {"mean_direction_deg": 2.3293333333333335, "order_parameter": 4.21, "aspect_ratio_rel": 0.005999999999999999}, "median_n_flakes_used": 368, "warm_started_from": "ti64_dev (distance 0.51)", "seconds": 82}}
+adapt needles_L23: 1 images, code bda0a7c33b
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 4.0 px
+  twin: built, realism ok False (worst profile mismatch x1.03, flake shape as measured by the method x1.91)
+  warm start from ti64_dev (distance 6.12)
+  [start 0] objective 4.333 (worst family 3.517627794011625, pooled 3.2620592688851286)
+  [start 1] objective 4.717 (worst family 3.805450871221526, pooled 3.647611394539842)
+  twin not trusted (realism ok False, start flake recall 0.93): no search; the scaled defaults are used
+  done in 124 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/needles_L23/report.md
+{"needles_L23": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": false, "twin_profile_mismatch": 0.034, "twin_structure_mismatch": 0.646, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 3.515073060225073, "twin_holdout_pooled": 3.168768311924176, "consistency": 0.7033333333333334, "consistency_ratios": {"mean_direction_deg": null, "order_parameter": 0.7033333333333334, "aspect_ratio_rel": 0.11199999999999999}, "median_n_flakes_used": 10015, "warm_started_from": "ti64_dev (distance 6.12)", "seconds": 124}}
+adapt widmanstaetten_L18: 1 images, code bda0a7c33b
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 13.42 px
+  twin: built, realism ok False (worst profile mismatch x2.21, flake shape as measured by the method x1.78)
+  warm start from ti64_dev (distance 0.82)
+  [start 0] objective 1.144 (worst family 0.97326817517848, pooled 0.6838811632819997)
+  [start 1] objective 0.813 (worst family 0.6813015263390281, pooled 0.5256439239468664)
+  twin not trusted (realism ok False, start flake recall 0.66): no search; the scaled defaults are used
+  done in 111 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/widmanstaetten_L18/report.md
+{"widmanstaetten_L18": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.793, "twin_structure_mismatch": 0.575, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 0.9229025116860834, "twin_holdout_pooled": 0.5618261042944028, "consistency": 0.34706666666666663, "consistency_ratios": {"mean_direction_deg": 0.34706666666666663, "order_parameter": 0.3466666666666667, "aspect_ratio_rel": 0.32599999999999996}, "median_n_flakes_used": 397, "warm_started_from": "ti64_dev (distance 0.82)", "seconds": 111}}
+adapt bainite_L06: 1 images, code bda0a7c33b
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 23.41 px
+  twin: built, realism ok False (worst profile mismatch x2.00, flake shape as measured by the method x1.15)
+  warm start from ti64_dev (distance 1.23)
+  [start 0] objective 2.520 (worst family 2.1862126740159327, pooled 1.3362855499979591)
+  [start 1] objective 2.202 (worst family 1.8893039182452742, pooled 1.2524000000000002)
+  twin not trusted (realism ok False, start flake recall 0.70): no search; the scaled defaults are used
+  done in 153 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/bainite_L06/report.md
+{"bainite_L06": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.695, "twin_structure_mismatch": 0.142, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 2.617600801885711, "twin_holdout_pooled": 1.6748407052101932, "consistency": 0.6785333333333333, "consistency_ratios": {"mean_direction_deg": 0.6785333333333333, "order_parameter": 0.47000000000000003, "aspect_ratio_rel": 0.06599999999999999}, "median_n_flakes_used": 330, "warm_started_from": "ti64_dev (distance 1.23)", "seconds": 153}}

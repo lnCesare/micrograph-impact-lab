@@ -1,0 +1,24 @@
+{
+  "iteration": 9,
+  "time": "2026-11-17T06:09:27",
+  "hypothesis": "The current method with its default settings passes the Ti64 dev rotation check with worst_consistency_ratio about 0.22 (baseline_v7).",
+  "dataset": "Ti64",
+  "code_version": "2d70afd967",
+  "method": "flakes",
+  "params": {},
+  "searched": false,
+  "metric": "worst_consistency_ratio",
+  "value": 0.218,
+  "target": "<= 1.0",
+  "passed": true,
+  "error": null,
+  "review": "accept",
+  "review_reason": "The narrow claim holds: on 13 Ti64 dev images the default `flakes` run reproduces worst_consistency_ratio = 0.218, which matches the expected ~0.22 and passes the ≤ 1.0 target. Confidence is high for that claim, but four caveats apply.\n\n(1) The metric is a median, not a worst case. The ratios equal the median per-image rotation difference divided by the tolerance: 0.4686/3° = 0.156, 0.006/0.03 = 0.20, 0.0109/0.05 = 0.218. Per image, the worst values are 2.05° for Ti64_21 (0.68), an order-parameter difference of 0.0202 for Ti64_29 (0.67) and an aspect-ratio difference of 0.0487 for Ti64_37 (0.97, Ti64_33 is at 0.92). Every image still passes, but the aspect ratio has almost no margin. 'Worst' therefore overstates the safety margin.\n\n(2) The direction check covers only 10 of 13 images. rotation_direction_diff_deg is missing for Ti64_32, 36 and 38 (S = 0.24, 0.18, 0.30). Presumably this is a low-S gate, which may be defensible, but it is undocumented.\n\n(3) Rotation consistency measures precision, not accuracy. A consistently wrong segmentation would also pass.\n\n(4) The overlays show the segmentation is consistently imperfect:\n- Grain-boundary alpha is taken as flakes: the long diagonal yellow band in Ti64_34 and the yellow-green band in Ti64_21 are each coloured as a single high-aspect-ratio flake and enter the statistics.\n- Laths look cut along their length, especially in Ti64_34 and the orange/pink colonies of Ti64_21. Median aspect ratios of 2.6–3.2 (lengths ~30 px, widths ~11 px) are low for colony alpha laths in lamellar Ti-6Al-4V, which are typically well above 5. Ti64_28, at 4.7, looks closest to plausible.\n- In Ti64_21 the smeared cyan/blue region at the centre is segmented into wide blobs and counted.\n- In Ti64_28 the long grey streaks parallel to the laths in the pink colony are either merged laths or smeared regions. They are excluded, not mis-measured.\n- Colony boundaries are kept well, for example the pink/yellow boundary in Ti64_28.\n- No scratches are visible and none are detected (total 0). This run says nothing about scratch handling.\n\nOn multi-colony images such as Ti64_21 (S = 0.48), the single image mean direction (3°) has little physical meaning; local S (0.79) is the more informative figure.",
+  "next_step": "Keep this run as the baseline. Then:\n\n(a) Change the evaluator so it reports both the per-image worst ratio (max over images) and the median. Under the per-image definition the aspect-ratio ratio is 0.97, not 0.22. Also report how many images each check covered (direction: 10/13) and the low-S cutoff that excludes images.\n\n(b) Fix the lath fragmentation. Raise the merge tolerance for collinear fragments joined across a weak or short boundary, and lower the boundary-strength or watershed-marker sensitivity so that faint cross-lath edges do not split laths. These parameter names are not visible in this run (params = {}), so read the `flakes` defaults first. Judge success by median aspect ratio rising toward ≥ 5 in the Ti64_34 and Ti64_21 colonies while the synthetic-dev aspect-ratio error stays within tolerance.\n\n(c) No existing parameter can remove the grain-boundary alpha bands. Thresholds on width or aspect ratio would also drop long thin laths. A new step is needed that flags very long objects lying on a colony or prior-beta boundary (orientation discontinuity on both sides, length much greater than the local lath length) and excludes them like the grey flakes.\n\n(d) Real Ti64 dev shows no scratches, so test scratch detection on synthetic images with injected scratches before claiming anything about it.",
+  "rationale": "Set by the outer loop with run.py --params, not chosen by the planner.",
+  "sources": 0,
+  "tokens": {
+    "input": 8743,
+    "output": 3038
+  }
+}

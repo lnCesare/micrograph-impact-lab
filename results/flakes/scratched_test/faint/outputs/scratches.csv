@@ -1,0 +1,3 @@
+image,type,kind,length_px,direction_deg,crossing_deg,contrast,continuity,start,end
+Ti64_24,scratch,bright,333.6,141.2,76.0,0.63,0.51,445 482,654 742
+Ti64_24,scratch,bright,333.0,141.4,77.9,0.65,0.53,446 482,654 742

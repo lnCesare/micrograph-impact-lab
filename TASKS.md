@@ -1,0 +1,60 @@
+# TASKS
+
+The live queue of the outer loop.
+Priority rule: process blockers (`P-*`) outrank science tasks (`T-*`), and cheap checks outrank expensive runs.
+
+Status vocabulary: `TODO` · `IN PROGRESS` · `BLOCKED` · `DONE` · `KILLED` (abandoned, with the reason).
+
+| ID | Task | Done when | Status |
+|---|---|---|---|
+| P-1 | Fix the research question with the scientist | `question` in config.yaml and the Question section of README.md say what is asked, why it is open, and how a result is checked by computation | DONE |
+| P-2 | Connect the dataset | `paths.dataset` / `MICROGRAPHS_DIR` points at the dataset outside the repository; `data/splits.json` fixes dev/holdout; licence-checked samples in `data/sample/` | DONE: connected and split; the synthetic set's licence stays unknown (Q-1), so its images are not redistributed |
+| T-1 | First baseline method | `watershed` in `src/methods/` with tests against known ground truth (Voronoi fixture), run by the inner loop | DONE: iteration 1, `max_rel_error` 0.333, reviewer reject |
+| P-3 | First live run | `uv run python run.py -n 1` finishes; the cost of one iteration (`usage.json`) is noted in JOURNAL.md | DONE: about $0.80, 80 % literature |
+| T-4 | Tune watershed on synthetic dev | iterations follow the reviewer's grid; if columnar/elongated median count error stays > 0.50, add `markers: hmaxima` (test first) and run 2 more | DONE: best iteration 5, `max_rel_error` 0.066, `worst_family_rel_error` 0.183 (equiaxed); h-maxima fixed columnar |
+| T-5 | Scratch and pore detection (scientist: a main goal) | detectors with tests, scored against `artifact_mask` (60, 120); 2 live iterations | DONE: iterations 9–10; scratches ≤ 47 % found (P 0.39) or 9 % (P 0.96); pores 64 % (P 0.17) |
+| T-6 | Thin-ridge scratch detector and stricter pores (reviewer, iteration 10) | Frangi-style ridge filter + straightness check; pore darkness test; tests first | TODO, not today |
+| T-2 | 316L evaluation | with `eval.dataset: 316L`, the loop tunes on the 40 dev images; README reports `max_rel_error` on dev vs the baseline in `results/baseline/316L/` | DONE for today: iterations 6–8, 11–12; best 0.126 (iteration 11) vs baseline 12.9; target 0.10 not met |
+| T-3 | Final holdout run | after tuning, `uv run python run.py --final` once per dataset; `results/final.json` holds dev vs holdout and the gap, reported in README | DONE: 316L 0.174 (dev 0.126), synthetic 0.046 (dev 0.061) |
+| P-4 | Publish the repository | a public GitHub repository named `micrograph-impact-lab`, with both licence files at the root; no synthetic image in it | DONE: https://github.com/VanishJr/micrograph-impact-lab (2026-11-07) |
+| P-5 | Write up and submit | README.md reports the results, failures and limits; the submission issue is filed before 17:00 | IN PROGRESS: README reports results, failures and limits; the issue is filed from SUBMISSION.md before 17:00 |
+| F-1 | Flakes: method, truth and evaluator (scientist, 2026-11-16: measure flake orientation, per-image mean direction, order parameter, misalignment, aspect ratio on lamellar Ti; keep grain boundaries, ignore scratches) | `flakes` method, `lamellar_synth` generator with exact truth, flake evaluator, Ti64 consistency check, tests first; baseline on both dev sets without the API | DONE: synth worst_tolerance_ratio 0.35 (worst family 1.03), Ti64 worst_consistency_ratio 0.40; results/flakes/baseline/ |
+| F-2 | Flakes: live loop on lamellar_synth | `uv run python run.py -n 3 --dataset lamellar_synth`; worst_family_tolerance_ratio <= 1 (was 1.03, aspect ratio in weak_harsh) | DONE: iterations 1-3, best pooled 0.319 (iteration 3), worst family 0.93; all three rejected by the reviewer (predictions failed); AR bias in weak_harsh (-0.14) unexplained |
+| F-7 | Flakes: why are harsh-family flakes cut short? | per-image diagnostic: fraction of flake ends within 3 px of a detected scratch vs elsewhere; then the matching fix (scratch-aware merge of collinear pieces, or a stricter ridge threshold) | DONE: lath fragments in the population, mostly not at scratches; direction- and shape-aware merging; worst family 0.935 -> 0.818, recall 0.899 -> 0.953 (baseline_v2) |
+| F-8 | Flakes: grain-boundary alpha taken as flakes | straight GB alpha strips along colony boundaries are not left out of the statistics; a width/length or colony-boundary test, test first | KILLED: 0.5 % of shape flakes (shape_population.gb_alpha); a direction-based filter would bias S in basketweave regions |
+| F-9 | Flakes: false scratch on moderate_clean_2 (1066 px) | look at it, find which rule let it through | DONE, not fixed: colony boundary between parallel-lath colonies; continuity test decided by phase; effect 0.3 deg, 0.001 S, 0.3 % AR |
+| F-11 | Flakes: live loop from the new defaults | `run.py -n 2 --dataset lamellar_synth`, then `-n 2 --dataset Ti64`; the reviewer judges the grey regions on Ti64 (merge_min_fill trade-off) | DONE: iterations 4-7; best synthetic worst family 0.712 (iteration 5); Ti64 consistency passes, but long laths are excluded on real images |
+| F-12 | Flakes: long Ti64 laths left out of the statistics | find why (ragged outline vs merge), fix so they count; median Ti64 aspect ratio judged against the drawings, synthetic worst family stays <= 1 | DONE: bent laths failed the solidity test; skeleton branch test + grain-boundary alpha guard; Ti64 grey 30 % -> 4 %, synthetic worst family 0.82 -> 0.61, Ti64 consistency 0.67 -> 0.16 (baseline_v3) |
+| F-15 | Flakes: grain-boundary alpha caught only in part | long bands within ~20 deg of their neighbours pass the guard; effect on S <= 0.01 on Ti64_34; a width or continuity-across-colonies test could catch them | TODO, low priority |
+| F-13 | Flakes: scratch handling on real texture | synthetic scratches pasted at known positions onto Ti64 dev images; recall, false scratches, flakes cut or merged across them | DONE (blind): measurements robust (worst ratio 0.10 faint, 0.16 strong); detection recall 1 % faint, 23 % strong, precision 0.95-0.99 |
+| F-16 | Flakes: scratch recall on real texture | diagnose on a development set (may be looked at), then test once on a fresh blind set (new seed, params fixed first); recall of strong crossing scratches >= 0.6 at precision >= 0.9 | PARTLY DONE: blind recall 0.23 -> 0.30 at precision 0.95 (development set said 0.51); target 0.6 not met; measurement shift from strong scratches 0.12 of tolerance (0.28 without handling) |
+| F-17 | Flakes: Ti64 results for the scientist to review | full-resolution original next to the drawing, per image, with the per-image numbers; the scientist marks what is wrong | TODO: next, scientist's request |
+| F-14 | Flakes: which S is reported on real images | flake S vs structure-tensor S differ by 0.15 on Ti64; decide, or report both with what each means | TODO: Q-5 |
+| F-10 | Flakes: which target gates lamellar_synth | the scientist chooses: pooled worst_tolerance_ratio (passes with defaults) or worst_family_tolerance_ratio | TODO: Q-4 |
+| F-3 | Flakes: live loop on Ti64, reviewer reads the drawings | 2 iterations with the best lamellar_synth params as a start; reviewer accepts the drawings | TODO, after F-2 |
+| F-4 | Flakes: a few hand-annotated Ti64 images | 2-3 images with traced lath boundaries, so Ti64 gets an accuracy number, not only consistency | TODO: needs the scientist |
+| F-5 | Flakes: confirm the tolerances | the scientist confirms or changes `flakes.tolerances` in config.yaml (5 deg, 0.05 S, 5 deg, 15 % AR, 5 deg) | TODO: Q-2 |
+| F-6 | Flakes: full-resolution SEM originals | the scientist's own SEM images at full resolution; the 576x433 screenshot is too small to segment flakes | TODO: Q-3 |
+| A-1 | Image profiler: reading (boundary network / phase islands), flake and boundary width, colour axis, padding and label boxes out of the region of interest | tests on generated images; scale invariance 0.5-3x | DONE (2026-11-17, overnight) |
+| A-2 | Phase reading in the flakes method (islands, bands, colonies) + automatic scale | tests; no regression on lamellar_synth and Ti64 | DONE |
+| A-3 | Synthetic twin fitted to any image set, with realism check | Ti64 twin within x1.1 on width, boundary, noise | DONE |
+| A-4 | Local search inside an iteration (parallel, cached) and knowledge memory (warm start) | tests; search improves the twin objective | DONE |
+| A-5 | `src/adapt.py`: one command from a folder of images to a report, with an optional agent stage that can switch the reading | end-to-end test (dry run) | DONE |
+| A-6 | Stress test on 12 very different image sets (scripts/stress_test.py) | per set: reading, twin holdout, rotation check, drawings judged by eye | DONE in three runs: run 1 found 10 faults, run 2 showed most twins untrusted, run 3 after the twin structure fit (JOURNAL 2026-11-17; results/flakes/stress_test_index.html) |
+| A-7 | Live agent rounds on the hardest sets; final holdout exams; docs; snapshot | | DONE: agent corrected the reading/phase on needles, bainite, TiAl and found the SEM data bar ($1.7 total); holdout lamellar_synth worst family 0.60, Ti64 rotation 0.24; snapshot in ../snapshots/ |
+| A-12 | Accuracy of agent-corrected readings on untrusted sets | twins for needles in a eutectic, thick plates in a matrix (bainite), multi-level lamellae good enough to be trusted, or hand-traced truth on 1-2 images | TODO: today those numbers are unvalidated |
+| A-13 | F-17: the scientist reviews the Ti64 drawings | `results/flakes/adapt/ti64_dev/review/` (13 images, original next to drawing) and the report | TODO: needs the scientist |
+| A-8 | A third reading for multi-level images (BSE of TiAl: several grey levels, no boundary lines) | regions of uniform level between thin (Canny) edges; a twin style with touching laths of alternating levels; test first | DONE: recall 0.82 on generated multi-level lamellae (boundary reading 0.12); TiAl image 4,199 lamellae; not chosen automatically (agent or `--mode regions`) |
+| A-9 | Two-scale images (big plates or needles next to a fine texture) | the profiler sees a coarse mode in the flake phase and reports it; the user chooses with `--flake-width` | DONE for the flake phase (fires on L18, L02; not on duplex, Ti64); needles in the other phase (L23) are not flagged |
+| A-10 | Automatic choice of the regions reading | a multi-level criterion (e.g. 3-class split explains much more than 2 classes) checked on all stress sets | TODO: today the agent or the user chooses it |
+| A-11 | Full-resolution SEM originals from the scientist (F-6) | the twin can be trusted at ≥ 6 px per flake; rerun adapt on them | TODO: needs the scientist |
+
+## Open questions for the scientist
+
+| ID | Question | Status |
+|---|---|---|
+| Q-1 | Source, generator script and licence of the synthetic set `90_SYNTHETIC_exact_ground_truth` | Asked 2026-11-07. Generated with AI prompts and edited by hand; prompts and code not available; licence unknown. Treated as a tuning testbed, not redistributed. |
+| Q-2 | Are the flake tolerances right for the use (mean direction 5 deg, S 0.05, misalignment 5 deg, aspect ratio 15 %, per-flake orientation 5 deg)? | Asked 2026-11-16 |
+| Q-3 | Can you share the SEM images at full resolution, with the pixel size? | Asked 2026-11-16 |
+| Q-4 | Should the lamellar_synth target be the worst family (stricter; now 0.93) instead of the pooled median (passes with defaults at 0.35)? | Asked 2026-11-16 |
+| Q-5 | On real images, should the order parameter come from the segmented flakes (area-weighted) or from the image texture (structure tensor), or both? They differ by about 0.15 on Ti64. | Asked 2026-11-16 |

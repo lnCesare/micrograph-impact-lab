@@ -1,0 +1,11 @@
+adapt sem_user: 1 images, code ee7e0ea300
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 4.0 px
+  fine flakes: analysed at 3x size; flake width now 8.25 px
+  twin: reused
+  warm start from pearlite_L02 (distance 0.38), ti64_dev (distance 0.51)
+  [start 0] objective 6.265 (worst family 5.414481533753766, pooled 3.4024577974494514)
+  [start 1] objective 10.553 (worst family 9.025481533753766, pooled 6.111790547994129)
+  [start 2] objective 6.246 (worst family 5.4694815337537666, pooled 3.1064563346256056)
+  twin not trusted (realism ok False, start flake recall 0.30): no search; the scaled defaults are used
+  done in 128 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user/report.md
+{"sem_user": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.589, "twin_structure_mismatch": 0.219, "twin_trusted": false, "upsample_factor": 3, "twin_holdout_worst_family": 7.476561408940887, "twin_holdout_pooled": 4.833052415347153, "consistency": 0.4545333333333333, "consistency_ratios": {"mean_direction_deg": 0.4545333333333333, "order_parameter": 0.21333333333333335, "aspect_ratio_rel": 0.218}, "median_n_flakes_used": 1303, "warm_started_from": "pearlite_L02 (distance 0.38), ti64_dev (distance 0.51)", "two_scales": null, "seconds": 128}}

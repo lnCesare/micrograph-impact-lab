@@ -1,0 +1,1246 @@
+{
+  "name": "sem_user_live",
+  "code_version": "ee7e0ea300",
+  "images": [
+    "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user_live/upsampled/sem_bse.png"
+  ],
+  "profile": {
+    "mode": "ambiguous",
+    "n_images": 1,
+    "per_image": [
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 8.25,
+            "boundary_width_px": 4.47,
+            "flake_phase": "dark"
+          },
+          "phase": {
+            "flake_width_px": 4.47,
+            "boundary_width_px": 8.25,
+            "flake_phase": "bright"
+          },
+          "regions": {
+            "flake_width_px": 4.47,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "dark",
+        "flake_width_px": 8.25,
+        "boundary_width_px": 4.47,
+        "minority_connectivity": 0.005,
+        "majority_connectivity": 0.999,
+        "thickness_ratio": 0.542,
+        "minority_fraction": 0.233,
+        "noise": 0.0063,
+        "contrast": 0.149,
+        "noise_to_contrast": 0.0422,
+        "coherence": 0.425,
+        "roi_fraction": 0.646,
+        "flatten_sigma_px": 108.0,
+        "shape": [
+          1299,
+          1728
+        ]
+      }
+    ],
+    "shape": [
+      1299,
+      1728
+    ],
+    "noise_to_contrast": 0.0422,
+    "minority_fraction": 0.233,
+    "coherence": 0.425,
+    "contrast": 0.149,
+    "by_mode": {
+      "boundaries": {
+        "flake_width_px": 8.25,
+        "boundary_width_px": 4.47,
+        "flake_phase": "dark"
+      },
+      "phase": {
+        "flake_width_px": 4.47,
+        "boundary_width_px": 8.25,
+        "flake_phase": "bright"
+      },
+      "regions": {
+        "flake_width_px": 4.47,
+        "boundary_width_px": null,
+        "flake_phase": "all"
+      }
+    }
+  },
+  "mode": "boundaries",
+  "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+  "twin": {
+    "mode": "boundaries",
+    "mode_from_profile": "ambiguous",
+    "flake_phase": "dark",
+    "shape": [
+      256,
+      341
+    ],
+    "n_images": 18,
+    "base_spec": {
+      "name": "preview",
+      "family": "preview",
+      "seed": 0,
+      "shape": [
+        256,
+        341
+      ],
+      "kappa": 4.0,
+      "mean_direction_deg": 30.0,
+      "n_colonies": 6,
+      "lath_width_px": [
+        3.325657894736842,
+        5.542763157894736
+      ],
+      "lath_length_px": [
+        8.868421052631579,
+        31.926315789473684
+      ],
+      "boundary_px": 0.5,
+      "waviness_px": 2.0,
+      "gap_fraction": 0.06,
+      "gb_alpha_fraction": 0.4,
+      "n_scratches": 0,
+      "scratch_width_px": 1.5,
+      "n_pits": 10,
+      "noise": 0.03,
+      "blur_px": 1.0,
+      "illumination": 0.15,
+      "inverted": true,
+      "style": "network",
+      "n_levels": 4,
+      "island_fill": 0.6,
+      "matrix_gap_px": 2.2171052631578947,
+      "flake_dark": true
+    },
+    "fit_history": [
+      {
+        "iter": 0,
+        "lath_width_center": 4.43,
+        "boundary_px": 0.5,
+        "noise": 0.03,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.346,
+        "measured": {
+          "flake": 6.32,
+          "boundary": 4.0,
+          "nc": 0.11,
+          "fraction": 0.259
+        }
+      },
+      {
+        "iter": 1,
+        "lath_width_center": 3.48,
+        "boundary_px": 0.5,
+        "noise": 0.0291,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.346,
+        "measured": {
+          "flake": 6.32,
+          "boundary": 4.0,
+          "nc": 0.1174,
+          "fraction": 0.253
+        }
+      },
+      {
+        "iter": 2,
+        "lath_width_center": 2.73,
+        "boundary_px": 0.5,
+        "noise": 0.0267,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.346,
+        "measured": {
+          "flake": 6.32,
+          "boundary": 4.0,
+          "nc": 0.1085,
+          "fraction": 0.229
+        }
+      },
+      {
+        "iter": 3,
+        "lath_width_center": 2.66,
+        "boundary_px": 0.5,
+        "noise": 0.0262,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 1.181,
+        "measured": {
+          "flake": 14.56,
+          "boundary": 4.0,
+          "nc": 0.11,
+          "fraction": 0.081
+        }
+      },
+      {
+        "iter": 4,
+        "lath_width_center": 2.66,
+        "boundary_px": 0.5,
+        "noise": 0.0253,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.346,
+        "measured": {
+          "flake": 6.32,
+          "boundary": 2.83,
+          "nc": 0.1148,
+          "fraction": 0.212
+        }
+      },
+      {
+        "iter": 5,
+        "lath_width_center": 2.66,
+        "boundary_px": 0.5,
+        "noise": 0.0237,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.346,
+        "measured": {
+          "flake": 6.32,
+          "boundary": 4.0,
+          "nc": 0.1069,
+          "fraction": 0.22
+        }
+      },
+      {
+        "iter": 6,
+        "lath_width_center": 2.66,
+        "boundary_px": 0.5,
+        "noise": 0.0235,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.346,
+        "measured": {
+          "flake": 6.32,
+          "boundary": 4.0,
+          "nc": 0.1074,
+          "fraction": 0.226
+        }
+      },
+      {
+        "iter": 7,
+        "lath_width_center": 2.66,
+        "boundary_px": 0.5,
+        "noise": 0.0232,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.805,
+        "measured": {
+          "flake": 10.0,
+          "boundary": 4.0,
+          "nc": 0.1093,
+          "fraction": 0.115
+        }
+      }
+    ],
+    "structure_fit_history": [
+      {
+        "iter": 0,
+        "lath_length_px": [
+          8.9,
+          31.9
+        ],
+        "method": {
+          "median_aspect_ratio": 2.336,
+          "median_width_px": 13.5075
+        },
+        "mismatch": 0.08
+      }
+    ],
+    "realism": {
+      "flake_width_px": {
+        "real": 10.0,
+        "twin": 12.16,
+        "ratio": 1.216
+      },
+      "boundary_width_px": {
+        "real": 4.0,
+        "twin": 7.21,
+        "ratio": 1.802
+      },
+      "noise_to_contrast": {
+        "real": 0.0259,
+        "twin": 0.0268,
+        "ratio": 1.035
+      },
+      "minority_fraction": {
+        "real": 0.187,
+        "twin": 0.2685,
+        "ratio": 1.436
+      },
+      "coherence": {
+        "real": 0.416,
+        "twin": 0.299,
+        "ratio": 0.719
+      },
+      "contrast": {
+        "real": 0.2526,
+        "twin": 0.351,
+        "ratio": 1.39
+      },
+      "method_median_aspect_ratio": {
+        "real": 2.157,
+        "twin": 2.326,
+        "ratio": 1.078
+      },
+      "method_median_width_px": {
+        "real": 16.97,
+        "twin": 13.62,
+        "ratio": 0.803
+      }
+    },
+    "realism_worst_log_ratio": 0.589,
+    "structure_worst_log_ratio": 0.219,
+    "realism_ok": false,
+    "real_profile": {
+      "mode": "ambiguous",
+      "n_images": 1,
+      "shape": [
+        1299,
+        1728
+      ],
+      "noise_to_contrast": 0.0259,
+      "minority_fraction": 0.187,
+      "coherence": 0.416,
+      "contrast": 0.2526,
+      "by_mode": {
+        "boundaries": {
+          "flake_width_px": 10.0,
+          "boundary_width_px": 4.0,
+          "flake_phase": "dark"
+        },
+        "phase": {
+          "flake_width_px": 4.0,
+          "boundary_width_px": 10.0,
+          "flake_phase": "bright"
+        },
+        "regions": {
+          "flake_width_px": 12.0,
+          "boundary_width_px": null,
+          "flake_phase": "all"
+        }
+      }
+    },
+    "upsample": 3,
+    "overrides": {},
+    "generator_version": "3164fe1f97",
+    "sources": [
+      "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user_live/upsampled/sem_bse.png"
+    ]
+  },
+  "starts": [
+    {
+      "mode": "boundaries",
+      "flake_phase": "auto",
+      "phase_offset": 0.0,
+      "flake_width_px": null,
+      "polarity": "auto",
+      "roi": "auto",
+      "crop_bottom_px": 0,
+      "flatten_px": 40.0,
+      "sigma": 1.0,
+      "boundary_width_px": 2.5,
+      "boundary_sensitivity": 1.0,
+      "detect_scratches": true,
+      "scratch_min_length_px": 200,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.35,
+      "scratch_line_gap_px": 12,
+      "scratch_ridge_factor": 1.0,
+      "bridge_gaps_px": 9,
+      "h_px": 0.5,
+      "merge_saddle_ratio": 0.5,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.9,
+      "min_area_px": 30,
+      "min_solidity": 0.75,
+      "branch_test": "skeleton",
+      "min_aspect_for_orientation": 1.5,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "weight": "area",
+      "tile_px": 160
+    },
+    {
+      "boundary_sensitivity": 0.7,
+      "boundary_width_px": 2.892,
+      "branch_test": "skeleton",
+      "bridge_gaps_px": 0,
+      "crop_bottom_px": 0,
+      "detect_scratches": true,
+      "flake_phase": "dark",
+      "flake_width_px": null,
+      "flatten_px": 11.129,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "h_px": 0.359,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.97,
+      "merge_saddle_ratio": 0.8,
+      "min_area_px": 86,
+      "min_aspect_for_orientation": 1.5,
+      "min_solidity": 0.75,
+      "mode": "boundaries",
+      "phase_offset": 0.072,
+      "polarity": "auto",
+      "roi": "auto",
+      "scratch_line_gap_px": 10,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.35,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_min_length_px": 165,
+      "scratch_ridge_factor": 1.0,
+      "sigma": 0.814,
+      "tile_px": 132,
+      "weight": "area"
+    },
+    {
+      "boundary_sensitivity": 0.7,
+      "boundary_width_px": 3.43,
+      "branch_test": "skeleton",
+      "bridge_gaps_px": 7,
+      "crop_bottom_px": 0,
+      "detect_scratches": true,
+      "flake_phase": "auto",
+      "flake_width_px": null,
+      "flatten_px": 33.0,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "h_px": 4.051,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.833,
+      "merge_saddle_ratio": 0.384,
+      "min_area_px": 82,
+      "min_aspect_for_orientation": 1.5,
+      "min_solidity": 0.75,
+      "mode": "boundaries",
+      "phase_offset": 0.0,
+      "polarity": "auto",
+      "roi": "auto",
+      "scratch_line_gap_px": 10,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.261,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_min_length_px": 165,
+      "scratch_ridge_factor": 1.0,
+      "sigma": 0.577,
+      "tile_px": 132,
+      "weight": "area"
+    }
+  ],
+  "warm_start": "pearlite_L02 (distance 0.38), ti64_dev (distance 0.51)",
+  "chosen_params": {
+    "boundary_sensitivity": 0.7,
+    "boundary_width_px": 2.0,
+    "branch_test": "skeleton",
+    "bridge_gaps_px": 12,
+    "crop_bottom_px": 0,
+    "detect_scratches": true,
+    "flake_phase": "auto",
+    "flake_width_px": null,
+    "flatten_px": 40.0,
+    "gb_alpha_length_factor": 4.0,
+    "gb_alpha_min_misfit_deg": 25.0,
+    "h_px": 1.5,
+    "merge_max_offaxis_deg": 30.0,
+    "merge_min_fill": 0.9,
+    "merge_saddle_ratio": 0.5,
+    "min_area_px": 50,
+    "min_aspect_for_orientation": 1.5,
+    "min_solidity": 0.75,
+    "mode": "boundaries",
+    "phase_offset": 0.0,
+    "polarity": "bright_boundaries",
+    "roi": "auto",
+    "scratch_line_gap_px": 12,
+    "scratch_max_side_diff_deg": 15.0,
+    "scratch_min_continuity": 0.45,
+    "scratch_min_contrast": 0.1,
+    "scratch_min_contrast_fraction": 0.35,
+    "scratch_min_crossing_deg": 20,
+    "scratch_min_length_px": 500,
+    "scratch_ridge_factor": 1.0,
+    "sigma": 1.0,
+    "tile_px": 160,
+    "weight": "area"
+  },
+  "twin_scores": [
+    {
+      "which": "start",
+      "split": "dev",
+      "metrics": {
+        "worst_tolerance_ratio": 3.1064563346256056,
+        "worst_family_tolerance_ratio": 5.4694815337537666,
+        "median_direction_error_deg": 1.5058600892305947,
+        "median_order_abs_error": 0.12600808432449195,
+        "median_misalignment_abs_error_deg": 6.380639599602821,
+        "median_aspect_ratio_rel_error": 0.4659684501938408,
+        "median_aspect_ratio_bias": -0.4659684501938408,
+        "median_flake_orientation_error_deg": 2.3170000000000073,
+        "flake_recall": 0.30288858321870704,
+        "flake_precision": 0.3725887115979995,
+        "scratch_precision": 0.4674901532179902,
+        "scratch_recall_crossing": 0.346643799415375
+      },
+      "objective": 6.246095617410168,
+      "by_family": {
+        "moderate_clean": 1.96,
+        "moderate_scratched": 3.106,
+        "random_clean": 4.525,
+        "random_scratched": 3.386,
+        "strong_clean": 1.936,
+        "strong_scratched": 5.469
+      }
+    },
+    {
+      "which": "start",
+      "split": "holdout",
+      "metrics": {
+        "worst_tolerance_ratio": 4.603737853977828,
+        "worst_family_tolerance_ratio": 7.946561408940888,
+        "median_direction_error_deg": 2.4521039922303203,
+        "median_order_abs_error": 0.23018689269889142,
+        "median_misalignment_abs_error_deg": 10.600581983239689,
+        "median_aspect_ratio_rel_error": 0.45175993040610984,
+        "median_aspect_ratio_bias": -0.45175993040610984,
+        "median_flake_orientation_error_deg": 2.6200000000000045,
+        "flake_recall": 0.27112803772216176,
+        "flake_precision": 0.35371399696816574,
+        "scratch_precision": 0.528443860205793,
+        "scratch_recall_crossing": 0.2810369033293221
+      },
+      "objective": 9.097495872435346,
+      "by_family": {
+        "moderate_clean": 2.426,
+        "moderate_scratched": 5.254,
+        "random_clean": 7.592,
+        "random_scratched": 3.954,
+        "strong_clean": 2.835,
+        "strong_scratched": 7.947
+      }
+    },
+    {
+      "which": "chosen",
+      "split": "dev",
+      "metrics": {
+        "worst_tolerance_ratio": 4.76279054799413,
+        "worst_family_tolerance_ratio": 8.130481533753766,
+        "median_direction_error_deg": 0.8156606917048634,
+        "median_order_abs_error": 0.2381395273997065,
+        "median_misalignment_abs_error_deg": 9.872464044427783,
+        "median_aspect_ratio_rel_error": 0.5795574547575948,
+        "median_aspect_ratio_bias": -0.5795574547575948,
+        "median_flake_orientation_error_deg": 3.6455000000000055,
+        "flake_recall": 0.1469050894085282,
+        "flake_precision": 0.07241622930964876,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0
+      },
+      "objective": 9.321179170752298,
+      "by_family": {
+        "moderate_clean": 3.723,
+        "moderate_scratched": 5.517,
+        "random_clean": 4.542,
+        "random_scratched": 5.29,
+        "strong_clean": 3.83,
+        "strong_scratched": 8.13
+      }
+    },
+    {
+      "which": "chosen",
+      "split": "holdout",
+      "metrics": {
+        "worst_tolerance_ratio": 7.069052415347154,
+        "worst_family_tolerance_ratio": 9.568561408940887,
+        "median_direction_error_deg": 1.9149465053413905,
+        "median_order_abs_error": 0.35345262076735773,
+        "median_misalignment_abs_error_deg": 13.643677790622043,
+        "median_aspect_ratio_rel_error": 0.5891967665010466,
+        "median_aspect_ratio_bias": -0.5891967665010466,
+        "median_flake_orientation_error_deg": 4.126000000000005,
+        "flake_recall": 0.13239027928908234,
+        "flake_precision": 0.06400723472668811,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0
+      },
+      "objective": 11.335824512777675,
+      "by_family": {
+        "moderate_clean": 4.013,
+        "moderate_scratched": 8.416,
+        "random_clean": 7.324,
+        "random_scratched": 6.814,
+        "strong_clean": 3.921,
+        "strong_scratched": 9.569
+      }
+    }
+  ],
+  "consistency": {
+    "median_rotation_direction_diff_deg": 1.346,
+    "median_rotation_order_abs_diff": 0.0291,
+    "median_rotation_aspect_ratio_rel_diff": 0.0096,
+    "median_estimator_gap": 0.2145,
+    "median_order_parameter": 0.4066,
+    "median_local_order_parameter": 0.6701,
+    "median_mean_misalignment_deg": 30.2515,
+    "median_aspect_ratio": 2.295,
+    "median_n_flakes_used": 1591,
+    "total_scratches": 0,
+    "n_images": 1,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.4486666666666667,
+      "order_parameter": 0.9700000000000001,
+      "aspect_ratio_rel": 0.19199999999999998
+    },
+    "worst_consistency_ratio": 0.9700000000000001
+  },
+  "plans": [
+    {
+      "hypothesis": "If the over-merging the reviewer saw in the upper half (regions spanning many parallel laths, real median width 17 px against about 10 px measured lath spacing) comes from a ridge scale and threshold too coarse for the thin bright beta ribs, then a narrower scale with higher sensitivity will cut those regions into single laths. If the scratch false positive near x=1175, y=250-340 is a lath edge, then a larger minimum crossing angle and length will remove it. The test is falsified if the next review still shows multi-lath regions crossing colony boundaries.",
+      "rationale": "The twin is untrusted, so no search is run and only the start params are judged, by the next review of the real drawings. I therefore change only five params, each tied to the reviewer's evidence.\n\nChanges:\n- polarity is set to bright_boundaries. The reviewer reads this as a BSE image with thin bright beta ribs; auto probably already chose this, so making it explicit only removes ambiguity.\n- boundary_width_px goes 2.5 -> 2.0. The reviewer asked for a finer ridge scale. I stop short of the suggested 1-1.5 px because the measured boundary width is about 4 px.\n- boundary_sensitivity goes 1.0 -> 0.8, the reviewer's suggested 0.8x threshold, to find fainter ribs.\n- scratch_min_crossing_deg goes 12 -> 20, matching the reviewer's suggested 20 deg minimum angle to the local flakes.\n- scratch_min_length_px goes 200 -> 500, about 0.3 of the 1728 px image width as suggested. No real scratch is visible on this image, so a stricter detector loses little.\n\nWhat I left alone:\n- Gap bridging is already on (9 px), so the reviewer's bridging suggestion is already in place.\n- I did not raise min_area_px, to keep the change set small and attributable.\n\nConfidence that this fixes the real drawing is low, about 30%. The reviewer warns that the ribs may be at the resolution limit, in which case no parameter helps. The search space below is listed for completeness; it is not run on this untrusted twin.",
+      "reading": "keep",
+      "flake_phase": "auto",
+      "start_params_json": "{\"polarity\": \"bright_boundaries\", \"boundary_width_px\": 2.0, \"boundary_sensitivity\": 0.8, \"scratch_min_crossing_deg\": 20, \"scratch_min_length_px\": 500}",
+      "search_space_json": "{\"boundary_width_px\": [1.5, 2.0, 2.5], \"boundary_sensitivity\": [0.6, 0.8, 1.0], \"scratch_min_crossing_deg\": [12, 20, 30], \"scratch_min_length_px\": [300, 500, 700], \"min_area_px\": [30, 60, 100], \"bridge_gaps_px\": [5, 9, 13]}"
+    },
+    {
+      "hypothesis": "On the real BSE image, the lengthwise cutting of laths (median AR about 2.1) comes mainly from the distance-transform watershed with the low h_px=0.5 and from too-short along-axis bridging (bridge_gaps_px=9). If so, raising h_px to about 1.5 and bridge_gaps_px to 12 should raise the median AR in the lower fine band and reduce grey fragments. If AR stays near 2 and the upper-half merging is unchanged, the beta ribs are at or below what this ridge filter resolves, and parameter tuning cannot fix it.",
+      "rationale": "Confidence is low, about 30%, that this alone makes the drawing acceptable. The twin is untrusted (boundary width ratio 1.8, coherence ratio 0.72), so no search runs and only a few changes are made, each tied to what the reviewers saw. Both reviews accept the boundary reading: dark alpha laths between thin bright beta ribs. Polarity bright_boundaries therefore stays. The reviewers named three failures, and each change targets one of them. (1) Laths cut along their length (AR about 2.1, lower third broken into stubs). For this, h_px goes from 0.5 to 1.5 so the watershed splits only clearly necked regions, and bridge_gaps_px goes from 9 to 12; the bridging closes only along the lath direction, so it should not bridge across laths. (2) Many small fragments counted or greyed. For this, min_area_px goes from 30 to 50, in line with the reviewer's suggestion of about 40. (3) Over-merging of parallel laths in the upper half. For this, boundary_sensitivity goes from 0.8 to 0.7 so fainter ribs are kept as boundaries. This pulls against (1), which the larger h_px and bridging are meant to offset. Not changed: boundary_width_px stays at 2.0, since the reviewer asks for a smaller ridge scale and 2.0 is already small. The scratch params also stay: the second review says the white line at x=1175 is the mean-direction arrow, so the false scratch is not established. The rotation check (0.45 before) must be re-run, and none of the measured numbers is supported until a review accepts the drawing. The search space is listed for when a better twin is built; it is not run now.",
+      "reading": "keep",
+      "flake_phase": "auto",
+      "start_params_json": "{\"h_px\": 1.5, \"bridge_gaps_px\": 12, \"min_area_px\": 50, \"boundary_sensitivity\": 0.7}",
+      "search_space_json": "{\"h_px\": [0.5, 1.0, 1.5, 2.5, 4.0], \"bridge_gaps_px\": [9, 12, 16, 20], \"boundary_sensitivity\": [0.6, 0.7, 0.8, 1.0], \"min_area_px\": [30, 50, 80], \"merge_saddle_ratio\": [0.3, 0.4, 0.5], \"boundary_width_px\": [1.5, 2.0, 3.0]}"
+    }
+  ],
+  "twin_trusted": false,
+  "set_by_eye": true,
+  "upsample_factor": 3,
+  "two_scales": null,
+  "overrides": {},
+  "real_image_guard": {
+    "start": {
+      "rotation": 0.4545333333333333,
+      "flakes_used": 1303.0
+    },
+    "chosen": {
+      "rotation": 0.9700000000000001,
+      "flakes_used": 1591.0
+    },
+    "keep_chosen": true,
+    "reason": "",
+    "by_eye": true
+  },
+  "memory_notes": [
+    {
+      "set": "sem_user",
+      "distance": 0.0,
+      "reading": "boundaries",
+      "twin_trusted": false,
+      "succeeded": false,
+      "twin_holdout_worst_family": 7.476561408940887,
+      "rotation_check": 0.4545333333333333,
+      "last_review": null
+    },
+    {
+      "set": "sem_user",
+      "distance": 0.27,
+      "reading": "boundaries",
+      "twin_trusted": false,
+      "succeeded": false,
+      "twin_holdout_worst_family": 7.476561408940887,
+      "rotation_check": 0.4545333333333333,
+      "last_review": null
+    }
+  ],
+  "reviews": [
+    {
+      "verdict": "reject",
+      "reading_correct": "yes",
+      "reason": "Reading: the real image is a BSE micrograph of Ti-6Al-4V. It shows dark alpha laths separated by thin bright beta ribs, arranged in columnar prior-beta grains with basketweave and colony regions. Flakes between thin lines is therefore the right reading, with moderate confidence (~70%). The phase reading would give nearly the same objects. The problem is how well the reading is executed.\n\nFailures on the real image:\n(1) Merging across boundaries. In the upper half, single large blue, cyan and green regions span many parallel laths and even cross colony boundaries. Examples are the large green band running diagonally through the centre and the cyan blocks at the top centre.\n(2) Cutting along length. In the lower third, the laths are cut into short stubby fragments (red, magenta and orange blobs). The median AR of 2.19 is implausibly low for Ti-64 alpha laths. This matches the twin's aspect-ratio bias of -51%.\n(3) Grey/unused regions are numerous and coverage is 0.69, so many genuine laths are discarded.\n(4) A scratch is reported at about x=1175, y=250-340. No scratch is visible in the micrograph there; it appears to be a lath edge detected as a scratch (false positive).\n(5) Colony boundaries: the V-shaped prior-beta columns are visible in the micrograph. The colour map follows them only roughly, and merged regions bleed across them.\nThe global S=0.43 may be roughly right for a mixed basketweave, but per-flake AR and misalignment are not supported by the drawing.\n\nTwin: the twin is untrusted, since a single uniform field of parallel lamellae does not resemble the columnar basketweave. Even on the twin the method fails:\n- The true diagonal scratch (~40\u00b0) is not marked. Instead, two scratches are drawn parallel to the flake direction (~117\u00b0), i.e. along lamellae. This fits scratch recall_crossing of 0.29.\n- The lamellae are broken at the bright dots into short pieces: flake recall 0.46, precision 0.33, AR bias -0.51.\n\nPrevious runs on the same set also failed (rotation check 0.45, holdout worst family 7.5). The evidence does not support the measured numbers.",
+      "next_step": "Keep the boundary reading.\n\nScratch detection:\n- Require a candidate line to deviate from the local flake orientation (scratch_min_angle_to_local_flakes: 0 -> 20 deg).\n- Raise scratch_min_length: current -> ~0.3 of image width, and require it to cross \u22655 boundaries.\n\nOver-merging in the upper half:\n- Lower the boundary ridge scale (ridge_sigma: current -> about half the beta-rib width, ~1-1.5 px at this magnification).\n- Lower the boundary threshold (e.g. boundary_threshold: current -> 0.8\u00d7 current).\n\nOver-cutting (low AR):\n- Add or enable gap bridging along the local orientation (bridge_gap_along_axis: 0 -> ~3 px).\n- Raise min_flake_area so fragments are greyed rather than counted.\n\nTwin and validation:\n- Regenerate the twin to resemble this set: columnar prior-beta grains with herringbone/basketweave colonies, BSE contrast, thin bright inter-lath lines. Do not trust twin scores until then.\n- Re-run the rotation check and target >0.8 before the next review.\n\nIf merging persists after the threshold changes at the 720x magnification, the ribs are likely at or below the resolution limit. No parameter can then fix this, and AR and misalignment should be reported only for the coarse colony regions."
+    },
+    {
+      "verdict": "reject",
+      "reading_correct": "yes",
+      "reason": "Reading: in this BSE image of Ti-6Al-4V the alpha laths are the mid-grey bands and the beta is the thin bright ribs between them. The boundary reading (flakes between thin lines) therefore outlines roughly the right objects, and the coarse colour field follows the colonies: blue/cyan near-vertical laths in the upper V-shaped colonies, orange/red/magenta near-horizontal laths in the finer lower band. Confidence in the reading is moderate (~65%); a phase reading with bright beta as the matrix would outline nearly the same laths. The numbers are not supported, for four reasons. (1) The laths are cut along their length. The upper colonies hold laths hundreds of px long and a few px wide, yet the median aspect ratio is 2.1, and the drawing shows long laths broken into short segments. The twin confirms this as a systematic bias: aspect-ratio bias -0.58, flake recall 0.22, flake precision 0.10, and the twin drawing shows each lamella chopped into short blobs (AR 1.7). (2) Coverage is only 0.66. Many grey (unused) regions sit inside clean colonies, especially in the lower fine band, so S=0.41 and the local S come from a biased subset. I cannot judge from the drawing whether 0.41 is right; it is plausible for a multi-colony field but not verified. (3) Scratches: the real image shows no visible scratch and none is drawn; the vertical white line at about x=1175 is the mean-direction arrow (88\u00b0), not a scratch. On the twin, the obvious diagonal bright scratch was missed (scratches 0, crossing recall 0.0), so scratch handling is untested at best. (4) The twin is untrusted: it is a periodic single-orientation pattern with beads and does not resemble this multi-colony basketweave structure. Its worst family tolerance ratio of about 8 says the method fails even on easy synthetic data, but it cannot certify the real image. The prior identical set (sem_user) also failed, with a rotation check of 0.45. Colony boundaries do appear as colour changes, but given the fragmentation the per-flake orientation, misalignment and aspect ratio cannot be trusted. The evidence does not support any of the measured numbers within tolerance.",
+      "next_step": "Keep the boundary reading and stop the cutting along the lath length. (a) Smooth along the local orientation before boundary detection: orientation/structure-tensor sigma ~1.5 -> ~3 px, with anisotropic smoothing elongated along the lath (aspect ~3:1). (b) Raise the boundary-line contrast threshold, e.g. 1 SD -> ~1.5-2 SD above the local background, so intensity variation inside a lath is not taken as a boundary. (c) Merge fragments that are collinear and share a short boundary when their orientations differ by < ~10\u00b0, but never merge across a colony boundary (orientation jump > ~20\u00b0). (d) Raise the minimum flake area, e.g. 20 -> ~40 px, so fragments are not counted as used flakes. (e) Scratches: lower the line-detector threshold and require length > ~5x the median lath length, plus straightness over many colonies, so the twin's diagonal scratch is found; then check that it splits no flakes. (f) Rebuild the twin to match this set before trusting any score: multiple colonies with V/herringbone arrangement, bright thin beta ribs, lath width ~3-6 px, AR ~8-15, and a finer near-horizontal band at the bottom. Then rerun the rotation check (target well above 0.45). If aspect ratio stays near 2 after (a)-(d), the method's line detector cannot resolve these thin beta ribs at 720x; report that no parameter of this method fixes it, and test a regions/phase reading on bright beta as the matrix instead."
+    }
+  ],
+  "usage": [
+    {
+      "role": "reviewer",
+      "model": "claude-opus-5-5",
+      "input_tokens": 4115,
+      "output_tokens": 2099,
+      "web_search_requests": 0
+    },
+    {
+      "role": "planner",
+      "model": "claude-opus-5-5",
+      "input_tokens": 7572,
+      "output_tokens": 1687,
+      "web_search_requests": 0
+    },
+    {
+      "role": "reviewer",
+      "model": "claude-opus-5-5",
+      "input_tokens": 4100,
+      "output_tokens": 2804,
+      "web_search_requests": 0
+    },
+    {
+      "role": "planner",
+      "model": "claude-opus-5-5",
+      "input_tokens": 9150,
+      "output_tokens": 1683,
+      "web_search_requests": 0
+    }
+  ],
+  "trials": [
+    {
+      "objective": 6.265095983116129,
+      "metrics": {
+        "worst_tolerance_ratio": 3.4024577974494514,
+        "worst_family_tolerance_ratio": 5.414481533753766,
+        "median_direction_error_deg": 0.4517012927599069,
+        "median_order_abs_error": 0.14423952739970647,
+        "median_misalignment_abs_error_deg": 5.993489599602821,
+        "median_aspect_ratio_rel_error": 0.5103686696174177,
+        "median_aspect_ratio_bias": -0.5103686696174177,
+        "median_flake_orientation_error_deg": 2.280000000000001,
+        "flake_recall": 0.4616231086657497,
+        "flake_precision": 0.32637272353827196,
+        "scratch_precision": 0.8025492361494571,
+        "scratch_recall_crossing": 0.28535525137796763
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.5,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 30,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 200,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "tile_px": 160,
+        "weight": "area"
+      },
+      "tag": "start 0"
+    },
+    {
+      "objective": 10.553429170752299,
+      "metrics": {
+        "worst_tolerance_ratio": 6.111790547994129,
+        "worst_family_tolerance_ratio": 9.025481533753766,
+        "median_direction_error_deg": 1.1214012927599128,
+        "median_order_abs_error": 0.30558952739970646,
+        "median_misalignment_abs_error_deg": 12.478164044427784,
+        "median_aspect_ratio_rel_error": 0.6355117505670718,
+        "median_aspect_ratio_bias": -0.6355117505670718,
+        "median_flake_orientation_error_deg": 6.709999999999994,
+        "flake_recall": 0.0724438331040807,
+        "flake_precision": 0.043865316964606216,
+        "scratch_precision": 0.8463535870613547,
+        "scratch_recall_crossing": 0.3763712260945539
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 2.892,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 0,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "dark",
+        "flake_width_px": null,
+        "flatten_px": 11.129,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.359,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.97,
+        "merge_saddle_ratio": 0.8,
+        "min_area_px": 86,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.072,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 10,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 165,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.814,
+        "tile_px": 132,
+        "weight": "area"
+      },
+      "tag": "start 1"
+    },
+    {
+      "objective": 6.246095617410168,
+      "metrics": {
+        "worst_tolerance_ratio": 3.1064563346256056,
+        "worst_family_tolerance_ratio": 5.4694815337537666,
+        "median_direction_error_deg": 1.5058600892305947,
+        "median_order_abs_error": 0.12600808432449195,
+        "median_misalignment_abs_error_deg": 6.380639599602821,
+        "median_aspect_ratio_rel_error": 0.4659684501938408,
+        "median_aspect_ratio_bias": -0.4659684501938408,
+        "median_flake_orientation_error_deg": 2.3170000000000073,
+        "flake_recall": 0.30288858321870704,
+        "flake_precision": 0.3725887115979995,
+        "scratch_precision": 0.4674901532179902,
+        "scratch_recall_crossing": 0.346643799415375
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 3.43,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 7,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 33.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 4.051,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.833,
+        "merge_saddle_ratio": 0.384,
+        "min_area_px": 82,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 10,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.261,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 165,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.577,
+        "tile_px": 132,
+        "weight": "area"
+      },
+      "tag": "start 2"
+    },
+    {
+      "objective": 6.265095983116129,
+      "metrics": {
+        "worst_tolerance_ratio": 3.4024577974494514,
+        "worst_family_tolerance_ratio": 5.414481533753766,
+        "median_direction_error_deg": 0.4517012927599069,
+        "median_order_abs_error": 0.14423952739970647,
+        "median_misalignment_abs_error_deg": 5.993489599602821,
+        "median_aspect_ratio_rel_error": 0.5103686696174177,
+        "median_aspect_ratio_bias": -0.5103686696174177,
+        "median_flake_orientation_error_deg": 2.280000000000001,
+        "flake_recall": 0.4616231086657497,
+        "flake_precision": 0.32637272353827196,
+        "scratch_precision": 0.8025492361494571,
+        "scratch_recall_crossing": 0.28535525137796763
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.5,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.5,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 30,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 200,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "tile_px": 160,
+        "weight": "area"
+      },
+      "tag": "defaults"
+    },
+    {
+      "objective": 9.338246496561673,
+      "metrics": {
+        "worst_tolerance_ratio": 5.411059851231624,
+        "worst_family_tolerance_ratio": 7.9854815337537675,
+        "median_direction_error_deg": 0.9360546799653662,
+        "median_order_abs_error": 0.2705529925615812,
+        "median_misalignment_abs_error_deg": 9.706064044427784,
+        "median_aspect_ratio_rel_error": 0.5817883878468233,
+        "median_aspect_ratio_bias": -0.5817883878468233,
+        "median_flake_orientation_error_deg": 2.9996,
+        "flake_recall": 0.21632278771205868,
+        "flake_precision": 0.09877275423148867,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0
+      },
+      "params": {
+        "boundary_sensitivity": 0.8,
+        "boundary_width_px": 2.0,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.5,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 30,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "bright_boundaries",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 20,
+        "scratch_min_length_px": 500,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "tile_px": 160,
+        "weight": "area"
+      },
+      "tag": "agent round 1 (by eye)"
+    },
+    {
+      "objective": 9.321179170752298,
+      "metrics": {
+        "worst_tolerance_ratio": 4.76279054799413,
+        "worst_family_tolerance_ratio": 8.130481533753766,
+        "median_direction_error_deg": 0.8156606917048634,
+        "median_order_abs_error": 0.2381395273997065,
+        "median_misalignment_abs_error_deg": 9.872464044427783,
+        "median_aspect_ratio_rel_error": 0.5795574547575948,
+        "median_aspect_ratio_bias": -0.5795574547575948,
+        "median_flake_orientation_error_deg": 3.6455000000000055,
+        "flake_recall": 0.1469050894085282,
+        "flake_precision": 0.07241622930964876,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 2.0,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 12,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 1.5,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 50,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "bright_boundaries",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 20,
+        "scratch_min_length_px": 500,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "tile_px": 160,
+        "weight": "area"
+      },
+      "tag": "agent round 2 (by eye)"
+    },
+    {
+      "objective": 6.246095617410168,
+      "metrics": {
+        "worst_tolerance_ratio": 3.1064563346256056,
+        "worst_family_tolerance_ratio": 5.4694815337537666,
+        "median_direction_error_deg": 1.5058600892305947,
+        "median_order_abs_error": 0.12600808432449195,
+        "median_misalignment_abs_error_deg": 6.380639599602821,
+        "median_aspect_ratio_rel_error": 0.4659684501938408,
+        "median_aspect_ratio_bias": -0.4659684501938408,
+        "median_flake_orientation_error_deg": 2.3170000000000073,
+        "flake_recall": 0.30288858321870704,
+        "flake_precision": 0.3725887115979995,
+        "scratch_precision": 0.4674901532179902,
+        "scratch_recall_crossing": 0.346643799415375
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 3.43,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 7,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 33.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 4.051,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.833,
+        "merge_saddle_ratio": 0.384,
+        "min_area_px": 82,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 10,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.261,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 165,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.577,
+        "tile_px": 132,
+        "weight": "area"
+      },
+      "tag": "start dev"
+    },
+    {
+      "objective": 9.097495872435346,
+      "metrics": {
+        "worst_tolerance_ratio": 4.603737853977828,
+        "worst_family_tolerance_ratio": 7.946561408940888,
+        "median_direction_error_deg": 2.4521039922303203,
+        "median_order_abs_error": 0.23018689269889142,
+        "median_misalignment_abs_error_deg": 10.600581983239689,
+        "median_aspect_ratio_rel_error": 0.45175993040610984,
+        "median_aspect_ratio_bias": -0.45175993040610984,
+        "median_flake_orientation_error_deg": 2.6200000000000045,
+        "flake_recall": 0.27112803772216176,
+        "flake_precision": 0.35371399696816574,
+        "scratch_precision": 0.528443860205793,
+        "scratch_recall_crossing": 0.2810369033293221
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 3.43,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 7,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 33.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 4.051,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.833,
+        "merge_saddle_ratio": 0.384,
+        "min_area_px": 82,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 10,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.261,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 165,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.577,
+        "tile_px": 132,
+        "weight": "area"
+      },
+      "tag": "start holdout"
+    },
+    {
+      "objective": 9.321179170752298,
+      "metrics": {
+        "worst_tolerance_ratio": 4.76279054799413,
+        "worst_family_tolerance_ratio": 8.130481533753766,
+        "median_direction_error_deg": 0.8156606917048634,
+        "median_order_abs_error": 0.2381395273997065,
+        "median_misalignment_abs_error_deg": 9.872464044427783,
+        "median_aspect_ratio_rel_error": 0.5795574547575948,
+        "median_aspect_ratio_bias": -0.5795574547575948,
+        "median_flake_orientation_error_deg": 3.6455000000000055,
+        "flake_recall": 0.1469050894085282,
+        "flake_precision": 0.07241622930964876,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 2.0,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 12,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 1.5,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 50,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "bright_boundaries",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 20,
+        "scratch_min_length_px": 500,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "tile_px": 160,
+        "weight": "area"
+      },
+      "tag": "chosen dev"
+    },
+    {
+      "objective": 11.335824512777675,
+      "metrics": {
+        "worst_tolerance_ratio": 7.069052415347154,
+        "worst_family_tolerance_ratio": 9.568561408940887,
+        "median_direction_error_deg": 1.9149465053413905,
+        "median_order_abs_error": 0.35345262076735773,
+        "median_misalignment_abs_error_deg": 13.643677790622043,
+        "median_aspect_ratio_rel_error": 0.5891967665010466,
+        "median_aspect_ratio_bias": -0.5891967665010466,
+        "median_flake_orientation_error_deg": 4.126000000000005,
+        "flake_recall": 0.13239027928908234,
+        "flake_precision": 0.06400723472668811,
+        "scratch_precision": null,
+        "scratch_recall_crossing": 0.0
+      },
+      "params": {
+        "boundary_sensitivity": 0.7,
+        "boundary_width_px": 2.0,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 12,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.0,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 1.5,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 50,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "boundaries",
+        "phase_offset": 0.0,
+        "polarity": "bright_boundaries",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 20,
+        "scratch_min_length_px": 500,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.0,
+        "tile_px": 160,
+        "weight": "area"
+      },
+      "tag": "chosen holdout"
+    }
+  ],
+  "seconds": 359
+}

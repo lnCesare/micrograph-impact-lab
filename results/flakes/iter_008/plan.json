@@ -1,0 +1,11 @@
+{
+  "hypothesis": "The current method with its default settings (mode and scale from the image profile; code after the overnight adapt work) keeps the lamellar_synth dev result of baseline_v7: worst_tolerance_ratio 0.29, worst family 0.657.",
+  "rationale": "Set by the outer loop with run.py --params, not chosen by the planner.",
+  "method": "flakes",
+  "params_json": "{}",
+  "params": {},
+  "metric": "worst_tolerance_ratio",
+  "threshold": 1.0,
+  "direction": "<=",
+  "fixed_by_outer_loop": true
+}

@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/src/adapt.py", line 551, in <module>
+    main()
+    ~~~~^^
+  File "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/src/adapt.py", line 545, in main
+    adapt(collect(args.images), args.name, mode=args.mode, budget=args.budget, live=args.live, dry_run=args.dry_run,
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          um_per_px=args.um_per_px, workers=args.workers, use_knowledge=not args.no_knowledge,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          record_knowledge=not args.no_knowledge)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/src/adapt.py", line 382, in adapt
+    prof = twin.set_profile(images)
+  File "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/src/twin.py", line 30, in set_profile
+    g = prof_mod.load(p)
+  File "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/src/methods/profile.py", line 57, in load
+    return to_gray(np.array(Image.open(path)))
+                            ~~~~~~~~~~^^^^^^
+  File "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/.venv/lib/python3.14/site-packages/PIL/Image.py", line 3654, in open
+    fp = builtins.open(filename, "rb")
+OSError: [Errno 63] File name too long: '/Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_21.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_22.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_23.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_24.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_28.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_29.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_32.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_33.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_34.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_36.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_37.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_38.jpg /Users/cesaregarberino/Downloads/hackathon_micrographs/01_BEST_Ti64_lamellar_bimodal/data/Ti64_39.jpg'
+adapt ti64_dev: 1 images, code 12ac79dc07

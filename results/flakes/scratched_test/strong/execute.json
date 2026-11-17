@@ -1,0 +1,184 @@
+{
+  "ok": true,
+  "dataset": "Ti64_scratched",
+  "split": "dev",
+  "method": "flakes",
+  "params": {},
+  "code_version": "b715c2ba71",
+  "n_images": 13,
+  "metrics": {
+    "median_scratch_direction_shift_deg": 0.2708,
+    "median_scratch_order_shift": 0.0031,
+    "median_scratch_aspect_ratio_shift": 0.0082,
+    "scratch_robustness_ratios": {
+      "mean_direction_deg": 0.09026666666666666,
+      "order_parameter": 0.10333333333333333,
+      "aspect_ratio_rel": 0.164
+    },
+    "worst_scratch_robustness_ratio": 0.164,
+    "median_scratch_direction_shift_deg_no_handling": 0.27115,
+    "median_scratch_order_shift_no_handling": 0.0047,
+    "median_scratch_aspect_ratio_shift_no_handling": 0.0121,
+    "scratch_robustness_ratios_no_handling": {
+      "mean_direction_deg": 0.09038333333333333,
+      "order_parameter": 0.15666666666666668,
+      "aspect_ratio_rel": 0.242
+    },
+    "worst_scratch_robustness_ratio_no_handling": 0.242,
+    "scratch_precision": 0.9903162055335968,
+    "scratch_recall_crossing": 0.22738322483807286,
+    "scratch_recall_parallel": 0.0071179546775130735,
+    "median_flakes_used_change": 0.0298,
+    "n_images": 13
+  },
+  "by_family": {},
+  "per_image": {
+    "Ti64_21": {
+      "order_shift": 0.0047,
+      "direction_shift_deg": 1.0143,
+      "aspect_ratio_shift": 0.0064,
+      "order_shift_no_handling": 0.0047,
+      "direction_shift_deg_no_handling": 1.0143,
+      "aspect_ratio_shift_no_handling": 0.0064,
+      "flakes_used_change": 0.0561,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_22": {
+      "order_shift": 0.0061,
+      "direction_shift_deg": 0.2395,
+      "aspect_ratio_shift": 0.0104,
+      "order_shift_no_handling": 0.0061,
+      "direction_shift_deg_no_handling": 0.2395,
+      "aspect_ratio_shift_no_handling": 0.0104,
+      "flakes_used_change": 0.0124,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_23": {
+      "order_shift": 0.002,
+      "direction_shift_deg": 0.2687,
+      "aspect_ratio_shift": 0.0073,
+      "order_shift_no_handling": 0.0023,
+      "direction_shift_deg_no_handling": 0.174,
+      "aspect_ratio_shift_no_handling": 0.0121,
+      "flakes_used_change": 0.012,
+      "n_scratches_found": 2,
+      "scratch_recall_crossing": 0.1813
+    },
+    "Ti64_24": {
+      "order_shift": 0.0389,
+      "direction_shift_deg": 0.2729,
+      "aspect_ratio_shift": 0.0212,
+      "order_shift_no_handling": 0.0454,
+      "direction_shift_deg_no_handling": 0.2698,
+      "aspect_ratio_shift_no_handling": 0.0365,
+      "flakes_used_change": 0.0305,
+      "n_scratches_found": 6,
+      "scratch_recall_crossing": 0.3011
+    },
+    "Ti64_28": {
+      "order_shift": 0.0026,
+      "direction_shift_deg": 0.1264,
+      "aspect_ratio_shift": 0.0082,
+      "order_shift_no_handling": 0.0026,
+      "direction_shift_deg_no_handling": 0.1264,
+      "aspect_ratio_shift_no_handling": 0.0082,
+      "flakes_used_change": 0.0032,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_29": {
+      "order_shift": 0.002,
+      "direction_shift_deg": 0.5098,
+      "aspect_ratio_shift": 0.0335,
+      "order_shift_no_handling": 0.0098,
+      "direction_shift_deg_no_handling": 1.279,
+      "aspect_ratio_shift_no_handling": 0.0996,
+      "flakes_used_change": 0.0495,
+      "n_scratches_found": 10,
+      "scratch_recall_crossing": 0.4802
+    },
+    "Ti64_32": {
+      "order_shift": 0.0036,
+      "aspect_ratio_shift": 0.0036,
+      "order_shift_no_handling": 0.0036,
+      "aspect_ratio_shift_no_handling": 0.0036,
+      "flakes_used_change": 0.0185,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_33": {
+      "order_shift": 0.0031,
+      "direction_shift_deg": 0.5405,
+      "aspect_ratio_shift": 0.032,
+      "order_shift_no_handling": 0.0045,
+      "direction_shift_deg_no_handling": 0.6324,
+      "aspect_ratio_shift_no_handling": 0.0377,
+      "flakes_used_change": 0.0349,
+      "n_scratches_found": 4,
+      "scratch_recall_crossing": 0.2086
+    },
+    "Ti64_34": {
+      "order_shift": 0.0001,
+      "direction_shift_deg": 0.048,
+      "aspect_ratio_shift": 0.0053,
+      "order_shift_no_handling": 0.0008,
+      "direction_shift_deg_no_handling": 0.1455,
+      "aspect_ratio_shift_no_handling": 0.0004,
+      "flakes_used_change": 0.0,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.1219
+    },
+    "Ti64_36": {
+      "order_shift": 0.0122,
+      "aspect_ratio_shift": 0.0205,
+      "order_shift_no_handling": 0.0127,
+      "aspect_ratio_shift_no_handling": 0.0211,
+      "flakes_used_change": 0.0261,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.1309
+    },
+    "Ti64_37": {
+      "order_shift": 0.003,
+      "direction_shift_deg": 0.1966,
+      "aspect_ratio_shift": 0.0155,
+      "order_shift_no_handling": 0.0084,
+      "direction_shift_deg_no_handling": 0.2725,
+      "aspect_ratio_shift_no_handling": 0.0608,
+      "flakes_used_change": 0.0298,
+      "n_scratches_found": 6,
+      "scratch_recall_crossing": 0.4388
+    },
+    "Ti64_38": {
+      "order_shift": 0.013,
+      "aspect_ratio_shift": 0.0054,
+      "order_shift_no_handling": 0.013,
+      "aspect_ratio_shift_no_handling": 0.0054,
+      "flakes_used_change": 0.0311,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_39": {
+      "order_shift": 0.0026,
+      "direction_shift_deg": 0.4135,
+      "aspect_ratio_shift": 0.0035,
+      "order_shift_no_handling": 0.0017,
+      "direction_shift_deg_no_handling": 0.5087,
+      "aspect_ratio_shift_no_handling": 0.0214,
+      "flakes_used_change": 0.0323,
+      "n_scratches_found": 3,
+      "scratch_recall_crossing": 0.4854
+    }
+  },
+  "checks": {
+    "every_image_has_flakes": true,
+    "order_parameter_in_range": true
+  },
+  "overlays": [
+    "outputs/overlays/Ti64_21.jpg",
+    "outputs/overlays/Ti64_28.jpg",
+    "outputs/overlays/Ti64_34.jpg"
+  ],
+  "seconds": 158.67
+}

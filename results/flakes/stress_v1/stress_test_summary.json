@@ -1,0 +1,104 @@
+{
+  "sem_user": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_holdout_worst_family": 17.364335523961497,
+    "twin_holdout_pooled": 9.505620301090323,
+    "consistency": 2.69,
+    "seconds": 162
+  },
+  "ti64_dev": {
+    "mode": "boundaries",
+    "mode_reason": "minority phase is a connected thin network",
+    "twin_realism_ok": true,
+    "twin_holdout_worst_family": 0.4684300000000003,
+    "twin_holdout_pooled": 0.4423999999999985,
+    "consistency": 0.2783333333333333,
+    "seconds": 930
+  },
+  "banded_islands_ma17081847": {
+    "error": "TypeError: '>=' not supported between instances of 'NoneType' and 'float'"
+  },
+  "ti_basketweave_ma19010080": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_holdout_worst_family": 0.6502487100832655,
+    "twin_holdout_pooled": 0.42179999999999895,
+    "consistency": 1.9216666666666666,
+    "seconds": 324
+  },
+  "colour_lamellar_ma16020804": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": true,
+    "twin_holdout_worst_family": 1.1642281957259049,
+    "twin_holdout_pooled": 0.5023765711332394,
+    "consistency": 0.848,
+    "seconds": 129
+  },
+  "duplex_bands_mixed": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": true,
+    "twin_holdout_worst_family": 0.6364733047030979,
+    "twin_holdout_pooled": 0.37239999999999895,
+    "consistency": 1.062,
+    "seconds": 397
+  },
+  "purple_flakes_L10": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": false,
+    "twin_holdout_worst_family": 4.647423438995242,
+    "twin_holdout_pooled": 1.2418386686546856,
+    "consistency": 0.06,
+    "seconds": 147
+  },
+  "tial_lamellar_L26": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": true,
+    "twin_holdout_worst_family": 12.440590282017402,
+    "twin_holdout_pooled": 9.724573411582599,
+    "consistency": 2.432,
+    "seconds": 592
+  },
+  "pearlite_L02": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_holdout_worst_family": 0.46516718655940437,
+    "twin_holdout_pooled": 0.3744599999999991,
+    "consistency": 4.26,
+    "seconds": 372
+  },
+  "needles_L23": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": true,
+    "twin_holdout_worst_family": 1.6254097434158468,
+    "twin_holdout_pooled": 1.1687637754611657,
+    "consistency": 0.53,
+    "seconds": 392
+  },
+  "widmanstaetten_L18": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_holdout_worst_family": 1.7419769670826324,
+    "twin_holdout_pooled": 1.2040454816292767,
+    "consistency": 0.6634333333333333,
+    "seconds": 631
+  },
+  "bainite_L06": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_holdout_worst_family": 11.55376,
+    "twin_holdout_pooled": 10.115100000000002,
+    "consistency": 1.4343000000000001,
+    "seconds": 496
+  }
+}

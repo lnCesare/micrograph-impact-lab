@@ -1,0 +1,1063 @@
+{
+  "name": "tial_lamellar_L26_live",
+  "code_version": "2d70afd967",
+  "images": [
+    "/Users/cesaregarberino/Downloads/hackathon_micrographs/00_LAMELLAR_and_ALIGNED/L26__rank038__056_TiAl_Lammelar__CC0.jpg"
+  ],
+  "profile": {
+    "mode": "ambiguous",
+    "n_images": 1,
+    "per_image": [
+      {
+        "mode": "ambiguous",
+        "by_mode": {
+          "boundaries": {
+            "flake_width_px": 18.44,
+            "boundary_width_px": 11.66,
+            "flake_phase": "dark"
+          },
+          "phase": {
+            "flake_width_px": 11.66,
+            "boundary_width_px": 18.44,
+            "flake_phase": "bright"
+          },
+          "regions": {
+            "flake_width_px": 10.2,
+            "boundary_width_px": null,
+            "flake_phase": "all"
+          }
+        },
+        "flake_phase": "dark",
+        "flake_width_px": 18.44,
+        "boundary_width_px": 11.66,
+        "minority_connectivity": 0.099,
+        "majority_connectivity": 0.972,
+        "thickness_ratio": 0.632,
+        "minority_fraction": 0.35,
+        "noise": 0.0135,
+        "contrast": 0.9314,
+        "noise_to_contrast": 0.0145,
+        "coherence": 0.624,
+        "roi_fraction": 0.971,
+        "flatten_sigma_px": 197.6,
+        "shape": [
+          2376,
+          3162
+        ]
+      }
+    ],
+    "shape": [
+      2376,
+      3162
+    ],
+    "noise_to_contrast": 0.0145,
+    "minority_fraction": 0.35,
+    "coherence": 0.624,
+    "contrast": 0.9314,
+    "by_mode": {
+      "boundaries": {
+        "flake_width_px": 18.44,
+        "boundary_width_px": 11.66,
+        "flake_phase": "dark"
+      },
+      "phase": {
+        "flake_width_px": 11.66,
+        "boundary_width_px": 18.44,
+        "flake_phase": "bright"
+      },
+      "regions": {
+        "flake_width_px": 10.2,
+        "boundary_width_px": null,
+        "flake_phase": "all"
+      }
+    }
+  },
+  "mode": "regions",
+  "mode_reason": "switched by the agent after review 1: Confidence about 0.7. The real micrograph looks like a back-scattered electron image of lamellar TiAl/Ti. Lamellae appear as strips of several grey levels (white, light grey, dark grey, black) that touch each other. There are no thin dark boundary lines between them. The boundary reading (flakes bet",
+  "twin": {
+    "mode": "regions",
+    "mode_from_profile": "ambiguous",
+    "flake_phase": "all",
+    "shape": [
+      769,
+      1024
+    ],
+    "n_images": 18,
+    "base_spec": {
+      "name": "preview",
+      "family": "preview",
+      "seed": 6,
+      "shape": [
+        640,
+        800
+      ],
+      "kappa": 4.0,
+      "mean_direction_deg": 30.0,
+      "n_colonies": 6,
+      "lath_width_px": [
+        9.49225822984689,
+        15.820430383078147
+      ],
+      "lath_length_px": [
+        22.905527890954453,
+        82.45990040743602
+      ],
+      "boundary_px": 1.0,
+      "waviness_px": 2.0,
+      "gap_fraction": 0.06,
+      "gb_alpha_fraction": 0.4,
+      "n_scratches": 0,
+      "scratch_width_px": 1.5,
+      "n_pits": 10,
+      "noise": 0.005023555978341201,
+      "blur_px": 1.0,
+      "illumination": 0.15,
+      "inverted": false,
+      "style": "regions",
+      "n_levels": 4,
+      "island_fill": 0.6,
+      "matrix_gap_px": 6.328172153231259,
+      "flake_dark": false
+    },
+    "fit_history": [
+      {
+        "iter": 0,
+        "lath_width_center": 11.97,
+        "boundary_px": 1.0,
+        "noise": 0.03,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 1.096,
+        "measured": {
+          "flake": 10.0,
+          "boundary": null,
+          "nc": 0.0434,
+          "fraction": 0.496
+        }
+      },
+      {
+        "iter": 1,
+        "lath_width_center": 12.14,
+        "boundary_px": 1.0,
+        "noise": 0.0125,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.537,
+        "measured": {
+          "flake": 10.0,
+          "boundary": null,
+          "nc": 0.0248,
+          "fraction": 0.485
+        }
+      },
+      {
+        "iter": 2,
+        "lath_width_center": 12.31,
+        "boundary_px": 1.0,
+        "noise": 0.0081,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.291,
+        "measured": {
+          "flake": 10.0,
+          "boundary": null,
+          "nc": 0.0194,
+          "fraction": 0.484
+        }
+      },
+      {
+        "iter": 3,
+        "lath_width_center": 12.48,
+        "boundary_px": 1.0,
+        "noise": 0.0064,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.165,
+        "measured": {
+          "flake": 10.2,
+          "boundary": null,
+          "nc": 0.0171,
+          "fraction": 0.473
+        }
+      },
+      {
+        "iter": 4,
+        "lath_width_center": 12.48,
+        "boundary_px": 1.0,
+        "noise": 0.0056,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.111,
+        "measured": {
+          "flake": 10.0,
+          "boundary": null,
+          "nc": 0.0162,
+          "fraction": 0.488
+        }
+      },
+      {
+        "iter": 5,
+        "lath_width_center": 12.66,
+        "boundary_px": 1.0,
+        "noise": 0.0052,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.034,
+        "measured": {
+          "flake": 10.2,
+          "boundary": null,
+          "nc": 0.015,
+          "fraction": 0.497
+        }
+      },
+      {
+        "iter": 6,
+        "lath_width_center": 12.66,
+        "boundary_px": 1.0,
+        "noise": 0.005,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.027,
+        "measured": {
+          "flake": 10.0,
+          "boundary": null,
+          "nc": 0.0149,
+          "fraction": 0.5
+        }
+      },
+      {
+        "iter": 7,
+        "lath_width_center": 12.83,
+        "boundary_px": 1.0,
+        "noise": 0.0049,
+        "blur_px": 1.0,
+        "island_fill": 0.6,
+        "mismatch": 0.054,
+        "measured": {
+          "flake": 10.77,
+          "boundary": null,
+          "nc": 0.0143,
+          "fraction": 0.486
+        }
+      }
+    ],
+    "structure_fit_history": [
+      {
+        "iter": 0,
+        "lath_length_px": [
+          47.5,
+          171.2
+        ],
+        "method": {
+          "median_aspect_ratio": 7.261,
+          "median_width_px": 12.2275
+        },
+        "mismatch": 0.509
+      },
+      {
+        "iter": 1,
+        "lath_length_px": [
+          25.8,
+          93.0
+        ],
+        "method": {
+          "median_aspect_ratio": 4.82475,
+          "median_width_px": 12.405
+        },
+        "mismatch": 0.1
+      },
+      {
+        "iter": 2,
+        "lath_length_px": [
+          22.9,
+          82.5
+        ],
+        "method": {
+          "median_aspect_ratio": 4.407,
+          "median_width_px": 12.76
+        },
+        "mismatch": 0.009
+      }
+    ],
+    "realism": {
+      "flake_width_px": {
+        "real": 10.2,
+        "twin": 10.0,
+        "ratio": 0.98
+      },
+      "boundary_width_px": {
+        "real": null,
+        "twin": NaN,
+        "ratio": null
+      },
+      "noise_to_contrast": {
+        "real": 0.0145,
+        "twin": 0.017,
+        "ratio": 1.172
+      },
+      "minority_fraction": {
+        "real": 0.35,
+        "twin": 0.4885,
+        "ratio": 1.396
+      },
+      "coherence": {
+        "real": 0.624,
+        "twin": 0.8185,
+        "ratio": 1.312
+      },
+      "contrast": {
+        "real": 0.9314,
+        "twin": 0.7373,
+        "ratio": 0.792
+      },
+      "method_median_aspect_ratio": {
+        "real": 4.366,
+        "twin": 4.267,
+        "ratio": 0.977
+      },
+      "method_median_width_px": {
+        "real": 7.99,
+        "twin": 12.415,
+        "ratio": 1.554
+      }
+    },
+    "realism_worst_log_ratio": 0.159,
+    "structure_worst_log_ratio": 0.441,
+    "realism_ok": false,
+    "real_profile": {
+      "mode": "ambiguous",
+      "n_images": 1,
+      "shape": [
+        2376,
+        3162
+      ],
+      "noise_to_contrast": 0.0145,
+      "minority_fraction": 0.35,
+      "coherence": 0.624,
+      "contrast": 0.9314,
+      "by_mode": {
+        "boundaries": {
+          "flake_width_px": 18.44,
+          "boundary_width_px": 11.66,
+          "flake_phase": "dark"
+        },
+        "phase": {
+          "flake_width_px": 11.66,
+          "boundary_width_px": 18.44,
+          "flake_phase": "bright"
+        },
+        "regions": {
+          "flake_width_px": 10.2,
+          "boundary_width_px": null,
+          "flake_phase": "all"
+        }
+      }
+    },
+    "upsample": 1,
+    "overrides": {},
+    "generator_version": "3164fe1f97",
+    "sources": [
+      "/Users/cesaregarberino/Downloads/hackathon_micrographs/00_LAMELLAR_and_ALIGNED/L26__rank038__056_TiAl_Lammelar__CC0.jpg"
+    ]
+  },
+  "starts": [
+    {
+      "mode": "boundaries",
+      "flake_phase": "auto",
+      "phase_offset": 0.0,
+      "flake_width_px": null,
+      "polarity": "auto",
+      "roi": "auto",
+      "crop_bottom_px": 0,
+      "flatten_px": 73.76,
+      "sigma": 2.06,
+      "boundary_width_px": 5.15,
+      "boundary_sensitivity": 1.0,
+      "detect_scratches": true,
+      "scratch_min_length_px": 369,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.35,
+      "scratch_line_gap_px": 22,
+      "scratch_ridge_factor": 1.0,
+      "bridge_gaps_px": 17,
+      "h_px": 0.92,
+      "merge_saddle_ratio": 0.5,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.9,
+      "min_area_px": 102,
+      "min_solidity": 0.75,
+      "branch_test": "skeleton",
+      "min_aspect_for_orientation": 1.5,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "weight": "area",
+      "tile_px": 295
+    },
+    {
+      "boundary_sensitivity": 0.7,
+      "boundary_width_px": 6.464,
+      "branch_test": "skeleton",
+      "bridge_gaps_px": 0,
+      "crop_bottom_px": 0,
+      "detect_scratches": true,
+      "flake_phase": "dark",
+      "flake_width_px": null,
+      "flatten_px": 24.876,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "h_px": 0.802,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.97,
+      "merge_saddle_ratio": 0.8,
+      "min_area_px": 430,
+      "min_aspect_for_orientation": 1.5,
+      "min_solidity": 0.75,
+      "mode": "boundaries",
+      "phase_offset": 0.072,
+      "polarity": "auto",
+      "roi": "auto",
+      "scratch_line_gap_px": 22,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.35,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_min_length_px": 368,
+      "scratch_ridge_factor": 1.0,
+      "sigma": 1.82,
+      "tile_px": 296,
+      "weight": "area"
+    },
+    {
+      "boundary_sensitivity": 0.7,
+      "boundary_width_px": 6.463,
+      "branch_test": "skeleton",
+      "bridge_gaps_px": 0,
+      "crop_bottom_px": 0,
+      "detect_scratches": true,
+      "flake_phase": "dark",
+      "flake_width_px": null,
+      "flatten_px": 24.876,
+      "gb_alpha_length_factor": 4.0,
+      "gb_alpha_min_misfit_deg": 25.0,
+      "h_px": 0.802,
+      "merge_max_offaxis_deg": 30.0,
+      "merge_min_fill": 0.97,
+      "merge_saddle_ratio": 0.8,
+      "min_area_px": 428,
+      "min_aspect_for_orientation": 1.5,
+      "min_solidity": 0.75,
+      "mode": "boundaries",
+      "phase_offset": 0.072,
+      "polarity": "auto",
+      "roi": "auto",
+      "scratch_line_gap_px": 22,
+      "scratch_max_side_diff_deg": 15.0,
+      "scratch_min_continuity": 0.45,
+      "scratch_min_contrast": 0.1,
+      "scratch_min_contrast_fraction": 0.35,
+      "scratch_min_crossing_deg": 12.0,
+      "scratch_min_length_px": 369,
+      "scratch_ridge_factor": 1.0,
+      "sigma": 1.82,
+      "tile_px": 295,
+      "weight": "area"
+    }
+  ],
+  "warm_start": "ti_basketweave_ma19010080 (distance 0.47), pearlite_L02 (distance 0.70)",
+  "chosen_params": {
+    "boundary_sensitivity": 1.0,
+    "boundary_width_px": 2.55,
+    "branch_test": "skeleton",
+    "bridge_gaps_px": 9,
+    "crop_bottom_px": 0,
+    "detect_scratches": true,
+    "flake_phase": "auto",
+    "flake_width_px": null,
+    "flatten_px": 40.8,
+    "gb_alpha_length_factor": 4.0,
+    "gb_alpha_min_misfit_deg": 25.0,
+    "h_px": 0.51,
+    "merge_max_offaxis_deg": 30.0,
+    "merge_min_fill": 0.9,
+    "merge_saddle_ratio": 0.5,
+    "min_area_px": 31,
+    "min_aspect_for_orientation": 2.0,
+    "min_solidity": 0.75,
+    "mode": "regions",
+    "phase_offset": 0.0,
+    "polarity": "auto",
+    "roi": "auto",
+    "scratch_line_gap_px": 12,
+    "scratch_max_side_diff_deg": 15.0,
+    "scratch_min_continuity": 0.45,
+    "scratch_min_contrast": 0.1,
+    "scratch_min_contrast_fraction": 0.35,
+    "scratch_min_crossing_deg": 12.0,
+    "scratch_min_length_px": 204,
+    "scratch_ridge_factor": 1.0,
+    "sigma": 0.8,
+    "tile_px": 163,
+    "weight": "area"
+  },
+  "twin_scores": [
+    {
+      "which": "start",
+      "split": "dev",
+      "metrics": {
+        "worst_tolerance_ratio": 1.9657346885835878,
+        "worst_family_tolerance_ratio": 2.5615637302052803,
+        "median_direction_error_deg": 0.2830625733098202,
+        "median_order_abs_error": 0.016034290639035387,
+        "median_misalignment_abs_error_deg": 0.6964486372181575,
+        "median_aspect_ratio_rel_error": 0.29486020328753815,
+        "median_aspect_ratio_bias": 0.29486020328753815,
+        "median_flake_orientation_error_deg": 1.7479999999999976,
+        "flake_recall": 0.5516968738596277,
+        "flake_precision": 0.8039647577092511,
+        "scratch_precision": 0.9499696509863429,
+        "scratch_recall_crossing": 0.9019392820039247
+      },
+      "objective": 3.0529974023511772,
+      "by_family": {
+        "moderate_clean": 1.586,
+        "moderate_scratched": 2.378,
+        "random_clean": 1.873,
+        "random_scratched": 2.036,
+        "strong_clean": 2.3,
+        "strong_scratched": 2.562
+      }
+    },
+    {
+      "which": "start",
+      "split": "holdout",
+      "metrics": {
+        "worst_tolerance_ratio": 1.9657528173677308,
+        "worst_family_tolerance_ratio": 2.7574918396284778,
+        "median_direction_error_deg": 0.2511775865641823,
+        "median_order_abs_error": 0.02003960072498906,
+        "median_misalignment_abs_error_deg": 0.7979828157358737,
+        "median_aspect_ratio_rel_error": 0.2948629226051596,
+        "median_aspect_ratio_bias": 0.2948629226051596,
+        "median_flake_orientation_error_deg": 1.7169999999999987,
+        "flake_recall": 0.5437361008154188,
+        "flake_precision": 0.8051704758336455,
+        "scratch_precision": 0.9626517514240792,
+        "scratch_recall_crossing": 0.9736943481371416
+      },
+      "objective": 3.2489300439704105,
+      "by_family": {
+        "moderate_clean": 1.936,
+        "moderate_scratched": 2.088,
+        "random_clean": 1.996,
+        "random_scratched": 1.771,
+        "strong_clean": 1.769,
+        "strong_scratched": 2.757
+      }
+    },
+    {
+      "which": "chosen",
+      "split": "dev",
+      "metrics": {
+        "worst_tolerance_ratio": 1.7997227455308367,
+        "worst_family_tolerance_ratio": 2.2660680585317445,
+        "median_direction_error_deg": 0.31714077102054716,
+        "median_order_abs_error": 0.010992995467955458,
+        "median_misalignment_abs_error_deg": 0.4943080277451415,
+        "median_aspect_ratio_rel_error": 0.2699584118296255,
+        "median_aspect_ratio_bias": 0.2699584118296255,
+        "median_flake_orientation_error_deg": 1.740000000000009,
+        "flake_recall": 0.5852694319425861,
+        "flake_precision": 0.825082189131696,
+        "scratch_precision": 0.9376718872130388,
+        "scratch_recall_crossing": 0.8966582015468083
+      },
+      "objective": 2.7159987449144536,
+      "by_family": {
+        "moderate_clean": 1.551,
+        "moderate_scratched": 2.185,
+        "random_clean": 1.642,
+        "random_scratched": 1.763,
+        "strong_clean": 2.057,
+        "strong_scratched": 2.266
+      }
+    },
+    {
+      "which": "chosen",
+      "split": "holdout",
+      "metrics": {
+        "worst_tolerance_ratio": 1.796046774436885,
+        "worst_family_tolerance_ratio": 2.4719977921793665,
+        "median_direction_error_deg": 0.21847758656419103,
+        "median_order_abs_error": 0.01141967313150083,
+        "median_misalignment_abs_error_deg": 0.46743281573587403,
+        "median_aspect_ratio_rel_error": 0.26940701616553275,
+        "median_aspect_ratio_bias": 0.26940701616553275,
+        "median_flake_orientation_error_deg": 1.7014999999999958,
+        "flake_recall": 0.5819125277983692,
+        "flake_precision": 0.8285491115016599,
+        "scratch_precision": 0.9298117078174225,
+        "scratch_recall_crossing": 0.9826096527433823
+      },
+      "objective": 2.9210094857885878,
+      "by_family": {
+        "moderate_clean": 1.898,
+        "moderate_scratched": 1.704,
+        "random_clean": 1.842,
+        "random_scratched": 1.75,
+        "strong_clean": 1.625,
+        "strong_scratched": 2.472
+      }
+    }
+  ],
+  "consistency": {
+    "median_rotation_direction_diff_deg": 1.7474,
+    "median_rotation_order_abs_diff": 0.0026,
+    "median_rotation_aspect_ratio_rel_diff": 0.0241,
+    "median_estimator_gap": 0.2713,
+    "median_order_parameter": 0.5981,
+    "median_local_order_parameter": 0.9381,
+    "median_mean_misalignment_deg": 22.3544,
+    "median_aspect_ratio": 4.227,
+    "median_n_flakes_used": 4002,
+    "total_scratches": 0,
+    "n_images": 1,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.5824666666666667,
+      "order_parameter": 0.08666666666666667,
+      "aspect_ratio_rel": 0.482
+    },
+    "worst_consistency_ratio": 0.5824666666666667
+  },
+  "plans": [
+    {
+      "hypothesis": "The boundary reading is what merges touching lamellae into wide blocks on this image, which looks like back-scattered-electron (BSE) TiAl. If so, the regions reading with flake-width scaling near the fine scale (about 10 px, from the regions profile) will make the real drawing's lamellae individual strips with median aspect ratio >= 5 (currently 2.96), and a regions twin can reach worst-family <= 1. If the median aspect ratio stays below about 5, merging is not a reading problem and the set should be marked unsupported.",
+      "rationale": "The only real-image evidence is one review at about 0.7 confidence. It found no thin boundary lines, only touching strips of 3-4 grey levels, and it saw colour blocks spanning several lamellae. The twin shows the same pattern: aspect-ratio bias -0.30. The identical set (tial_lamellar_L26) already failed under the boundary reading, with twin holdout worst-family 2.78. The current twin is untrusted, and its 0.599 trials come from a phase-like configuration that does not resemble the image, so they say nothing about the real set.\n\nI therefore switch to regions, which rebuilds a BSE-like twin. Start-parameter choices:\n- flake_width_px goes back to auto so pixel parameters scale to the regions width.\n- min_area_px drops to the default, because 102 px may cut thin lamellae.\n- min_aspect_for_orientation rises to 2.0, partway toward the reviewer's suggested 3, to keep the equiaxed and grain-boundary-alpha blocks out of the statistics.\n\nSearch space:\n- h_px and merge_saddle_ratio control whether pieces are split or merged back.\n- merge_max_offaxis_deg sets the end-to-end test, which should stop side-by-side lamellae from merging.\n- sigma and flatten_px control whether faint grey-level steps survive.\n\nThe reviewer's suggested 'number of grey levels' parameter does not exist and is not used.\n\nScratch handling is a separate issue. Twin scratch recall is about 0, and no real scratch is visible on this image, so this search cannot validate it; it must be re-checked once the regions twin exists.\n\nConfidence that the switch fixes the merging: about 0.55. Confidence that this image is BSE TiAl rather than etched optical Ti-6Al-4V: about 0.7, taken from the reviewer, and I cannot verify it myself.",
+      "reading": "regions",
+      "flake_phase": "auto",
+      "start_params_json": "{\"mode\": \"regions\", \"flake_width_px\": \"auto\", \"min_area_px\": 30, \"min_aspect_for_orientation\": 2.0, \"h_px\": 0.5, \"merge_saddle_ratio\": 0.5, \"sigma\": 1.0, \"flatten_px\": 40}",
+      "search_space_json": "{\"h_px\": [0, 0.5, 1.0, 2.0], \"merge_saddle_ratio\": [0.5, 0.7, 0.9, 1.0], \"merge_max_offaxis_deg\": [10, 20, 30], \"sigma\": [0.5, 1.0, 1.5, 2.0], \"flatten_px\": [0, 40, 80], \"min_aspect_for_orientation\": [1.5, 2.0, 2.5, 3.0]}"
+    },
+    {
+      "hypothesis": "On the real image, the two faults the reviewer saw have separate causes. Equiaxed white or dark patches counted as flakes come from min_aspect_for_orientation = 1.5. Neighbouring fine lamellae merged in the bottom band come from denoise smoothing (sigma \u2248 1.0) that erases the narrow grey-level steps. The test: with min_aspect_for_orientation = 2.0 and sigma = 0.8, the next review should see (a) those patches drawn grey and (b) bottom-band strips about one lamella wide. If the strips still span several lamellae, these params are not the limit and merging is a structural limit of the regions mode. Confidence about 0.4.",
+      "rationale": "The twin is untrusted: its coherence ratio is 1.31, its minority fraction ratio 1.40, and its method width ratio 1.55. No search runs, so only a small change backed by the reviewer's evidence is justified. I leave all other params at current best.\n\nWhat each change addresses:\n- The reviewer judged the regions reading correct. Keep it.\n- The reviewer saw large equiaxed patches coloured and counted. That points at min_aspect_for_orientation. I raise it only to 2.0, not the suggested 3, because 3 would also drop short lamella fragments and thin out the colonies.\n- The reviewer suspected fine lamellae merged across their width, with low confidence ('unsure at this resolution'). Smoothing is the param most directly tied to losing narrow grey-level steps, so sigma drops modestly to 0.8. The noise-to-contrast ratio is low (0.0145), so less smoothing should not add much spurious splitting.\n\nWhat I deliberately leave alone:\n- I do not touch merge or scratch params. The real image shows no scratches, so the reviewer cannot judge any scratch change.\n- The end-to-end merging the reviewer saw was on the twin, which does not resemble the real set.\n\nWhat the evidence does not support:\n- The real median width (7.99 px) is already below the profile width (10.2 px). That argues against global under-splitting, so the merging claim is weak.\n- None of these changes can resolve the scratch-score contradiction or the twin failures. The twin's worst family is 2.56 and scratch handling there is broken. Those need a twin rebuild, not a param change.\n\nThe search space below is given for the record, to be used if a trusted twin is ever built.",
+      "reading": "keep",
+      "flake_phase": "auto",
+      "start_params_json": "{\"min_aspect_for_orientation\": 2.0, \"sigma\": 0.8}",
+      "search_space_json": "{\"min_aspect_for_orientation\": [1.5, 2.0, 2.5, 3.0], \"sigma\": [0.6, 0.8, 1.0], \"merge_saddle_ratio\": [0.5, 0.7, 0.9], \"h_px\": [0.3, 0.5, 1.0], \"merge_max_offaxis_deg\": [15.0, 30.0], \"scratch_ridge_factor\": [0.7, 1.0]}"
+    }
+  ],
+  "twin_trusted": false,
+  "set_by_eye": true,
+  "upsample_factor": 1,
+  "two_scales": {
+    "phase": "dark",
+    "area_share": 0.42,
+    "coarse_width_px": 78.7,
+    "fine_width_px": 18.44
+  },
+  "overrides": {},
+  "real_image_guard": {
+    "start": {
+      "rotation": 0.5478666666666666,
+      "flakes_used": 4199.0
+    },
+    "chosen": {
+      "rotation": 0.5824666666666667,
+      "flakes_used": 4002.0
+    },
+    "keep_chosen": true,
+    "reason": "",
+    "by_eye": true
+  },
+  "memory_notes": [
+    {
+      "set": "tial_lamellar_L26",
+      "distance": 0.0,
+      "reading": "boundaries",
+      "twin_trusted": false,
+      "succeeded": false,
+      "twin_holdout_worst_family": 2.7791428973490224,
+      "rotation_check": 0.974,
+      "last_review": null
+    },
+    {
+      "set": "bainite_L06",
+      "distance": 0.4,
+      "reading": "boundaries",
+      "twin_trusted": false,
+      "succeeded": false,
+      "twin_holdout_worst_family": 2.617600801885711,
+      "rotation_check": 0.6785333333333333,
+      "last_review": null
+    }
+  ],
+  "reviews": [
+    {
+      "verdict": "reject",
+      "reading_correct": "no",
+      "reason": "Confidence about 0.7. The real micrograph looks like a back-scattered electron image of lamellar TiAl/Ti. Lamellae appear as strips of several grey levels (white, light grey, dark grey, black) that touch each other. There are no thin dark boundary lines between them. The boundary reading (flakes between thin lines) therefore has nothing reliable to follow, and the regions reading is the one a metallographer would use.\n\nWhat the drawing shows:\n- Within colonies, the colour (orientation) is broadly coherent: magenta upper-left and centre, cyan/blue lower half, orange right. The mean direction and S=0.56 are therefore plausible at colony scale.\n- Many coloured regions are wide blocks that span several lamellae, for example the large purple and magenta patches and the blue blocks at the upper right. The fine white and dark lamellae in the lower half are partly merged into broad bands.\n- A median aspect ratio of 2.96 is not credible for lamellae that look roughly 10:1 or more by eye. This fits flakes being merged across their width. It also matches the twin's aspect-ratio bias of -0.30 (aspect ratio underestimated).\n- Equiaxed blocky regions (green and orange at the right, grey patches) are partly coloured and counted. Some of them look like globular or grain-boundary alpha rather than lamellae.\n- There is one long thin white line inside the magenta colony. It is either a false scratch or the mean-direction arrow. No real scratch is evident in that image, so scratch handling on the real set cannot be judged.\n\nTwin:\n- It is flagged untrusted, and rightly so. It shows dark rounded flakes in a light matrix with drawn boundary lines, which is a phase-in-matrix structure unlike the real image. Its scores say little about the real set.\n- Even on its own terms it fails. Worst family tolerance ratio is 2.78. Flake precision is 0.69. Scratch recall is 0.002 and scratch precision is 0.03. The obvious horizontal scratch at the upper right is drawn as red flake fragments and reported as scratches0.\n\nThe same set (tial_lamellar_L26, distance 0) failed before under the boundary reading. Its rotation check of 0.974 shows only that the result is stable, not that it is correct. The drawings do not support the reported aspect ratio, the flake count, or the misalignment. They do not show that scratches are found or kept from cutting flakes.",
+      "next_step": "Switch reading: boundaries -> regions. Flakes should be separated by steps between grey levels, using multi-level quantisation or a watershed on the gradient magnitude. Number of grey levels: auto -> 4. Set the minimum flake width near the fine scale found in the flake phase (about 18 px) so that thin lamellae are not merged into the coarse (about 79 px) blocks. Exclude compact regions as non-lamellar: compactness/aspect-ratio filter, aspect ratio min 1.5 -> 3. Rebuild the twin as BSE-like touching lamellae with 3\u20135 grey levels, no matrix and no boundary lines, so it can become trusted. Then re-tune scratch detection on that twin, since current scratch recall of about 0 means scratch handling is broken regardless of reading. If the regions reading still gives a median aspect ratio below about 5 on the real image, no parameter of the current method can fix the merging, and the image should be marked unsupported."
+    },
+    {
+      "verdict": "reject",
+      "reading_correct": "yes",
+      "reason": "Reading (confidence about 0.7): the regions reading fits the real image. It is a BSE-type TiAl/Ti lamellar micrograph in which strips of 3\u20134 grey levels touch without dark separating lines. The drawing colours the colonies coherently: steep cyan/blue in the lower half, magenta/purple diagonal in the upper middle, orange/green in the right, with grey for the equiaxed dark patches at top right. The mean direction and the colony split are therefore plausible.\n\nThe drawings do not support the numbers, for three reasons.\n\n(1) Twin, which is the only place with truth: worst tolerance ratio is 1.97 and worst family 2.56, both above 1. Flake recall is only 0.55. Aspect ratio has a +29% bias, and the bias equals the relative error, so it is systematic overestimation. The twin drawing shows why. Adjacent same-orientation flakes are merged into blobs, e.g. the magenta/purple H-shaped region centre-left and grey merged clumps along the colony boundaries. Collinear flakes are also joined end to end. Both raise the aspect ratio and lower recall.\n\n(2) Scratches: the header says scratches0, and none of the three bright scratches is drawn as a white line. Instead they are segmented as thin orange/red flakes, and they cut the lamellae they cross. The listed scratch precision 0.95 / recall 0.90 cannot belong to this drawing. Either the scores are from a different configuration or split, or the drawing is wrong. This must be resolved before any score is trusted.\n\n(3) Real image: no scratches are visible, so that part cannot be checked. In the fine-lamella band at the bottom (fine width about 18 px against coarse about 79 px), the coloured strips look wider than the individual white/black lamellae in the micrograph. I am unsure at this resolution, but it suggests neighbouring fine lamellae are merged, which would inflate AR (4.37) and lower S. Several large white equiaxed patches on the left are coloured as flakes rather than grey, so possible grain-boundary/globular alpha is taken as flakes. Coverage is 0.67.\n\nNo rotation check is reported for this regions configuration. The earlier 0.974 was for the boundary reading on L26. The twin is untrusted, so even a pass there would say little about this image.\n\nConfidence the result is not acceptable: about 0.85.",
+      "next_step": "Keep the regions reading. Parameter names below are generic, since the method's exact names are not given here; map them to the actual params.\n\n1. Explain the scratch contradiction first: check whether the scratch detector ran on this image (header scratches0 vs recall 0.90).\n2. Scratch detection: scratch_min_length 0.25\u00d7image -> 0.15\u00d7image; scratch_ridge_threshold lowered by about 30%; scratch_max_width about 8 px; scratch_orientation_deviation_from_local_lamellae 20\u00b0 -> 10\u00b0, so straight bright lines oblique to the colony are flagged and cut out before region merging.\n3. Under-splitting: grey-level step threshold for region splitting (region_merge_delta) lowered by one quantisation level, e.g. 0.08 -> 0.05 of the intensity range; collinear-merge / end-joining off; max flake length cap tied to colony size.\n4. Two scales: run with flake_width_scale set per region (about 18 px in the fine band, about 79 px elsewhere), or use multi_scale: true instead of a single scale.\n5. Grain-boundary/globular alpha: exclude regions with aspect ratio < 2 or solidity < 0.8 from the orientation set (grey).\n6. Rerun the dev twin and require worst ratio < 1 and AR bias < 10%.\n7. Run the rotation self-consistency check (90\u00b0 and an arbitrary angle) on the real image for this configuration before the next review.\n\nIf the twin stays untrusted, regenerate it with BSE-like multi-level touching lamellae and fine/coarse bands matching 18/79 px, so its scores say something about this set."
+    }
+  ],
+  "usage": [
+    {
+      "role": "reviewer",
+      "model": "claude-opus-5-5",
+      "input_tokens": 4183,
+      "output_tokens": 1898,
+      "web_search_requests": 0
+    },
+    {
+      "role": "planner",
+      "model": "claude-opus-5-5",
+      "input_tokens": 7583,
+      "output_tokens": 1785,
+      "web_search_requests": 0
+    },
+    {
+      "role": "reviewer",
+      "model": "claude-opus-5-5",
+      "input_tokens": 4282,
+      "output_tokens": 2524,
+      "web_search_requests": 0
+    },
+    {
+      "role": "planner",
+      "model": "claude-opus-5-5",
+      "input_tokens": 8346,
+      "output_tokens": 1832,
+      "web_search_requests": 0
+    }
+  ],
+  "trials": [
+    {
+      "objective": 3.0529974023511772,
+      "metrics": {
+        "worst_tolerance_ratio": 1.9657346885835878,
+        "worst_family_tolerance_ratio": 2.5615637302052803,
+        "median_direction_error_deg": 0.2830625733098202,
+        "median_order_abs_error": 0.016034290639035387,
+        "median_misalignment_abs_error_deg": 0.6964486372181575,
+        "median_aspect_ratio_rel_error": 0.29486020328753815,
+        "median_aspect_ratio_bias": 0.29486020328753815,
+        "median_flake_orientation_error_deg": 1.7479999999999976,
+        "flake_recall": 0.5516968738596277,
+        "flake_precision": 0.8039647577092511,
+        "scratch_precision": 0.9499696509863429,
+        "scratch_recall_crossing": 0.9019392820039247
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.55,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.8,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.51,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 31,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "regions",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 204,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.02,
+        "tile_px": 163,
+        "weight": "area"
+      },
+      "tag": "start 0"
+    },
+    {
+      "objective": 2.7159987449144536,
+      "metrics": {
+        "worst_tolerance_ratio": 1.7997227455308367,
+        "worst_family_tolerance_ratio": 2.2660680585317445,
+        "median_direction_error_deg": 0.31714077102054716,
+        "median_order_abs_error": 0.010992995467955458,
+        "median_misalignment_abs_error_deg": 0.4943080277451415,
+        "median_aspect_ratio_rel_error": 0.2699584118296255,
+        "median_aspect_ratio_bias": 0.2699584118296255,
+        "median_flake_orientation_error_deg": 1.740000000000009,
+        "flake_recall": 0.5852694319425861,
+        "flake_precision": 0.825082189131696,
+        "scratch_precision": 0.9376718872130388,
+        "scratch_recall_crossing": 0.8966582015468083
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.55,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.8,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.51,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 31,
+        "min_aspect_for_orientation": 2.0,
+        "min_solidity": 0.75,
+        "mode": "regions",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 204,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.8,
+        "tile_px": 163,
+        "weight": "area"
+      },
+      "tag": "agent round 2 (by eye)"
+    },
+    {
+      "objective": 3.0529974023511772,
+      "metrics": {
+        "worst_tolerance_ratio": 1.9657346885835878,
+        "worst_family_tolerance_ratio": 2.5615637302052803,
+        "median_direction_error_deg": 0.2830625733098202,
+        "median_order_abs_error": 0.016034290639035387,
+        "median_misalignment_abs_error_deg": 0.6964486372181575,
+        "median_aspect_ratio_rel_error": 0.29486020328753815,
+        "median_aspect_ratio_bias": 0.29486020328753815,
+        "median_flake_orientation_error_deg": 1.7479999999999976,
+        "flake_recall": 0.5516968738596277,
+        "flake_precision": 0.8039647577092511,
+        "scratch_precision": 0.9499696509863429,
+        "scratch_recall_crossing": 0.9019392820039247
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.55,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.8,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.51,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 31,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "regions",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 204,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.02,
+        "tile_px": 163,
+        "weight": "area"
+      },
+      "tag": "start dev"
+    },
+    {
+      "objective": 3.2489300439704105,
+      "metrics": {
+        "worst_tolerance_ratio": 1.9657528173677308,
+        "worst_family_tolerance_ratio": 2.7574918396284778,
+        "median_direction_error_deg": 0.2511775865641823,
+        "median_order_abs_error": 0.02003960072498906,
+        "median_misalignment_abs_error_deg": 0.7979828157358737,
+        "median_aspect_ratio_rel_error": 0.2948629226051596,
+        "median_aspect_ratio_bias": 0.2948629226051596,
+        "median_flake_orientation_error_deg": 1.7169999999999987,
+        "flake_recall": 0.5437361008154188,
+        "flake_precision": 0.8051704758336455,
+        "scratch_precision": 0.9626517514240792,
+        "scratch_recall_crossing": 0.9736943481371416
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.55,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.8,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.51,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 31,
+        "min_aspect_for_orientation": 1.5,
+        "min_solidity": 0.75,
+        "mode": "regions",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 204,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 1.02,
+        "tile_px": 163,
+        "weight": "area"
+      },
+      "tag": "start holdout"
+    },
+    {
+      "objective": 2.7159987449144536,
+      "metrics": {
+        "worst_tolerance_ratio": 1.7997227455308367,
+        "worst_family_tolerance_ratio": 2.2660680585317445,
+        "median_direction_error_deg": 0.31714077102054716,
+        "median_order_abs_error": 0.010992995467955458,
+        "median_misalignment_abs_error_deg": 0.4943080277451415,
+        "median_aspect_ratio_rel_error": 0.2699584118296255,
+        "median_aspect_ratio_bias": 0.2699584118296255,
+        "median_flake_orientation_error_deg": 1.740000000000009,
+        "flake_recall": 0.5852694319425861,
+        "flake_precision": 0.825082189131696,
+        "scratch_precision": 0.9376718872130388,
+        "scratch_recall_crossing": 0.8966582015468083
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.55,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.8,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.51,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 31,
+        "min_aspect_for_orientation": 2.0,
+        "min_solidity": 0.75,
+        "mode": "regions",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 204,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.8,
+        "tile_px": 163,
+        "weight": "area"
+      },
+      "tag": "chosen dev"
+    },
+    {
+      "objective": 2.9210094857885878,
+      "metrics": {
+        "worst_tolerance_ratio": 1.796046774436885,
+        "worst_family_tolerance_ratio": 2.4719977921793665,
+        "median_direction_error_deg": 0.21847758656419103,
+        "median_order_abs_error": 0.01141967313150083,
+        "median_misalignment_abs_error_deg": 0.46743281573587403,
+        "median_aspect_ratio_rel_error": 0.26940701616553275,
+        "median_aspect_ratio_bias": 0.26940701616553275,
+        "median_flake_orientation_error_deg": 1.7014999999999958,
+        "flake_recall": 0.5819125277983692,
+        "flake_precision": 0.8285491115016599,
+        "scratch_precision": 0.9298117078174225,
+        "scratch_recall_crossing": 0.9826096527433823
+      },
+      "params": {
+        "boundary_sensitivity": 1.0,
+        "boundary_width_px": 2.55,
+        "branch_test": "skeleton",
+        "bridge_gaps_px": 9,
+        "crop_bottom_px": 0,
+        "detect_scratches": true,
+        "flake_phase": "auto",
+        "flake_width_px": null,
+        "flatten_px": 40.8,
+        "gb_alpha_length_factor": 4.0,
+        "gb_alpha_min_misfit_deg": 25.0,
+        "h_px": 0.51,
+        "merge_max_offaxis_deg": 30.0,
+        "merge_min_fill": 0.9,
+        "merge_saddle_ratio": 0.5,
+        "min_area_px": 31,
+        "min_aspect_for_orientation": 2.0,
+        "min_solidity": 0.75,
+        "mode": "regions",
+        "phase_offset": 0.0,
+        "polarity": "auto",
+        "roi": "auto",
+        "scratch_line_gap_px": 12,
+        "scratch_max_side_diff_deg": 15.0,
+        "scratch_min_continuity": 0.45,
+        "scratch_min_contrast": 0.1,
+        "scratch_min_contrast_fraction": 0.35,
+        "scratch_min_crossing_deg": 12.0,
+        "scratch_min_length_px": 204,
+        "scratch_ridge_factor": 1.0,
+        "sigma": 0.8,
+        "tile_px": 163,
+        "weight": "area"
+      },
+      "tag": "chosen holdout"
+    }
+  ],
+  "seconds": 532
+}

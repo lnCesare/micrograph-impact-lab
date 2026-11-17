@@ -1,0 +1,184 @@
+{
+  "ok": true,
+  "dataset": "Ti64_scratched",
+  "split": "dev",
+  "method": "flakes",
+  "params": {},
+  "code_version": "16247f132c",
+  "n_images": 13,
+  "metrics": {
+    "median_scratch_direction_shift_deg": 0.21715,
+    "median_scratch_order_shift": 0.003,
+    "median_scratch_aspect_ratio_shift": 0.0062,
+    "scratch_robustness_ratios": {
+      "mean_direction_deg": 0.07238333333333334,
+      "order_parameter": 0.1,
+      "aspect_ratio_rel": 0.12399999999999999
+    },
+    "worst_scratch_robustness_ratio": 0.12399999999999999,
+    "median_scratch_direction_shift_deg_no_handling": 0.2915,
+    "median_scratch_order_shift_no_handling": 0.0038,
+    "median_scratch_aspect_ratio_shift_no_handling": 0.0138,
+    "scratch_robustness_ratios_no_handling": {
+      "mean_direction_deg": 0.09716666666666667,
+      "order_parameter": 0.12666666666666668,
+      "aspect_ratio_rel": 0.27599999999999997
+    },
+    "worst_scratch_robustness_ratio_no_handling": 0.27599999999999997,
+    "scratch_precision": 0.9515127355125677,
+    "scratch_recall_crossing": 0.29600516851512865,
+    "scratch_recall_parallel": 0.06870624837956961,
+    "median_flakes_used_change": 0.008,
+    "n_images": 13
+  },
+  "by_family": {},
+  "per_image": {
+    "Ti64_21": {
+      "order_shift": 0.007,
+      "direction_shift_deg": 0.2847,
+      "aspect_ratio_shift": 0.0062,
+      "order_shift_no_handling": 0.0046,
+      "direction_shift_deg_no_handling": 0.5821,
+      "aspect_ratio_shift_no_handling": 0.0138,
+      "flakes_used_change": 0.0087,
+      "n_scratches_found": 3,
+      "scratch_recall_crossing": 0.455
+    },
+    "Ti64_22": {
+      "order_shift": 0.0005,
+      "direction_shift_deg": 0.113,
+      "aspect_ratio_shift": 0.002,
+      "order_shift_no_handling": 0.0052,
+      "direction_shift_deg_no_handling": 0.4984,
+      "aspect_ratio_shift_no_handling": 0.0193,
+      "flakes_used_change": 0.008,
+      "n_scratches_found": 4,
+      "scratch_recall_crossing": 0.344
+    },
+    "Ti64_23": {
+      "order_shift": 0.0024,
+      "direction_shift_deg": 0.4857,
+      "aspect_ratio_shift": 0.0035,
+      "order_shift_no_handling": 0.0055,
+      "direction_shift_deg_no_handling": 0.4831,
+      "aspect_ratio_shift_no_handling": 0.0222,
+      "flakes_used_change": 0.0104,
+      "n_scratches_found": 4,
+      "scratch_recall_crossing": 0.4752
+    },
+    "Ti64_24": {
+      "order_shift": 0.0032,
+      "direction_shift_deg": 0.3613,
+      "aspect_ratio_shift": 0.0209,
+      "order_shift_no_handling": 0.0008,
+      "direction_shift_deg_no_handling": 0.6804,
+      "aspect_ratio_shift_no_handling": 0.0211,
+      "flakes_used_change": -0.0012,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.1768
+    },
+    "Ti64_28": {
+      "order_shift": 0.0037,
+      "direction_shift_deg": 0.0994,
+      "aspect_ratio_shift": 0.0044,
+      "order_shift_no_handling": 0.0065,
+      "direction_shift_deg_no_handling": 0.3393,
+      "aspect_ratio_shift_no_handling": 0.0166,
+      "flakes_used_change": 0.0072,
+      "n_scratches_found": 5,
+      "scratch_recall_crossing": 0.4292
+    },
+    "Ti64_29": {
+      "order_shift": 0.003,
+      "direction_shift_deg": 0.4011,
+      "aspect_ratio_shift": 0.0147,
+      "order_shift_no_handling": 0.0038,
+      "direction_shift_deg_no_handling": 0.2279,
+      "aspect_ratio_shift_no_handling": 0.0324,
+      "flakes_used_change": 0.0232,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.2346
+    },
+    "Ti64_32": {
+      "order_shift": 0.0069,
+      "aspect_ratio_shift": 0.0032,
+      "order_shift_no_handling": 0.0069,
+      "aspect_ratio_shift_no_handling": 0.0032,
+      "flakes_used_change": 0.0024,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_33": {
+      "order_shift": 0.0089,
+      "direction_shift_deg": 0.1736,
+      "aspect_ratio_shift": 0.0015,
+      "order_shift_no_handling": 0.0089,
+      "direction_shift_deg_no_handling": 0.1736,
+      "aspect_ratio_shift_no_handling": 0.0015,
+      "flakes_used_change": 0.0015,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_34": {
+      "order_shift": 0.0028,
+      "direction_shift_deg": 0.1633,
+      "aspect_ratio_shift": 0.007,
+      "order_shift_no_handling": 0.0028,
+      "direction_shift_deg_no_handling": 0.1633,
+      "aspect_ratio_shift_no_handling": 0.007,
+      "flakes_used_change": 0.0116,
+      "n_scratches_found": 0,
+      "scratch_recall_crossing": 0.0
+    },
+    "Ti64_36": {
+      "order_shift": 0.006,
+      "aspect_ratio_shift": 0.0414,
+      "order_shift_no_handling": 0.0005,
+      "aspect_ratio_shift_no_handling": 0.0477,
+      "flakes_used_change": 0.0498,
+      "n_scratches_found": 5,
+      "scratch_recall_crossing": 0.2962
+    },
+    "Ti64_37": {
+      "order_shift": 0.0011,
+      "direction_shift_deg": 0.2607,
+      "aspect_ratio_shift": 0.0152,
+      "order_shift_no_handling": 0.0009,
+      "direction_shift_deg_no_handling": 0.2437,
+      "aspect_ratio_shift_no_handling": 0.0086,
+      "flakes_used_change": 0.009,
+      "n_scratches_found": 4,
+      "scratch_recall_crossing": 0.4745
+    },
+    "Ti64_38": {
+      "order_shift": 0.0012,
+      "aspect_ratio_shift": 0.0088,
+      "order_shift_no_handling": 0.0016,
+      "aspect_ratio_shift_no_handling": 0.0038,
+      "flakes_used_change": -0.0012,
+      "n_scratches_found": 1,
+      "scratch_recall_crossing": 0.0642
+    },
+    "Ti64_39": {
+      "order_shift": 0.0024,
+      "direction_shift_deg": 0.0404,
+      "aspect_ratio_shift": 0.0012,
+      "order_shift_no_handling": 0.0025,
+      "direction_shift_deg_no_handling": 0.0979,
+      "aspect_ratio_shift_no_handling": 0.0085,
+      "flakes_used_change": 0.0023,
+      "n_scratches_found": 4,
+      "scratch_recall_crossing": 0.7292
+    }
+  },
+  "checks": {
+    "every_image_has_flakes": true,
+    "order_parameter_in_range": true
+  },
+  "overlays": [
+    "outputs/overlays/Ti64_21.jpg",
+    "outputs/overlays/Ti64_28.jpg",
+    "outputs/overlays/Ti64_34.jpg"
+  ],
+  "seconds": 162.66
+}

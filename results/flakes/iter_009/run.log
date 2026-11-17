@@ -1,0 +1,6 @@
+2026-11-17 06:04:42,150 INFO run: iteration 9
+2026-11-17 06:04:42,151 INFO src.plan: plan (fixed): The current method with its default settings passes the Ti64 dev rotation check with worst_consistency_ratio about 0.22 (baseline_v7). -> flakes({})
+2026-11-17 06:08:52,240 INFO src.execute: execute: ok=True metrics={'median_rotation_direction_diff_deg': 0.46855, 'median_rotation_order_abs_diff': 0.006, 'median_rotation_aspect_ratio_rel_diff': 0.0109, 'median_estimator_gap': 0.1403, 'median_order_parameter': 0.5504, 'median_local_order_parameter': 0.8086, 'median_mean_misalignment_deg': 25.7337, 'median_aspect_ratio': 2.801, 'median_n_flakes_used': 1371, 'total_scratches': 0, 'n_images': 13, 'consistency_ratios': {'mean_direction_deg': 0.15618333333333334, 'order_parameter': 0.2, 'aspect_ratio_rel': 0.218}, 'worst_consistency_ratio': 0.218}
+2026-11-17 06:09:27,364 INFO httpx2: HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-11-17 06:09:27,432 INFO src.verify: verify: worst_consistency_ratio = 0.218 (target <= 1.0), passed=True
+2026-11-17 06:09:27,434 INFO src.record: record: iteration 9 saved

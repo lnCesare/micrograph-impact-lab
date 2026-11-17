@@ -1,0 +1,242 @@
+{
+  "sem_user": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.589,
+    "twin_structure_mismatch": 0.572,
+    "twin_trusted": false,
+    "upsample_factor": 3,
+    "twin_holdout_worst_family": 0.9324041621486057,
+    "twin_holdout_pooled": 0.3953449147076171,
+    "consistency": 0.4545333333333333,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.4545333333333333,
+      "order_parameter": 0.21333333333333335,
+      "aspect_ratio_rel": 0.218
+    },
+    "median_n_flakes_used": 944,
+    "warm_started_from": null,
+    "seconds": 50
+  },
+  "ti64_dev": {
+    "mode": "boundaries",
+    "mode_reason": "minority phase is a connected thin network",
+    "twin_realism_ok": true,
+    "twin_profile_mismatch": 0.063,
+    "twin_structure_mismatch": 0.223,
+    "twin_trusted": true,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 0.43289999999999934,
+    "twin_holdout_pooled": 0.35800000000000126,
+    "consistency": 0.19499999999999998,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.08086666666666666,
+      "order_parameter": 0.125,
+      "aspect_ratio_rel": 0.19499999999999998
+    },
+    "median_n_flakes_used": 667.0,
+    "warm_started_from": null,
+    "seconds": 839
+  },
+  "banded_islands_ma17081847": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.241,
+    "twin_structure_mismatch": 0.553,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 0.6606451612903224,
+    "twin_holdout_pooled": 0.36259999999999765,
+    "consistency": 0.5129999999999999,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.16396666666666668,
+      "order_parameter": 0.45000000000000007,
+      "aspect_ratio_rel": 0.5129999999999999
+    },
+    "median_n_flakes_used": 147.0,
+    "warm_started_from": "ti64_dev (distance 5.92)",
+    "seconds": 90
+  },
+  "ti_basketweave_ma19010080": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.509,
+    "twin_structure_mismatch": 0.513,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 1.0986137403800167,
+    "twin_holdout_pooled": 0.6624376844016466,
+    "consistency": 1.1666666666666667,
+    "consistency_ratios": {
+      "mean_direction_deg": null,
+      "order_parameter": 1.1666666666666667,
+      "aspect_ratio_rel": 0.67
+    },
+    "median_n_flakes_used": 221.5,
+    "warm_started_from": "ti64_dev (distance 0.74)",
+    "seconds": 75
+  },
+  "colour_lamellar_ma16020804": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.427,
+    "twin_structure_mismatch": 0.918,
+    "twin_trusted": false,
+    "upsample_factor": 3,
+    "twin_holdout_worst_family": 1.1574200187657007,
+    "twin_holdout_pooled": 0.6108356846468093,
+    "consistency": 0.38666666666666666,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.09763333333333334,
+      "order_parameter": 0.38666666666666666,
+      "aspect_ratio_rel": 0.32399999999999995
+    },
+    "median_n_flakes_used": 789,
+    "warm_started_from": "ti64_dev (distance 5.85)",
+    "seconds": 103
+  },
+  "duplex_bands_mixed": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.176,
+    "twin_structure_mismatch": 0.438,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 0.4635998182505578,
+    "twin_holdout_pooled": 0.3100000000000023,
+    "consistency": 0.953,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.07971666666666667,
+      "order_parameter": 0.051666666666666666,
+      "aspect_ratio_rel": 0.953
+    },
+    "median_n_flakes_used": 336.5,
+    "warm_started_from": "ti64_dev (distance 5.65)",
+    "seconds": 110
+  },
+  "purple_flakes_L10": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": true,
+    "twin_profile_mismatch": 0.23,
+    "twin_structure_mismatch": 0.251,
+    "twin_trusted": true,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 1.9102807041436787,
+    "twin_holdout_pooled": 1.1913143436501017,
+    "consistency": 3.178,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.5065666666666667,
+      "order_parameter": 0.08,
+      "aspect_ratio_rel": 3.178
+    },
+    "median_n_flakes_used": 20,
+    "warm_started_from": "ti64_dev (distance 6.44)",
+    "seconds": 239
+  },
+  "tial_lamellar_L26": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.399,
+    "twin_structure_mismatch": 0.503,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 2.137444597771603,
+    "twin_holdout_pooled": 1.7625631675920206,
+    "consistency": 0.974,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.0159,
+      "order_parameter": 0.73,
+      "aspect_ratio_rel": 0.974
+    },
+    "median_n_flakes_used": 989,
+    "warm_started_from": "ti64_dev (distance 0.93)",
+    "seconds": 263
+  },
+  "pearlite_L02": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.834,
+    "twin_structure_mismatch": 0.25,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 1.3330087901329435,
+    "twin_holdout_pooled": 0.7689252134915139,
+    "consistency": 4.21,
+    "consistency_ratios": {
+      "mean_direction_deg": 2.3293333333333335,
+      "order_parameter": 4.21,
+      "aspect_ratio_rel": 0.005999999999999999
+    },
+    "median_n_flakes_used": 368,
+    "warm_started_from": "ti64_dev (distance 0.51)",
+    "seconds": 82
+  },
+  "needles_L23": {
+    "mode": "phase",
+    "mode_reason": "minority phase is separate blobs about as thick as the matrix",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.034,
+    "twin_structure_mismatch": 0.646,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 3.515073060225073,
+    "twin_holdout_pooled": 3.168768311924176,
+    "consistency": 0.7033333333333334,
+    "consistency_ratios": {
+      "mean_direction_deg": null,
+      "order_parameter": 0.7033333333333334,
+      "aspect_ratio_rel": 0.11199999999999999
+    },
+    "median_n_flakes_used": 10015,
+    "warm_started_from": "ti64_dev (distance 6.12)",
+    "seconds": 124
+  },
+  "widmanstaetten_L18": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.793,
+    "twin_structure_mismatch": 0.575,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 0.9229025116860834,
+    "twin_holdout_pooled": 0.5618261042944028,
+    "consistency": 0.34706666666666663,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.34706666666666663,
+      "order_parameter": 0.3466666666666667,
+      "aspect_ratio_rel": 0.32599999999999996
+    },
+    "median_n_flakes_used": 397,
+    "warm_started_from": "ti64_dev (distance 0.82)",
+    "seconds": 111
+  },
+  "bainite_L06": {
+    "mode": "boundaries",
+    "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
+    "twin_realism_ok": false,
+    "twin_profile_mismatch": 0.695,
+    "twin_structure_mismatch": 0.142,
+    "twin_trusted": false,
+    "upsample_factor": 1,
+    "twin_holdout_worst_family": 2.617600801885711,
+    "twin_holdout_pooled": 1.6748407052101932,
+    "consistency": 0.6785333333333333,
+    "consistency_ratios": {
+      "mean_direction_deg": 0.6785333333333333,
+      "order_parameter": 0.47000000000000003,
+      "aspect_ratio_rel": 0.06599999999999999
+    },
+    "median_n_flakes_used": 330,
+    "warm_started_from": "ti64_dev (distance 1.23)",
+    "seconds": 153
+  }
+}

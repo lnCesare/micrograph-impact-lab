@@ -1,0 +1,10 @@
+{
+  "hypothesis": "With all default parameters, the pipeline gives worst_tolerance_ratio > 1 on lamellar_synth dev, and the ratio is set by the aspect-ratio error (laths merged through dashed boundaries or cut by scratches, so flake_recall < 0.7) in the scratched/harsh families, not by mean direction error. The direction error should be within tolerance for the moderate and strong alignment families.",
+  "rationale": "There are no past iterations, so no evidence exists yet about which tolerance binds, which family is worst, or whether scratch detection works at all (scratch_precision and scratch_recall_crossing). A default baseline is the experiment that most reduces uncertainty. It anchors every later change and shows which of the five error terms limits worst_tolerance_ratio. It also tests whether 'auto' polarity and 'auto' ROI behave on synthetic images, which have no resin. Deviating from defaults now would confound the result. Confidence in the specific prediction (aspect ratio binds, scratched/harsh worst) is low, about 40%. Order-parameter bias in the random family, from small-sample nematic S being biased upward, is a plausible alternative culprit. The baseline cannot answer the real Ti-6Al-4V part of the question, the rotation self-consistency check. That needs a new method that rotates each image by known angles, reruns the pipeline and reports the deviation of the predicted mean direction from the expected rotation.",
+  "method": "flakes",
+  "params_json": "{}",
+  "metric": "worst_tolerance_ratio",
+  "threshold": 1.0,
+  "direction": "<=",
+  "params": {}
+}
