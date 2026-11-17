@@ -32,6 +32,7 @@ DEFAULTS = {
     "boundary_width_px": 2.5,
     "boundary_sensitivity": 1.0,
     "detect_scratches": True,
+    "detect_pockets": True,
     "scratch_min_length_px": 200,
     "scratch_min_crossing_deg": 12.0,
     "scratch_max_side_diff_deg": 15.0,
@@ -41,6 +42,9 @@ DEFAULTS = {
     "scratch_line_gap_px": 12,
     "scratch_ridge_factor": 1.0,
     "bridge_gaps_px": 9,
+    "bridge_ends_px": 0,
+    "merge_border_darkness": "auto",
+    "direction_sigma_px": "boundary",
     "h_px": 0.5,
     "merge_saddle_ratio": 0.5,
     "merge_max_offaxis_deg": 30.0,
@@ -112,6 +116,9 @@ def flakes(images, params, out_dir, overlay=()):
     - boundary_sensitivity: 0.3-3, multiplies the Otsu threshold of the ridge response;
       lower finds more (fainter) boundary, higher only the strongest [1.0]
     - detect_scratches: find straight thin lines that cross the flakes and inpaint them before segmenting [true]
+    - detect_pockets: true/false, coarse structures (flakes >= 24 px wide): patches of fine speckle texture without a
+      direction (grey "pockets" at triple junctions) are found, and flakes lying at least half on them are marked
+      not_a_flake and left out of all statistics [true]
     - scratch_min_length_px: 50-1000, shortest straight line taken as a scratch [200]
     - scratch_min_crossing_deg: 5-60, a scratch must cross the local flake direction by at least this;
       a straight line closer to the flake direction cannot be told from the flakes and is left alone [12]
@@ -129,6 +136,9 @@ def flakes(images, params, out_dir, overlay=()):
     - bridge_gaps_px: 0-25, closes gaps in the boundaries up to about this long, along the local flake direction
       only (a closing with a line oriented along the laths), so dashed boundaries between neighbouring laths
       are joined without bridging across a lath; 0 = off [9]
+    - bridge_ends_px: "auto" | 0-60, gaps closed in faint boundaries that run across the flakes (coarse flakes
+      stacked end to end); "auto": 0.3 x the flake width for flakes >= 24 px wide, off below [0: on the coarse-cell
+      twin it traded merges for cut flakes without a clear gain, JOURNAL 2026-11-17]
     - h_px: 0-5, h-maxima height of the watershed seeds on the distance transform; 0 = no watershed,
       flakes are the connected regions between boundaries [0.5]
     - merge_saddle_ratio: 0-1, neighbouring pieces are merged back when the narrowest point between them
@@ -140,6 +150,9 @@ def flakes(images, params, out_dir, overlay=()):
     - merge_min_fill: 0-1, a merge is refused when the merged region would fill its same-moment ellipse less
       well than this fraction of the worse piece (pieces of one lath joined end to end fill it as well as each
       piece; an L-shaped or branched result much worse); 0 = no shape test [0.9]
+    - merge_border_darkness: "auto" | 0-0.5, pieces whose shared border is darker than both by more than this
+      fraction of the flake-to-boundary contrast are not merged (a faint boundary is there); "auto": 0.12 for flakes
+      >= 24 px wide, off below ["auto"]
     - min_area_px: 5-500, smaller regions are dropped [30]
     - min_solidity: 0-1, regions less solid than this are checked for branches [0.75]
     - branch_test: "skeleton" | "solidity" ["skeleton"]
@@ -181,7 +194,11 @@ def flakes(images, params, out_dir, overlay=()):
         summaries[name] = res["summary"]
         defect_maps[name] = res["defect_map"]
         defects[name] = res["scratches"]
-        save_labels(res["labels"], out_dir / "labels" / f"{name}.png")
+        # the label image holds the flakes: regions marked not_a_flake (pockets) are left out (label ids are kept,
+        # so label k is still flake k of the table)
+        drop = [k + 1 for k, f in enumerate(res["flakes"]) if f.get("not_a_flake")]
+        saved_ids = np.where(np.isin(res["labels"], drop), 0, res["labels"]) if drop else res["labels"]
+        save_labels(saved_ids, out_dir / "labels" / f"{name}.png")
         if name in overlay:
             overlays.append(str(save_flake_overlay(res, out_dir / "overlays" / name)))
     return {
@@ -228,29 +245,52 @@ def lath_direction_field(img: np.ndarray, sigma_int: float) -> tuple[np.ndarray,
     return (grad + 90) % 180, coherence
 
 
+COARSE_PX = 24  # flakes at least this wide get the coarse-structure rules (pockets, faint scratches, merge evidence)
+
+
 def find_scratches(smooth: np.ndarray, roi: np.ndarray, direction: np.ndarray, coherence: np.ndarray, p: dict,
-                   log: list | None = None):
+                   log: list | None = None, coarse: bool = False):
     """Straight thin lines (dark or bright) that run across the flakes, with the same flake direction on both sides.
 
+    coarse (flakes >= 24 px): faint hairlines and thick scratches are looked for too: line candidates at half the
+    ridge threshold, a second dark pass at 2-3 px for thick scratches, and contrast sampled 3 and 6 px to either side
+    against the larger of 3 x the pixel noise and half the usual level (on the coarse-cell twin, 18 % of the
+    scratch pixels reached the usual candidate map and none was found). The four tests are unchanged.
     With a list as `log`, every candidate line and the value of each test are appended to it (diagnostics)."""
     found = np.zeros(smooth.shape, bool)
     items = []
     if not p["detect_scratches"]:
         return found, items
     side = 4 * p["boundary_width_px"] + 8
+    if coarse:  # sides far enough that the scratch itself does not pull the flake direction there
+        side = max(side, 0.8 * (p.get("_width_used") or 30.0))
     h, w = smooth.shape
     spread = float(np.subtract(*np.percentile(smooth[roi], [95, 5])))
+    if coarse:
+        resid = (smooth - gaussian(smooth, 2.0))[roi]
+        noise = 1.4826 * float(np.median(np.abs(resid - np.median(resid))))
+        level_min = max(3 * noise, 0.5 * p["scratch_min_contrast"] * spread)
+    else:
+        level_min = p["scratch_min_contrast"] * spread
     # pixels whose own line direction (Hessian, scale 1.2 px) crosses the local flake direction:
     # lath boundaries drop out before the line search, so they cannot interrupt a scratch that crosses them
     hrr, hrc, hcc = hessian_matrix(smooth, sigma=1.2, order="rc", use_gaussian_derivatives=True)
     principal = 0.5 * np.degrees(np.arctan2(-2 * hrc, hcc - hrr))  # axis of the largest eigenvalue, y up
-    for black in (True, False):
-        line_dir = (principal + 90) % 180 if black else principal % 180  # dark line: curvature > 0 across it
-        across = axial.axial_diff(line_dir, direction) >= p["scratch_min_crossing_deg"]
-        ridge = sato(smooth, sigmas=[0.8, 1.2], black_ridges=black)
+    passes = [(True, [0.8, 1.2], principal), (False, [0.8, 1.2], principal)]
+    if coarse:  # thick dark scratches (4-6 px): ridges at 2-3 px, their direction from the Hessian at 2.5 px
+        hrr2, hrc2, hcc2 = hessian_matrix(smooth, sigma=2.5, order="rc", use_gaussian_derivatives=True)
+        passes.append((True, [2.0, 3.0], 0.5 * np.degrees(np.arctan2(-2 * hrc2, hcc2 - hrr2))))
+    factor = p["scratch_ridge_factor"] * (0.4 if coarse else 1.0)
+    # coarse rows curve: their long boundaries run up to ~20 deg off the smoothed direction (twin: false scratches
+    # at 16-26 deg); a scratch closer than 25 deg to the flakes cannot be told from a boundary by geometry
+    min_cross = max(p["scratch_min_crossing_deg"], 25.0) if coarse else p["scratch_min_crossing_deg"]
+    for black, sigmas, princ in passes:
+        line_dir = (princ + 90) % 180 if black else princ % 180  # dark line: curvature > 0 across it
+        across = axial.axial_diff(line_dir, direction) >= min_cross
+        ridge = sato(smooth, sigmas=sigmas, black_ridges=black)
         ridge[~roi] = 0
         t = threshold_otsu(ridge[roi])
-        thin = (ridge > p["scratch_ridge_factor"] * t) & across
+        thin = (ridge > factor * t) & across
         segments = probabilistic_hough_line(
             thin, threshold=30, line_length=int(p["scratch_min_length_px"]), line_gap=int(p["scratch_line_gap_px"]),
             theta=HOUGH_THETA, rng=0,
@@ -286,15 +326,20 @@ def find_scratches(smooth: np.ndarray, roi: np.ndarray, direction: np.ndarray, c
             # the line must stand out from its perpendicular neighbours (darker or brighter) along most of its length
             m = max(int(length), 2)
             centre = _along(smooth, (y0, x0), (y1, x1), m)
-            one = _along(smooth, (y0 + 3 * nr, x0 + 3 * nc), (y1 + 3 * nr, x1 + 3 * nc), m)
-            other = _along(smooth, (y0 - 3 * nr, x0 - 3 * nc), (y1 - 3 * nr, x1 - 3 * nc), m)
-            # against each side on its own: a line beside a dark edge stands out from one side only
-            signed = np.minimum(one, other) - centre if black else centre - np.maximum(one, other)
-            contrast = float(np.mean(signed > p["scratch_min_contrast"] * spread))
+            contrast = 0.0
+            for off in ((3, 6) if coarse else (3,)):  # (a thick scratch is wider than 2 x 3 px)
+                one = _along(smooth, (y0 + off * nr, x0 + off * nc), (y1 + off * nr, x1 + off * nc), m)
+                other = _along(smooth, (y0 - off * nr, x0 - off * nc), (y1 - off * nr, x1 - off * nc), m)
+                # against each side on its own: a line beside a dark edge stands out from one side only
+                signed = np.minimum(one, other) - centre if black else centre - np.maximum(one, other)
+                contrast = max(contrast, float(np.mean(signed > level_min)))
             continuity = lath_continuity(smooth, (y0, x0), (y1, x1), mean_side, 3)
             tests = {"same_sides": float(np.mean(same_sides[ok])) >= 0.6,
-                     "crossing": crossing >= p["scratch_min_crossing_deg"],
-                     "contrast": contrast >= p["scratch_min_contrast_fraction"],
+                     "crossing": crossing >= min_cross,
+                     # coarse: a chain of aligned faint boundaries across the flakes is dark only where a boundary
+                     # is (twin: 0.30-0.39 of its length); a scratch is dark along most of its length (0.55-0.78)
+                     "contrast": contrast >= (max(p["scratch_min_contrast_fraction"], 0.45) if coarse
+                                              else p["scratch_min_contrast_fraction"]),
                      "continuity": continuity >= p["scratch_min_continuity"]}
             if log is not None:
                 log.append({"stage": "line", "kind": "dark" if black else "bright", "start": (y0, x0), "end": (y1, x1),
@@ -305,6 +350,8 @@ def find_scratches(smooth: np.ndarray, roi: np.ndarray, direction: np.ndarray, c
                 # extend while the line itself stays darker (brighter) than both sides, then mark all of it:
                 # on real texture the candidate map has only about half of a scratch's pixels
                 # (and while the line map supports it: in noisy images the contrast test stops early)
+                # (extended at the usual level: the lower acceptance level for faint lines ran past the scratch's
+                # end on the twin)
                 level = p["scratch_min_contrast"] * spread
 
                 def farther(a, b, origin):
@@ -435,7 +482,7 @@ def inpaint_along(img: np.ndarray, hole: np.ndarray, direction: np.ndarray, max_
     out[rr, cc] = np.where(total > 0, (wgt * edge_val).sum(axis=0) / np.maximum(total, 1e-12), fallback)
     return out
 
-def resolve(p: dict, prof: dict | None, mode: str) -> dict:
+def resolve(p: dict, prof: dict | None, mode: str, shape=None) -> dict:
     """Fill in "auto" scale for one reading of the image: pixel params scaled to the flake width measured for that
     reading (explicitly given params are kept)."""
     q = dict(p)
@@ -446,7 +493,8 @@ def resolve(p: dict, prof: dict | None, mode: str) -> dict:
     elif isinstance(p["flake_width_px"], (int, float)) and not isinstance(p["flake_width_px"], bool):
         width = float(p["flake_width_px"])
     if width:
-        q.update(profile_mod.scaled_params(width, boundary, p.get("_given", ()), p))
+        q.update(profile_mod.scaled_params(width, boundary, p.get("_given", ()), p,
+                                           shape=shape or (prof.get("shape") if prof else None)))
     q["_width_used"] = width
     return q
 
@@ -458,15 +506,41 @@ def segment_boundaries(clean: np.ndarray, roi: np.ndarray, direction, coherence,
     t = threshold_otsu(ridge[roi]) * p["boundary_sensitivity"]
     boundary = (ridge > t) | ~roi
     boundary = remove_small_objects(boundary, max_size=7)
+    ends = _end_bridge_px(p)
+    if (p["bridge_gaps_px"] and p["bridge_gaps_px"] > 1) or ends > 1:
+        hrr, hrc, hcc = hessian_matrix(clean, sigma=max(bw / 2, 1.0), order="rc", use_gaussian_derivatives=True)
+        line_dir = (0.5 * np.degrees(np.arctan2(-2 * hrc, hcc - hrr)) + 90) % 180  # dark lines
     if p["bridge_gaps_px"] and p["bridge_gaps_px"] > 1:
         # bridge only from boundary pixels that run along the laths (their sides), never from lath ends:
         # end caps of two consecutive laths are a few px apart along the lath direction and would be joined,
         # filling short laths with boundary
-        hrr, hrc, hcc = hessian_matrix(clean, sigma=max(bw / 2, 1.0), order="rc", use_gaussian_derivatives=True)
-        line_dir = (0.5 * np.degrees(np.arctan2(-2 * hrc, hcc - hrr)) + 90) % 180  # dark lines
         sides = boundary & (axial.axial_diff(line_dir, direction) <= 30)
         boundary = boundary | directional_closing(sides, direction, coherence, int(p["bridge_gaps_px"]))
-    return remove_small_holes(~boundary, max_size=11) & roi
+    if ends > 1:
+        # coarse flakes stacked end to end: their boundary runs across the flakes, faint and dotted. Lines across
+        # the flake direction are taken at a lower threshold and closed along their own direction (never along
+        # the flakes: that would join the two sides of a flake)
+        across = (ridge > 0.6 * t) & roi & (axial.axial_diff(line_dir, direction) >= 60)
+        across = remove_small_objects(across, max_size=4)
+        boundary = boundary | directional_closing(across, (direction + 90) % 180, coherence, ends)
+    return remove_small_holes(~boundary, max_size=_pore_area(p)) & roi
+
+
+def _end_bridge_px(p: dict) -> int:
+    """Gap bridged in boundaries across the flakes: "auto" = 0.3 x the flake width for coarse flakes (>= 24 px),
+    0 (off) below, where flakes end in rounded caps a few px apart and the old rules hold."""
+    if p["bridge_ends_px"] != "auto":
+        return int(p["bridge_ends_px"] or 0)
+    width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    return int(round(0.3 * width)) if width >= 24 else 0
+
+
+def _pore_area(p: dict) -> int:
+    """Largest hole in a flake that is filled before the watershed: a pore or a dot is not a boundary, and as a hole
+    it makes the watershed cut the flake through it (coarse-cell twin: 127 of 138 cut cells). (0.15 x flake width)^2,
+    at least 11 px (the old fixed value, unchanged for flakes up to ~22 px)."""
+    width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    return int(max(11, (0.15 * width) ** 2))
 
 
 def segment_regions(clean: np.ndarray, roi: np.ndarray, direction, coherence, p: dict) -> np.ndarray:
@@ -483,7 +557,7 @@ def segment_regions(clean: np.ndarray, roi: np.ndarray, direction, coherence, p:
     edge = ndi.binary_dilation(edge) | ~roi
     if p["bridge_gaps_px"] and p["bridge_gaps_px"] > 1:
         edge = edge | directional_closing(edge, direction, coherence, int(p["bridge_gaps_px"]))
-    return remove_small_holes(~edge, max_size=11) & roi
+    return remove_small_holes(~edge, max_size=_pore_area(p)) & roi
 
 
 def segment_phase(clean: np.ndarray, roi: np.ndarray, p: dict, flake_phase: str) -> np.ndarray:
@@ -498,14 +572,21 @@ def segment_phase(clean: np.ndarray, roi: np.ndarray, p: dict, flake_phase: str)
     return mask
 
 
-def split_regions(interior: np.ndarray, direction, coherence, p: dict) -> np.ndarray:
+def split_regions(interior: np.ndarray, direction, coherence, p: dict, clean: np.ndarray | None = None) -> np.ndarray:
     distance = ndi.distance_transform_edt(interior)
     if p["h_px"] > 0:
         markers = label(h_maxima(distance, float(p["h_px"])).astype(bool) & interior)
         labels = skwatershed(-distance, markers, mask=interior)
+        darkness = _border_darkness_limit(p)
+        evidence = None
+        if clean is not None and darkness:
+            # a faint boundary between two pieces: their shared border darker than both, by this much
+            outside = ~interior
+            contrast = float(np.median(clean[interior]) - np.median(clean[outside])) if outside.any() else 0.0
+            evidence = (clean, darkness * max(contrast, 1e-6))
         labels = merge_by_saddle(labels, distance, float(p["merge_saddle_ratio"]),
                                  float(p["merge_max_offaxis_deg"]), direction, coherence,
-                                 float(p["merge_min_fill"]))
+                                 float(p["merge_min_fill"]), evidence)
     else:
         labels = label(interior, connectivity=1)
     labels = remove_small_objects(labels, max_size=max(int(p["min_area_px"]) - 1, 0))
@@ -521,7 +602,8 @@ def accepted_coverage(flakes_list: list[dict], roi: np.ndarray) -> float:
 
 def analyse(raw: np.ndarray, p: dict) -> dict:
     gray = raw[: raw.shape[0] - int(p["crop_bottom_px"])] if p["crop_bottom_px"] else raw
-    roi = region_of_interest(gray, p["roi"])
+    roi_info = {}
+    roi = profile_mod.region_of_interest(gray, p["roi"], info=roi_info)
     need_profile = (p["mode"] == "auto" or p["flake_width_px"] == "auto"
                     or (p["mode"] == "phase" and p["flake_phase"] == "auto"))
     prof = profile_mod.profile(gray, roi) if need_profile else None
@@ -537,10 +619,11 @@ def analyse(raw: np.ndarray, p: dict) -> dict:
     else:
         modes, reason = [p["mode"]], "set by params"
 
-    results = [analyse_mode(raw, gray, roi, resolve(p, prof, m), m, prof) for m in modes]
+    results = [analyse_mode(raw, gray, roi, resolve(p, prof, m, gray.shape), m, prof) for m in modes]
     best = max(results, key=lambda r: r["coverage"])
     best["summary"]["mode"] = best["mode"]
     best["summary"]["mode_reason"] = reason
+    best["summary"]["out_of_focus_fraction"] = roi_info.get("out_of_focus_fraction", 0.0)
     best["summary"]["coverage"] = round(best["coverage"], 3)
     q = best["params"]
     best["summary"]["flake_width_px_used"] = q["_width_used"]
@@ -571,9 +654,23 @@ def analyse_mode(raw, gray, roi, p, mode, prof) -> dict:
         img = img - gaussian(img, p["flatten_px"]) + fill
     smooth = gaussian(img, p["sigma"]) if p["sigma"] > 0 else img
 
-    direction, coherence = lath_direction_field(smooth, sigma_int=max(6.0, 3 * p["boundary_width_px"]))
-    scratch, scratch_items = find_scratches(smooth, roi, direction, coherence, p)
-    clean = inpaint_along(smooth, ndi.binary_dilation(scratch, iterations=1), direction) if scratch.any() else smooth
+    # (direction_sigma_px: a number sets the integration scale; half a flake width on coarse cells made merges
+    # worse on the twin, JOURNAL 2026-11-17)
+    sigma_dir = max(6.0, 3 * p["boundary_width_px"])
+    if p["direction_sigma_px"] != "boundary":
+        sigma_dir = float(p["direction_sigma_px"])
+    direction, coherence = lath_direction_field(smooth, sigma_int=sigma_dir)
+    # scratches are judged and filled along the flake direction on either side; inside coarse flakes the direction
+    # needs half a flake width to be defined (at 8 px it is noise in a 60 px cell)
+    width_px = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    if width_px >= COARSE_PX:
+        s_dir, s_coh = lath_direction_field(smooth, sigma_int=max(sigma_dir, 0.5 * width_px))
+    else:
+        s_dir, s_coh = direction, coherence
+    # pockets first: their speckle must not feed the scratch candidates
+    pockets = profile_mod.textured_regions(gray, roi, width_px) if p["detect_pockets"] else np.zeros(roi.shape, bool)
+    scratch, scratch_items = find_scratches(smooth, roi & ~pockets, s_dir, s_coh, p, coarse=width_px >= COARSE_PX)
+    clean = inpaint_along(smooth, ndi.binary_dilation(scratch, iterations=1), s_dir) if scratch.any() else smooth
 
     if mode == "boundaries":
         interior = segment_boundaries(clean, roi, direction, coherence, p)
@@ -581,9 +678,9 @@ def analyse_mode(raw, gray, roi, p, mode, prof) -> dict:
         interior = segment_regions(clean, roi, direction, coherence, p)
     else:
         interior = segment_phase(clean, roi, p, "bright")  # img was turned so that the flakes are bright
-    labels = split_regions(interior, direction, coherence, p)
+    labels = split_regions(interior, direction, coherence, p, clean)
 
-    flakes_out = measure_flakes(labels, roi, scratch, p)
+    flakes_out = measure_flakes(labels, roi, scratch, p, pockets)
     summary = summarise(flakes_out, labels, smooth, roi, p)
     summary.update(polarity=polarity, flake_phase=flake_phase, n_scratches=len(scratch_items),
                    scratch_pixel_fraction=float(scratch[roi].mean()) if roi.any() else 0.0)
@@ -592,7 +689,7 @@ def analyse_mode(raw, gray, roi, p, mode, prof) -> dict:
     full_labels = np.zeros(raw.shape, labels.dtype)
     full_labels[: labels.shape[0]] = labels
     return {"flakes": flakes_out, "summary": summary, "labels": full_labels, "defect_map": defect_map,
-            "scratches": scratch_items, "scratch": scratch, "gray": gray, "roi": roi, "lab": labels,
+            "scratches": scratch_items, "scratch": scratch, "gray": gray, "roi": roi, "lab": labels, "pockets": pockets,
             "mode": mode, "coverage": accepted_coverage(flakes_out, roi), "params": p}
 
 def _line_footprint(length: int, angle_deg: float) -> np.ndarray:
@@ -636,9 +733,18 @@ def _piece_geometry(labels: np.ndarray, n: int):
     return mr, mc, theta, np.sqrt(lam1 / lam2)
 
 
+def _border_darkness_limit(p: dict) -> float:
+    """merge_border_darkness: "auto" = 0.12 (of the flake-to-boundary contrast) for coarse flakes (>= 24 px), off below."""
+    v = p["merge_border_darkness"]
+    if v != "auto":
+        return float(v or 0)
+    width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    return 0.12 if width >= 24 else 0.0
+
+
 def merge_by_saddle(labels: np.ndarray, distance: np.ndarray, ratio: float, max_offaxis_deg: float = 90.0,
                     direction: np.ndarray | None = None, coherence: np.ndarray | None = None,
-                    min_fill: float = 0.0) -> np.ndarray:
+                    min_fill: float = 0.0, evidence: tuple | None = None) -> np.ndarray:
     """Merge touching regions whose pass (highest distance value on their shared border)
     is at least `ratio` times the smaller of their two peaks (largest distance value inside),
     and that lie end to end: the line between their centroids within max_offaxis_deg of the local flake
@@ -647,7 +753,10 @@ def merge_by_saddle(labels: np.ndarray, distance: np.ndarray, ratio: float, max_
     Two laths side by side, touching through a gap in the boundary between them, are not merged.
     A merge is also refused when the merged region would fill its same-moment ellipse less well than
     min_fill times the worse of its two pieces (a branched or L-shaped result is not one flake;
-    two pieces of one lath joined end to end fill it as well as each piece)."""
+    two pieces of one lath joined end to end fill it as well as each piece).
+    With `evidence` = (image, level): a merge is refused when the pieces' shared border is darker than the darker of
+    the two pieces by more than `level` (a faint boundary is there: coarse cells stacked end to end, whose boundary
+    has gaps; a cut made by the watershed inside one flake is not darker)."""
     if ratio >= 1 or labels.max() < 2:
         return labels
     n = int(labels.max()) + 1
@@ -655,21 +764,36 @@ def merge_by_saddle(labels: np.ndarray, distance: np.ndarray, ratio: float, max_
     peak = np.asarray(peak, float)
     mr, mc, theta, elong = _piece_geometry(labels, n)
     pairs, passes = [], []
-    for a, b, da, db in ((labels[:, :-1], labels[:, 1:], distance[:, :-1], distance[:, 1:]),
-                         (labels[:-1, :], labels[1:, :], distance[:-1, :], distance[1:, :])):
+    border_vals = []
+    img = evidence[0] if evidence is not None else None
+    for a, b, da, db, ia, ib in ((labels[:, :-1], labels[:, 1:], distance[:, :-1], distance[:, 1:],
+                                  *((img[:, :-1], img[:, 1:]) if img is not None else (None, None))),
+                                 (labels[:-1, :], labels[1:, :], distance[:-1, :], distance[1:, :],
+                                  *((img[:-1, :], img[1:, :]) if img is not None else (None, None)))):
         m = (a != b) & (a > 0) & (b > 0)
         lo, hi = np.minimum(a[m], b[m]), np.maximum(a[m], b[m])
         pairs.append(lo.astype(np.int64) * n + hi)
         passes.append(np.minimum(da[m], db[m]))
+        if img is not None:
+            border_vals.append((ia[m] + ib[m]) / 2)
     keys, values = np.concatenate(pairs), np.concatenate(passes)
     if keys.size == 0:
         return labels
+    if img is not None:
+        # mean image value on each pair's shared border, and each piece's median, before the keys are reduced
+        bv = np.concatenate(border_vals)
+        uk, inv = np.unique(keys, return_inverse=True)
+        border_mean = dict(zip(uk.tolist(), (np.bincount(inv, bv) / np.bincount(inv)).tolist()))
+        piece_level = np.asarray(ndi.median(img, labels, index=np.arange(n)), float)
     order = np.lexsort((-values, keys))
     keys, values = keys[order], values[order]
     first = np.r_[True, keys[1:] != keys[:-1]]
     keys, values = keys[first], values[first]  # the highest pass per pair
     a_ids, b_ids = keys // n, keys % n
     score = values / np.maximum(np.minimum(peak[a_ids], peak[b_ids]), 1e-9)
+    if img is not None:
+        dark = np.minimum(piece_level[a_ids], piece_level[b_ids]) - np.array([border_mean[int(k)] for k in keys])
+        score = np.where(dark > evidence[1], 0.0, score)
     if max_offaxis_deg < 90:
         link = np.degrees(np.arctan2(-(mr[b_ids] - mr[a_ids]), mc[b_ids] - mc[a_ids])) % 180
         if direction is not None:
@@ -743,7 +867,8 @@ def is_branched(region: np.ndarray, arm_widths: float = 2.5) -> bool:
     return int(long_arms.sum()) >= 3
 
 
-def measure_flakes(labels: np.ndarray, roi: np.ndarray, scratch: np.ndarray, p: dict) -> list[dict]:
+def measure_flakes(labels: np.ndarray, roi: np.ndarray, scratch: np.ndarray, p: dict,
+                   pockets: np.ndarray | None = None) -> list[dict]:
     h, w = labels.shape
     outside = ~roi
     near_outside = ndi.binary_dilation(outside, iterations=2) if outside.any() else outside
@@ -761,7 +886,8 @@ def measure_flakes(labels: np.ndarray, roi: np.ndarray, scratch: np.ndarray, p: 
             branched = solid < p["min_solidity"] and is_branched(r.image)  # only low-solidity ones need the test
         else:
             branched = solid < p["min_solidity"]
-        shape_ok = not branched
+        pocket = bool(pockets is not None and pockets[rr, cc].mean() >= 0.5)
+        shape_ok = not branched and not pocket
         f = {
             "orientation_deg": round(theta, 2),
             "length_px": round(major, 2),
@@ -776,6 +902,7 @@ def measure_flakes(labels: np.ndarray, roi: np.ndarray, scratch: np.ndarray, p: 
             "crossed_by_scratch": bool(scratch_near[rr, cc].any()),
             "used_for_orientation": bool(shape_ok and ar >= p["min_aspect_for_orientation"]),
             "used_for_shape": bool(shape_ok and not edge),
+            "not_a_flake": pocket,  # a textured pocket, not a flake: left out of everything
         }
         if scale:
             f["length_um"], f["width_um"] = round(major * scale, 3), round(minor * scale, 3)
@@ -876,6 +1003,7 @@ def summarise(flakes_list: list[dict], labels, smooth, roi, p) -> dict:
         "n_low_solidity": sum(f["solidity"] < p["min_solidity"] for f in flakes_list),
         "n_branched": sum(f["branched"] for f in flakes_list),
         "n_gb_alpha_like": sum(f.get("gb_alpha_like", False) for f in flakes_list),
+        "n_pockets": sum(f.get("not_a_flake", False) for f in flakes_list),
         "flake_area_fraction": float((labels > 0)[roi].mean()) if roi.any() else None,
     }
     if p["um_per_px"]:
@@ -906,6 +1034,7 @@ def save_flake_overlay(res: dict, path: Path) -> Path:
         colours[1:] = _hsv_to_rgb(hues)
         used[1:] = [f["used_for_orientation"] for f in flakes_list]
         colours[1:][~used[1:]] = (110, 110, 110)
+        colours[1:][np.array([f.get("not_a_flake", False) for f in flakes_list], bool)] = (40, 40, 40)  # pockets
     paint = lab > 0
     rgb = base.copy()
     rgb[paint] = 0.35 * base[paint] + 0.65 * colours[lab[paint]]

@@ -1,0 +1,43 @@
+INFO __main__: execute: ok=True metrics={'median_direction_error_deg': 0.25001487606290596, 'median_order_abs_error': 0.011920388409070087, 'median_order_bias': -0.011920388409070087, 'median_misalignment_abs_error_deg': 0.6114057519872, 'median_aspect_ratio_rel_error': 0.029314172272108543, 'median_aspect_ratio_bias': -0.01188175399644742, 'median_flake_orientation_error_deg': 1.4499999999999886, 'flake_recall': 0.944659793814433, 'flake_precision': 0.9321615400711446, 'median_image_flake_recall': 0.9665681299963049, 'n_images': 24, 'n_images_direction': 20, 'shape_population': {'matched': 0.9265001255335175, 'fragment': 0.04142827120039802, 'merged': 0.003092537313432836, 'gb_alpha': 0.012335901727787077, 'on_boundary': 0.0}, 'matched_aspect_ratio_ratio': 1.0459503688348266, 'tolerance_ratios': {'mean_direction_deg': 0.050002975212581194, 'order_parameter': 0.23840776818140175, 'misalignment_deg': 0.12228115039744, 'aspect_ratio_rel': 0.1954278151473903, 'flake_orientation_deg': 0.2899999999999977}, 'worst_tolerance_ratio': 0.2899999999999977, 'n_images_without_truth': 0, 'scratch_precision': 0.9172573567084716, 'scratch_recall_crossing': 0.8111090162389029, 'scratch_recall_parallel': 0.2912395555172711, 'worst_family_tolerance_ratio': 0.6571163316318879}
+{
+  "ok": true,
+  "dataset": "lamellar_synth",
+  "split": "dev",
+  "metrics": {
+    "median_direction_error_deg": 0.25001487606290596,
+    "median_order_abs_error": 0.011920388409070087,
+    "median_order_bias": -0.011920388409070087,
+    "median_misalignment_abs_error_deg": 0.6114057519872,
+    "median_aspect_ratio_rel_error": 0.029314172272108543,
+    "median_aspect_ratio_bias": -0.01188175399644742,
+    "median_flake_orientation_error_deg": 1.4499999999999886,
+    "flake_recall": 0.944659793814433,
+    "flake_precision": 0.9321615400711446,
+    "median_image_flake_recall": 0.9665681299963049,
+    "n_images": 24,
+    "n_images_direction": 20,
+    "shape_population": {
+      "matched": 0.9265001255335175,
+      "fragment": 0.04142827120039802,
+      "merged": 0.003092537313432836,
+      "gb_alpha": 0.012335901727787077,
+      "on_boundary": 0.0
+    },
+    "matched_aspect_ratio_ratio": 1.0459503688348266,
+    "tolerance_ratios": {
+      "mean_direction_deg": 0.050002975212581194,
+      "order_parameter": 0.23840776818140175,
+      "misalignment_deg": 0.12228115039744,
+      "aspect_ratio_rel": 0.1954278151473903,
+      "flake_orientation_deg": 0.2899999999999977
+    },
+    "worst_tolerance_ratio": 0.2899999999999977,
+    "n_images_without_truth": 0,
+    "scratch_precision": 0.9172573567084716,
+    "scratch_recall_crossing": 0.8111090162389029,
+    "scratch_recall_parallel": 0.2912395555172711,
+    "worst_family_tolerance_ratio": 0.6571163316318879
+  },
+  "by_corruption_level": null,
+  "error": null
+}

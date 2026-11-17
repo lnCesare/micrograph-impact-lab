@@ -155,3 +155,27 @@ def test_the_agent_can_switch_to_the_regions_reading(tmp_path, monkeypatch):
     assert log["mode"] == "regions" and "switched by the agent" in log["mode_reason"]
     assert (tmp_path / "twins" / "toregions__regions" / "twin_info.json").exists()
     assert log["chosen_params"]["mode"] == "regions"
+
+
+def test_adapt_writes_one_label_png_per_input_at_the_input_size(tmp_path):
+    # the private test scores these with src.score_masks: 0 background, 1..N flakes, the input's size
+    from src.adapt import adapt
+
+    import shutil
+
+    g = generate(Spec("x0", "t", seed=70, shape=(256, 320), lath_width_px=(8, 12), boundary_px=1.0))["image"]
+    p0 = tmp_path / "in" / "im.0.png"  # (a dot in the name, as in the lamellar set)
+    p0.parent.mkdir(exist_ok=True)
+    Image.fromarray(g).save(p0)
+    p1 = tmp_path / "in" / "sem.1.png"  # the scientist's SEM screenshot: flakes ~4 px, analysed enlarged
+    shutil.copy(Path(__file__).resolve().parents[1] / "data" / "user" / "sem_bse.png", p1)
+    paths = [p0, p1]
+    for k, p in enumerate(paths):
+        log = adapt([p], f"labels{k}", budget=1, workers=2, results_root=tmp_path / "results",
+                    twin_root=tmp_path / "twins", record_knowledge=False, log=lambda *a: None)
+        lab = tmp_path / "results" / "adapt" / f"labels{k}" / "labels" / f"{p.stem}.png"
+        assert lab.exists(), lab
+        arr = np.array(Image.open(lab))
+        assert arr.shape == np.array(Image.open(p)).shape[:2]
+        assert arr.max() >= 5 and arr.min() == 0
+    assert log["upsample_factor"] > 1  # the second image was analysed enlarged, its labels are at its own size

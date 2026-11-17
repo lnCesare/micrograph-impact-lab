@@ -2006,3 +2006,291 @@ On all four sets the twin was not trusted, so its changes were applied on the ev
 - The reviewer accepted both iterations, and noted that the Ti64 metric is a median over images, not a worst case.
 
 **After the method fixes** ([baseline_v8](results/flakes/baseline_v8/)): lamellar_synth worst family 0.657, Ti64 0.218, both unchanged; 107 tests pass.
+
+## 2026-11-17 · Coarse cell structures: a twin family, a scoring CLI, and the private test's failures reproduced
+
+**Why.** The tool was tested privately on optical micrographs of a coarse, elongated cell structure (8 images with hand-corrected masks; the images cannot be shared).
+It lost to a plain h-maxima watershed on everything but mean direction: flake F1 0.64 vs 0.74 (IoU 0.5), S error 0.05–0.07 vs 0.02, median aspect ratio −22 % vs −12 %, one image 7° off in direction.
+Task: make the tool handle such images, validated on synthetic and public data only, without getting worse on the existing sets.
+
+**The coarse-cell twin family** ([src/synth_cells.py](src/synth_cells.py), tests in [tests/test_synth_cells.py](tests/test_synth_cells.py)):
+- Built from the description of the private images:
+  - cells: ~60–70 px wide, aspect ratio 2.4–3.6, rounded ends, stacked end to end in curved rows (S 0.79–0.87), 90–150 per 1100 × 1400 image;
+  - boundaries: thin dark ones (2–5 px), broken and dotted, those across the cells (end to end) fainter;
+  - not cells: grey speckled pockets at triple junctions (0.5–2 cell widths), dark pores inside the cells;
+  - imaging defects: faint hairline scratches (1–1.6 px, 300–1300 px long, often ~45° to the cells), an occasional thick dark one, uneven illumination, and in one family an out-of-focus half-plane (20–50 % of the image).
+- Exact truth:
+  - cell ids, and masks in the private test's convention (0 boundary, 1 cell, 2 pocket, 3 ignore = out of focus);
+  - scratch maps, and the per-cell table that `src/evaluate.py` reads.
+- Three families (clean, scratched, blurred) × 6 images; the last 2 of each are holdout (`data/coarse_cells`, seed 0; generated, not committed).
+
+**The scoring CLI** ([src/score_masks.py](src/score_masks.py), tests in [tests/test_score_masks.py](tests/test_score_masks.py)):
+- Run as `python -m src.score_masks --labels <dir> --masks <dir> [--json out.json]`, for any method's label PNGs.
+- Flakes:
+  - precision, recall and F1 at IoU > 0.5;
+  - merges (a predicted flake covering half of two or more true ones);
+  - splits (a true flake holding two or more predicted ones);
+  - pocket false positives;
+  - predicted flakes on "ignore" are not scored.
+- Per image, direction, S and median aspect ratio are measured the same way from both label sets, and their errors are reported.
+
+**Before** (current code, defaults, 12 dev images; [results/flakes/cells/before_flakes_defaults/score.json](results/flakes/cells/before_flakes_defaults/score.json)):
+
+| | private test (8 real images) | twin dev (12 images) |
+|---|---|---|
+| flake width measured by the profiler | 31 px (cells ~65) | **30.5 px** (cells 55–75) |
+| flake F1 | 0.64 | 0.726 (P 0.61, R 0.89) |
+| splits / merges | splits > merges | 167 / 93 |
+| pockets counted as flakes | 94 | 542 |
+| median aspect ratio bias | −22 % | −19 % |
+| S error | 0.05–0.07 | 0.024 |
+
+The twin reproduces the failure pattern: the width is read at half, and fragments drag the aspect ratio low.
+The plain h-maxima watershed is *worse* on the twin (F1 0.37 with the repository's `watershed` defaults; 0.61 with h 6, σ 2, min area 400).
+The private watershed was presumably tuned to the real images.
+So the twin can tell whether the tool improves, but not whether it beats a tuned watershed on the real images; only the private test can.
+
+### Fix 1 · Flake width from the spacing of the boundary lines
+- *Hypothesis:* the Otsu-thickness estimate is pulled low by pores, pockets and broken boundaries. The spacing between boundary lines that run along the cells is not.
+- *Change:* `boundary_spacing` in [src/methods/profile.py](src/methods/profile.py):
+  - Sato ridges at 1–3 px, kept only where they run within 25° of the coarse local direction (pores, pocket texture and the transverse boundaries drop out);
+  - 240 scan lines across that direction, with the spacing taken at the peak of the log-histogram of crossing distances (a missing boundary doubles one spacing: that moves the median, not the peak);
+  - the mean intercept as a cross-check.
+
+  The width becomes spacing − line width.
+- *Rule* (to keep the calibrated behaviour elsewhere): the spacing estimate replaces the Otsu one only when the two disagree by more than 30 % **and** the spacing has a clear peak (≥ 40 % of spacings within ±25 %). Every profile reports both estimates, the intercept and a `disagree` flag.
+- *Result:*
+  - twin dev: 30.5 → **62.4 px** (true 55–75).
+  - Real sets are unchanged, because the two estimates agree or the spacing has no clear peak.
+    That holds for all 12 stress sets (on Ti64, spacing − line ≈ Otsu × 1.03–1.19).
+    The only real image that switches is Ti64_29 (8.5 → 13.5 px).
+  - Disagreements are flagged on SEM, basketweave, Widmanstätten and banded, which keep the old value.
+- *Verdict:* kept. Tests: [tests/test_width.py](tests/test_width.py).
+
+### Fix 2 · Pixel parameters capped by the image size
+- *Hypothesis:* at 62 px, 20 × the width asks for scratches 1250 px long, longer than the image is tall, so none can be found.
+- *Change:* `SIZE_CAPS` in `scaled_params`:
+  - scratch length ≤ 0.35 × the short side (floor 40 px);
+  - tile ≤ 0.5 × the short side;
+  - flattening ≤ 0.25 × the long side;
+  - gap bridging ≤ 0.05 × the short side.
+
+  Given params are left alone.
+- *Result:* fixes 1 + 2 together, twin dev F1 0.726 → **0.830**, pockets counted 542 → 131, aspect ratio bias −19 % → −10.6 %, S error 0.024 → 0.011.
+- *Verdict:* kept. Tests in [tests/test_profile.py](tests/test_profile.py).
+
+### Fix 4 · Junction pockets are "not a flake"
+- *Hypothesis:* a pocket is fine speckle without a direction; boundary lines have a direction.
+- *Tried first and rejected:*
+  - band-pass texture energy, which is higher on the boundary lines than in the pockets;
+  - energy plus coherence, which found 0 % of the pockets.
+- *Change:* `textured_regions` in [src/methods/profile.py](src/methods/profile.py):
+  - a density of small intensity extrema above 4× the image median and above 0.004 per pixel;
+  - structure-tensor coherence below 0.3;
+  - blobs of at least (0.2 w)²;
+  - only for flakes ≥ 24 px wide (at finer scales speckle cannot be told from lamellae).
+
+  Flakes lying at least half on a pocket are marked `not_a_flake`, left out of all statistics and of the label PNG, and drawn dark.
+- *Result:* pockets counted 131 → **21**; F1 0.828 → **0.860**; aspect ratio bias −7.2 %; S error 0.006.
+- *Verdict:* kept. Tests in [tests/test_flakes.py](tests/test_flakes.py) (pockets cut ≥ 70 %, cells found ≥ 97 %; never on fine lamellae).
+
+### Fix 6 · Out-of-focus areas left out
+- *Hypothesis:* in a blurred area the fine-scale gradient at the edges is weak relative to the coarse one.
+- *What failed first:*
+  - the sharpness ratio alone flagged 13 % of a sharp Ti64 image and 12–62 % of real images with broad step edges (Widmanstätten plates, ferrite grains);
+  - a curvature-over-contrast index was swamped by camera noise.
+- *Change:* `out_of_focus` in [src/methods/profile.py](src/methods/profile.py), applied in the region of interest. Two cues must hold together, relative to the image's own sharp part:
+  - sharpness below 0.72 × the image's sharp part;
+  - local contrast below 0.72 × its 75th percentile, since blur erases thin lines.
+
+  The area must be at least 10 % of the image.
+  The fraction left out is reported (`out_of_focus_fraction`).
+- *Thresholds:* a scan was run on 8 twin images and on 47 real ones (Ti64, the lamellar set, the scientist's SEM image).
+  The looser setting (0.8 × contrast) took a third of the scientist's SEM specimen for blurred.
+  The chosen one flags **none of the 47 real images**, and removes 62–81 % of the blurred area in 7 of 8 twin images.
+  One twin image is missed: the detector misses blur rather than cut sharp specimen away.
+- *Verdict:* kept, conservative by design. Tests: blurred twin found (IoU ≥ 0.6), no flag on clean twin, laths or Ti64_21.
+
+### Fix 3 · Over-splitting: pores filled, faint end-to-end boundaries kept
+- *Diagnosis* (twin dev, after fixes 1, 2, 4, 6): 127 of 138 split cells were watershed cuts between touching pieces.
+  In the drawings each cut runs from a pore to the boundary: the pore was a hole in the interior, and the distance-transform watershed cut the cell through it.
+- *Change 1:* holes up to (0.15 × flake width)² are filled before the watershed (`_pore_area`; at least 11 px, the old fixed value, so nothing changes below ~22 px).
+  - Result: splits 138 → 42, aspect ratio bias −7.2 % → **−1.2 %**.
+  - But merges 88 → 155 (F1 0.86 → 0.85): some pore cuts had been splitting, by luck, cells that leaked into each other through gaps in their faint end-to-end boundary.
+- *Tried for the merges* (12 dev images; each line is one run):
+
+  | variant | F1 | merges / splits | aspect ratio bias | S error |
+  |---|---|---|---|---|
+  | pores filled only | 0.850 | 155 / 42 | −1.2 % | 0.004 |
+  | + **border evidence** (kept) | **0.862** | 114 / 75 | −3.4 % | **0.004** |
+  | + transverse bridging | 0.864 | 136 / 58 | −3.2 % | 0.008 |
+  | + both | 0.865 | 106 / 99 | −5.2 % | 0.004 |
+  | + both, direction field at half a flake width | 0.855 | 101 / 120 | −4.8 % | 0.016 |
+
+  - *Border evidence* (`merge_border_darkness`, "auto" = 0.12 of the flake-to-boundary contrast for flakes ≥ 24 px): two pieces are not merged back when their shared border is darker than both. A cut inside one flake is not darker.
+  - *Transverse bridging* (`bridge_ends_px`): faint lines across the flakes taken at a lower threshold and closed along their own direction. It trades merges for splits; available, default off.
+  - A *wider direction field* made merges worse: with the direction read correctly, the merge rule joins end-to-end neighbours more often. The narrow field had been blocking those merges by accident.
+- *Verdict:* pore filling and border evidence kept. The differences between the variants (±1.5 F1 points) are within what 12 images can resolve.
+- Tests: pores (splits ≤ 7 % of cells, aspect ratio bias > −8 %), and a unit test of the border evidence (a darker shared border keeps two pieces apart; a plain one merges).
+
+### Fix 5 · Scratches on coarse cells
+- *Before:* recall 0 on the twin. At the old scaled length (1250 px) no scratch could exist; with the cap (fix 2) still none was found.
+- *Diagnosis* with the scratch finder's own log:
+  - 18 % of the scratch pixels reached the candidate map, because the ridge threshold is set by the strong cell boundaries;
+  - inside 60 px cells the 8-px direction field is noise, so the "same direction on both sides" test failed;
+  - the contrast test sampled 3 px to the side, inside a thick scratch.
+- *Changes,* for flakes ≥ 24 px only (`COARSE_PX`; the Ti64 scratch behaviour is unchanged):
+  - the scratch tests and the infill use a direction field at half a flake width, with the sides sampled 0.8 flake widths away (closer, a thick scratch pulled the direction towards itself);
+  - candidates at 0.4 × the ridge threshold, plus a dark pass at 2–3 px for thick scratches;
+  - contrast sampled 3 and 6 px to either side, against max(3 × pixel noise, half the usual level);
+  - the minimum crossing angle is 25°: rows curve, and their long boundaries ran 16–26° off the smoothed direction and were taken for scratches;
+  - the contrast fraction is 0.45: chains of aligned faint end-to-end boundaries across the cells were dark along only 30–39 % of their length, real scratches along 55–78 %;
+  - pockets are found before the scratches, so their texture does not feed candidates;
+  - the minimum length cap is 0.25 × the short side, never below the reference default of 200 px. A lower cap on small images of fine flakes let short false lines through: a pasted-scratch test failed.
+- *Result* (12 dev images):
+  - crossing-scratch recall, median per image: 0 → **0.46**;
+  - precision 0.88; **0 false scratch pixels on the 4 clean images**;
+  - lamellar_synth scratch precision/recall 0.917/0.811 (was 0.920/0.818).
+- *What is still missed:* scratches within ~25° of the local cell direction (on dev, the thick scratch of scratched_0 at 10°, one at 24° in a curved row), and the faintest bright hairlines.
+- Tests: hairline and thick scratches across coarse cells (≥ 40 % of the crossing pixels, ≤ 20 % false), none on clean coarse cells.
+
+### Label images for the private test
+- `src.adapt` writes `labels/<input stem>.png` for every input, at the input's size: 0 background, label k = flake k of `flakes.csv`.
+  - Pockets are left out of the label PNGs.
+  - Labels of images analysed enlarged are shrunk back (nearest neighbour).
+- The method's file names keep their full stem now: `L08__10.3390_x` was written as `L08__10.jpg`.
+- Test: one generated image and the scientist's SEM image (analysed at 3×); the labels match the input sizes.
+
+### Frozen, then holdout and blind (code e92b1aa81a, defaults)
+- **Holdout** (6 images, run once): F1 0.860, pockets counted 3, aspect ratio bias −3.4 %, S error 0.006, worst direction error 3.4° (a blurred image).
+- **Blind** (12 new images from an OS-entropy seed, params frozen first; [results/flakes/cells/blind/](results/flakes/cells/blind/)): F1 **0.856** (P 0.867, R 0.845), merges / splits 107 / 108, pockets counted 16, aspect ratio bias −4.5 %, S error 0.014, worst direction error 1.1°.
+- **But on the blurred family the aspect ratio is still far too low**: −25 % (holdout) and −23 % (blind), against −8 % on dev, with splits 35 and 64.
+  The out-of-focus detector is conservative (it misses some blur rather than cut sharp specimen), and the blur it misses is measured as fragments.
+  The dev number hid this: 4 dev images were not enough. This is the main open weakness for images like the private ones.
+- Both sets are now spent.
+
+### Regression after freezing: a rotation inconsistency on Ti64, fixed
+- lamellar_synth dev unchanged (worst family 0.657, pooled 0.29).
+- The Ti64 rotation check went 0.218 → **0.398** (aspect ratio part). Still within tolerance, but caused by the width rule of fix 1.
+  It was a switch: on Ti64_21 and Ti64_28 the straight disk kept the Otsu width, while the same disk turned by 30° switched to the spacing (8.9 → 11.8 px) and got other settings.
+- *Fix:* a smooth blend instead of a switch.
+  - Weight 0 below an estimator ratio of 1.6, 1 above 1.9, times a peak-clarity weight.
+  - Ti64 stays below 1.6 on every disk (weight 0, width unchanged); coarse cells are at 1.8–2.7 (the private images 2.1).
+- This change came after the blind run, so the blind numbers above belong to code e92b1aa81a.
+  The final code gets a second blind set, frozen first again (next entry).
+
+### Blind set 2 on the final code (77a86cd85c, defaults)
+- *Hypothesis:* the smooth width blend (previous entry) does not change the coarse-cell results; the blurred family stays the weak point.
+- *Protocol:* [scripts/cells_blind.py](scripts/cells_blind.py) wrote [frozen.json](results/flakes/cells/blind2/frozen.json) (code `77a86cd85c`, params `{}`, 11:52:28) before generating 12 images (4 per family) from an OS-entropy seed that is neither printed nor stored; run once.
+- *Result* ([score.json](results/flakes/cells/blind2/score.json)):
+
+| on blind set 2 | the tool before (commit d99b04a) | plain h-maxima watershed | same, h 6 px, σ 2, min area 400 | **the tool now** |
+|---|---|---|---|---|
+| flake F1 (P / R) | 0.748 (0.64 / 0.90) | 0.392 (0.26 / 0.77) | 0.625 (0.51 / 0.80) | **0.863** (0.885 / 0.842) |
+| merges / splits | 68 / 173 | 7 / 821 | 30 / 565 | 99 / 77 |
+| pockets counted as flakes | 427 | 1161 | 75 | 7 |
+| median aspect ratio bias | −17.8 % | −49.9 % | −42.7 % | **−3.6 %** |
+| median S error | 0.025 | 0.171 | 0.075 | 0.015 |
+| worst direction error | 1.45° | 4.13° | 3.78° | 1.29° |
+
+  - Per family (the tool now): clean F1 0.879, AR −2.9 %; scratched F1 0.884, AR −2.7 %; **blurred F1 0.789, AR −12.2 %**, splits 32 of the 77.
+  - "Before" is the tool at the public commit d99b04a, run from a temporary git worktree on the same images ([score.json](results/flakes/cells/blind2_before_tool/score.json)); the watershed rows are [src/methods/watershed.py](src/methods/watershed.py) ([defaults](results/flakes/cells/blind2_watershed_markershmaxima/score.json), [h 6](results/flakes/cells/blind2_watershed_markershmaximahpx6si/score.json)), whose params were chosen on dev.
+- *Verdict:* confirmed. The final code scores like blind set 1 (F1 0.856 → 0.863, AR −4.5 % → −3.6 %).
+  The plain watershed is far behind here, unlike on the private images (0.74 there).
+  That says the twin is easier for the tool than for a watershed, or that the private watershed was tuned on those images; it does not say the tool now beats it there.
+- Blurred images: −12 % here against −23 % on blind set 1. With 4 blurred images per set, that difference is within the spread; the blurred family is still the weak point.
+- Blind set 2 is spent.
+
+### Existing targets after the coarse-cell changes
+- [baseline_v10](results/flakes/baseline_v10/) (code 77a86cd85c) against [baseline_v8](results/flakes/baseline_v8/) (ee7e0ea300, before this work): **every number identical**.
+  - lamellar_synth: worst family 0.657, pooled 0.29, scratch precision 0.92, crossing recall 0.818, parallel recall 0.273.
+  - Ti64 rotation check: worst consistency ratio 0.218; direction 0.469°, S 0.006, aspect ratio 1.1 %.
+- Tests: the full suite passes on the final code: 133 passed (19 min).
+
+### A public check: coarse elongated cells in SLM AlSi10Mg (CC BY 4.0, no truth)
+- *Images:* Zhang et al. 2023, *Materials* 16(3) 1222, [doi:10.3390/ma16031222](https://doi.org/10.3390/ma16031222), Fig. 6 f, g, i (optical, 438 × 289 px), CC BY 4.0.
+  The only public images at hand that look like the private class: bright elongated cells with rounded ends, pores, uneven contrast.
+  They also differ from it in four ways:
+  - the boundaries are wide pale bands, not thin dark lines;
+  - the cells are two-tone (yellow and bluish);
+  - the cells are only ~20–25 px wide at this size;
+  - they are poorly aligned (S 0.25–0.5).
+- *Run:* [scripts/public_cells_check.py](scripts/public_cells_check.py), measuring each image as published and enlarged ×3 (about the private images' size).
+  It ran with the code from before this work (snapshot 2026-11-17 07:05) and with the final code, both with defaults.
+  Results are in [before.json](results/flakes/cells/public_E21/before.json), [after.json](results/flakes/cells/public_E21/after.json) and [the drawing](results/flakes/cells/public_E21/before_vs_after.jpg).
+- *Result:*
+  - At the published size, the numbers are **identical** before and after: the widths read 10–13 px, below the 24-px gate of the coarse rules.
+  - Enlarged, the coarse rules switch on, but the changes are small:
+    - flakes +3 %, +12 % and +4 %;
+    - S −0.03, −0.01 and +0.01;
+    - direction −5.2°, −1.0° and −1.8°, at S ≈ 0.25, where the mean direction is poorly defined;
+    - median aspect ratio within 0.02.
+  - No out-of-focus area, no scratch, one pocket.
+  - The width estimators disagree on 2 of the 3 enlarged images (Otsu 26–32 px against spacing 19–69 px). Both have a weak peak (peak share 0.21–0.31), so the Otsu width is kept.
+- *What the drawing shows:* a failure that is neither fixed nor caused by this work.
+  - On f and i, the profiler chooses the phase reading ("minority phase is separate blobs") and leaves about half the cells uncounted.
+  - Forcing the boundaries reading ([after_boundaries.json](results/flakes/cells/public_E21/after_boundaries.json), [drawing](results/flakes/cells/public_E21/after_vs_after_boundaries.jpg)) is no better:
+    - on f, it draws the bluish cell interiors as boundaries;
+    - on i, only the pores are dark enough, and it returns 21 giant regions.
+  - The boundaries reading looks for dark lines; pale boundary bands between two-tone cells fit neither reading.
+- *Verdict:* this public check neither supports nor contradicts the coarse-cell fixes; their conditions (thin dark boundaries, cells ≥ 24 px) are not met.
+  It finds a separate limit, wide pale boundary bands, recorded as TASKS C-6. Nothing was tuned on these images.
+- Spend: $0 (no API).
+
+### Stress test after the coarse-cell changes
+- *Hypothesis:* the six fixes leave the 13 real-image stress sets as they were, apart from sets whose flakes are ≥ 24 px wide.
+- *First attempt, then a confound.* The stress test ran again with the knowledge memory as it stood (22 entries).
+  - ti64_dev came out with 2.3× more flakes (1440 against 626), median aspect ratio 2.2 against 3.9, rotation check 0.55 against 0.44.
+  - The search had been warm-started from pearlite_L02, whose entry did not exist when the old run reached ti64_dev (the old run started from an empty memory).
+  - On the Ti64 twin, the two parameter regions score the same (objective 0.49-0.51), but they give "laths whole" (h_px ≈ 4.8) and "laths cut" (h_px ≈ 0.2).
+  - So the run was stopped and repeated from an empty memory. The memory as it stood is kept in `results/flakes/knowledge_backup_2026-11-17_1230.jsonl` and merged back afterwards.
+- *A second source of history:* the search budget counts new evaluations only, so cached trials are free.
+  - The old run had 100+ cached trials under its code version (ti64_dev "132 incl. cached"); a new code version starts cold ("39 incl. cached").
+  - The adapt tool's result on a set therefore depends on its history (memory and cache), not only on its code (TASKS A-14).
+- *Method-level check* ([scripts/stress_same_params.py](scripts/stress_same_params.py)): each set's stored final params from the old run, rerun with the old code (snapshot 07:05) and the new code; per image S, direction, median aspect ratio and flakes used, and the rotation check.
+  ([old_code.json](results/flakes/stress_same_params/old_code.json), [new_code.json](results/flakes/stress_same_params/new_code.json))
+  - The old code reproduces every stored stress number exactly (rotation 0.455, 0.441, 0.47, 0.875, … 0.548).
+  - **11 of 13 sets are identical** under the new code.
+  - purple_flakes_L10: one more flake used (19 → 20), direction 179.90° → 179.89°. Its flakes read 30 px wide, so the coarse rules apply.
+  - bainite_L06: rotation 0.679 → 0.685, and on one image S 0.784 → 0.778 and aspect ratio 2.29 → 2.25. Its flakes read 23.4 px, just above the 22 px where the pore filling starts to grow with the width.
+  - *Verdict:* confirmed. With the parameters held fixed, nothing changed beyond those two expected, small differences.
+- *Tool-level check:* the full stress test from an empty memory, as the old run started ([summary](results/flakes/stress_test_summary.json), [log](results/flakes/stress_test.log), [page](results/flakes/stress_test_index.html)).
+  It is compared with the old run ([stress_v4_before_coarse](results/flakes/stress_v4_before_coarse/stress_test_summary.json)) by [scripts/stress_compare.py](scripts/stress_compare.py).
+  Ratios are measured / tolerance, so ≤ 1 passes.
+
+| set | reading | rotation check | twin holdout, worst family | median flakes used | |
+|---|---|---|---|---|---|
+| sem_user | boundaries | 0.455 → 0.455 | 7.48 → 10.50 | 1303 → 1303 | twin rebuilt, untrusted, not used (no search); real-image numbers identical |
+| ti64_dev | boundaries | 0.441 → **0.190** | 0.490 → 0.509 | 626 → 624 | |
+| banded_islands | phase | 0.470 → 0.450 | 0.999 → **0.487** | 138 → 159 | |
+| ti_basketweave | boundaries | 0.875 → **2.140 (fails)** | 0.597 → **1.109 (fails)** | 197 → 64 | the search kept a warm start (from ti64_dev) and found nothing better |
+| colour_lamellar | phase | 0.268 → 0.387 | 0.426 → 0.975 | 693 → 789 | old search 72 configs incl. cached, now 34 |
+| duplex_bands | phase | 0.272 → 0.272 | 0.378 → 0.378 | 338 → 338 | |
+| purple_flakes_L10 | phase | 0.064 → **2.126 (fails)** | 1.896 → 1.508 | 19 → 15 | flakes 30 px wide: the coarse rules change its twin too |
+| tial_lamellar_L26 | boundaries | 0.974 → 0.974 | 2.78 → 2.78 | 989 → 988 | |
+| pearlite_L02 | boundaries | 1.970 → **0.493 (passes now)** | 0.721 → **1.231 (fails)** | 489 → 81 | warm start from basketweave (merging settings) kept |
+| needles_L23 | phase | 0.703 → 0.703 | 4.20 → 4.20 | 10015 → 10015 | |
+| widmanstaetten_L18 | boundaries | 0.347 → 0.347 | 2.05 → 2.05 | 397 → 397 | |
+| bainite_L06 | boundaries | 0.679 → 0.685 | 2.62 → 2.62 | 330 → 330 | the one method-level difference |
+| tial_regions_L26 | regions | 0.548 → **0.250** | 2.91 → 2.78 | 4199 → 4335 | |
+
+- *Verdict.*
+  - **Method:** no regression. With the parameters held fixed, 11 of 13 sets are identical, and the two differences are small and expected.
+  - **Adapt tool, run as a whole:** not "nothing worse".
+    - Two sets now fail the rotation check: ti_basketweave (0.875 → 2.14) and purple_flakes_L10 (0.064 → 2.13, a 15-flake image).
+    - One set now passes it: pearlite, 1.97 → 0.49, but with 81 flakes instead of 489, which looks like merged colonies.
+    - The twin holdout is newly over 1 on two sets (basketweave, pearlite).
+  - These differences come from the search's path, not from the method:
+    - the old basketweave params give the old result exactly under the new code;
+    - each set warm-starts from the sets before it, so a different choice on ti64_dev propagates down the run;
+    - the cache depth differs (old ti64_dev 132 configs incl. cached, now 39).
+  - Only purple_flakes_L10 (30 px) has a twin that the new rules change directly.
+  - Not done: the same stress run with the *old* code from an empty memory and a cold cache.
+    That control would say how much of this is the run-to-run variance the old code shows too; without it, the tool-level comparison is not like with like.
+  - The history dependence (memory, cache, warm-start chain) is an older weakness of the adapt tool that this regression exposed (TASKS A-14).
+    The fix is to make the search independent of the cache (count cached trials in the budget) and to let the real-image guard compare every start.
+- The knowledge memory is merged back: the 22 entries from before plus the 13 of this run.
+  The memory is in `results/flakes/knowledge.jsonl`; the backup is `knowledge_backup_2026-11-17_1230.jsonl`.
+- The partial run with the old memory is kept in [stress_test_coarse_with_memory_partial.log](results/flakes/stress_test_coarse_with_memory_partial.log).
+  The stress page ([stress_test_index.html](results/flakes/stress_test_index.html)) was rebuilt without the old by-eye verdicts, which described the old drawings.
+- Spend in this whole task: **$0** (no `--live` run, no API call).

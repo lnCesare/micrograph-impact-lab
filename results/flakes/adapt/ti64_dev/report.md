@@ -1,26 +1,26 @@
 # Flake measurements: ti64_dev
 
-13 images; reading: **boundaries** (minority phase is a connected thin network); flake width 10.0 px; code version 2d70afd967.
+13 images; reading: **boundaries** (minority phase is a connected thin network); flake width 10.0 px; code version 77a86cd85c.
 
 ## Confidence
 
 - **Within tolerances** on held-out twin images, and consistent under rotation on the real images.
-- Twin accuracy (held-out twin images, exact truth): worst family ratio 0.49, pooled 0.37 (<= 1 means within the tolerances of config.yaml); dev 0.40: a gap shows how much the search fitted the dev twin images.
+- Twin accuracy (held-out twin images, exact truth): worst family ratio 0.51, pooled 0.40 (<= 1 means within the tolerances of config.yaml); dev 0.43: a gap shows how much the search fitted the dev twin images.
 - The twin resembles the real images (worst profile mismatch x1.06; flake aspect ratio and width as measured by the method differ by up to x1.16); the twin accuracy carries over only as far as that, and only for structures the generator draws (straight laths in colonies).
-- Rotation check on the real images (central disk turned by 30 deg and measured again): worst ratio 0.44 (passes); S changes by 0.00645, the direction by 0.5537 deg, the median aspect ratio by 0.02205 (relative); for comparison, the 95 % interval of S from the finite number of flakes is +/-0.055.
+- Rotation check on the real images (central disk turned by 30 deg and measured again): worst ratio 0.19 (passes); S changes by 0.003, the direction by 0.54 deg, the median aspect ratio by 0.9 %; for comparison, the 95 % interval of S from the finite number of flakes is +/-0.055.
 - Lengths are in pixels (no --um-per-px given).
 
 ## Set summary
 
 | | median | min | max |
 |---|---|---|---|
-| order parameter S | 0.574 | 0.157 | 0.871 |
-| local S (within colonies) | 0.841 | 0.746 | 0.936 |
-| mean misalignment (deg) | 24.7 | 10.2 | 39.7 |
-| median aspect ratio | 3.94 | 3.36 | 6.96 |
-| median length (px) | 65.5 | 50.8 | 102 |
-| median width (px) | 15.7 | 12.4 | 18.1 |
-| flakes used per image | 644 | 516 | 932 |
+| order parameter S | 0.578 | 0.15 | 0.866 |
+| local S (within colonies) | 0.841 | 0.781 | 0.934 |
+| mean misalignment (deg) | 25.3 | 10.4 | 39.8 |
+| median aspect ratio | 3.79 | 3.35 | 6.7 |
+| median length (px) | 66.2 | 54 | 104 |
+| median width (px) | 16.2 | 13.2 | 18.6 |
+| flakes used per image | 639 | 507 | 925 |
 
 Mean directions differ per image (axial; see the table): a set-level mean direction is only meaningful when the images were taken in the same specimen frame.
 
@@ -28,19 +28,19 @@ Mean directions differ per image (axial; see the table): a set-level mean direct
 
 | image | mean dir (deg) | S [95 % CI] | local S | misalignment (deg) | AR [95 % CI] | flakes | scratches |
 |---|---|---|---|---|---|---|---|
-| Ti64_21 | 3.13 | 0.459 [0.396, 0.521] | 0.83 | 28.5 | 3.79 [3.5, 4.04] | 679 | 0 |
-| Ti64_22 | 18.8 | 0.379 [0.334, 0.425] | 0.77 | 30.9 | 4.43 [4.13, 4.74] | 607 | 0 |
-| Ti64_23 | 135 | 0.575 [0.517, 0.628] | 0.844 | 23.5 | 3.45 [3.25, 3.68] | 799 | 0 |
-| Ti64_24 | 15.3 | 0.574 [0.488, 0.645] | 0.841 | 24.4 | 3.8 [3.6, 4.07] | 644 | 0 |
-| Ti64_28 | 0.217 | 0.579 [0.485, 0.648] | 0.907 | 26.1 | 6.96 [6.47, 7.28] | 531 | 0 |
-| Ti64_29 | 44.9 | 0.543 [0.494, 0.599] | 0.871 | 24.7 | 6.46 [5.86, 6.92] | 522 | 0 |
-| Ti64_32 | 160 | 0.206 [0.152, 0.288] | 0.806 | 37.8 | 4.24 [3.87, 4.54] | 516 | 0 |
-| Ti64_33 | 0.274 | 0.641 [0.59, 0.688] | 0.861 | 21.1 | 3.94 [3.69, 4.32] | 691 | 0 |
-| Ti64_34 | 0.759 | 0.764 [0.738, 0.788] | 0.889 | 15.9 | 3.36 [3.22, 3.56] | 932 | 0 |
-| Ti64_36 | 21.8 | 0.157 [0.0708, 0.245] | 0.746 | 39.7 | 3.6 [3.39, 3.81] | 574 | 0 |
-| Ti64_37 | 0.371 | 0.871 [0.85, 0.889] | 0.936 | 10.2 | 5.2 [4.85, 5.38] | 805 | 0 |
-| Ti64_38 | 149 | 0.264 [0.203, 0.325] | 0.765 | 34.5 | 3.46 [3.21, 3.68] | 717 | 0 |
-| Ti64_39 | 19.1 | 0.597 [0.546, 0.643] | 0.824 | 22.4 | 4.05 [3.65, 4.44] | 608 | 1 |
+| Ti64_21 | 3.28 | 0.473 [0.407, 0.526] | 0.828 | 27.9 | 3.79 [3.52, 4] | 705 | 0 |
+| Ti64_22 | 18.7 | 0.374 [0.319, 0.433] | 0.786 | 31.1 | 4.47 [4.1, 4.72] | 608 | 0 |
+| Ti64_23 | 135 | 0.578 [0.525, 0.633] | 0.853 | 23.4 | 3.48 [3.25, 3.66] | 787 | 0 |
+| Ti64_24 | 14.5 | 0.579 [0.503, 0.641] | 0.841 | 24.5 | 3.62 [3.41, 3.89] | 639 | 0 |
+| Ti64_28 | 180 | 0.599 [0.544, 0.654] | 0.903 | 25.3 | 6.7 [6.28, 7.08] | 559 | 0 |
+| Ti64_29 | 43.1 | 0.517 [0.471, 0.568] | 0.858 | 26.3 | 6.05 [5.61, 6.58] | 523 | 0 |
+| Ti64_32 | 159 | 0.211 [0.143, 0.294] | 0.784 | 37.7 | 4.12 [3.74, 4.46] | 507 | 0 |
+| Ti64_33 | 180 | 0.645 [0.606, 0.689] | 0.871 | 21.1 | 3.78 [3.53, 4.07] | 694 | 0 |
+| Ti64_34 | 0.265 | 0.764 [0.735, 0.793] | 0.892 | 16 | 3.37 [3.2, 3.5] | 925 | 0 |
+| Ti64_36 | 18.3 | 0.15 [0.0779, 0.256] | 0.8 | 39.8 | 3.46 [3.31, 3.76] | 578 | 0 |
+| Ti64_37 | 0.501 | 0.866 [0.84, 0.888] | 0.934 | 10.4 | 4.99 [4.65, 5.25] | 854 | 0 |
+| Ti64_38 | 151 | 0.286 [0.233, 0.355] | 0.781 | 33.4 | 3.35 [3.11, 3.56] | 734 | 0 |
+| Ti64_39 | 18.3 | 0.587 [0.531, 0.637] | 0.819 | 22.7 | 3.97 [3.68, 4.28] | 619 | 0 |
 
 ## How accurate is it (twin images with exact truth)
 
@@ -50,15 +50,15 @@ Twin: 18 code-generated images fitted to this set (realism ok: True; worst profi
 |---|---|---|---|---|---|---|---|---|
 | dev | start | 0.456 | 0.0378 | 1.69 | 0.0488 | 2.37 | 0.98 | 0.936 |
 | holdout | start | 0.468 | 0.0313 | 1.61 | 0.0466 | 2.32 | 0.976 | 1.16 |
-| dev | chosen | 0.244 | 0.00874 | 0.476 | 0.0496 | 1.85 | 0.826 | 0.4 |
-| holdout | chosen | 0.353 | 0.013 | 0.467 | 0.0357 | 1.86 | 0.833 | 0.49 |
+| dev | chosen | 0.199 | 0.0125 | 0.622 | 0.0153 | 2.01 | 0.876 | 0.43 |
+| holdout | chosen | 0.268 | 0.0123 | 0.385 | 0.0141 | 2.02 | 0.882 | 0.509 |
 
-Search: 30 new configurations evaluated (132 incl. cached); objective 1.125 at the start, 0.492 chosen.
+Search: 30 new configurations evaluated (39 incl. cached); objective 1.125 at the start, 0.530 chosen.
 Warm start: none (no similar image set in the memory).
 
 ## Real images: rotation check
 
-Central disk measured as is and turned by 30 deg: direction off by 0.5537 deg, S by 0.00645, aspect ratio by 0.02205 (worst ratio to tolerance 0.441; <= 1 passes). Necessary, not sufficient.
+Central disk measured as is and turned by 30 deg: direction off by 0.54 deg, S by 0.003, aspect ratio by 0.009 (relative) (worst ratio to tolerance 0.19; <= 1 passes). Necessary, not sufficient.
 
 ## Drawings (left: original, right: flakes coloured by orientation; grey = not used)
 

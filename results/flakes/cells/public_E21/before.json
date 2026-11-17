@@ -1,0 +1,66 @@
+{
+  "code_root": "/private/tmp/claude-501/-Users-cesaregarberino-Library-Application-Support-Claude-scratch-workspaces-46ae8818-cab8-4195-8f92-430f1c157544-893f40a6-36cc-454f-b695-cb19ddae4f55-scratch-2026-11-16-7d1809/4775e40e-6e3f-41a4-8c3e-d54289a72830/scratchpad/pre/micrograph-impact-lab",
+  "params": {},
+  "images": {
+    "E21_elongated__10.3390_ma16031222_g006_f_fullres": {
+      "mean_direction_deg": 64.543,
+      "order_parameter": 0.269,
+      "median_aspect_ratio": 1.746,
+      "n_flakes": 117,
+      "flake_area_fraction": 0.475,
+      "n_scratches": 0,
+      "mode": "phase",
+      "flake_width_px_used": 10.77
+    },
+    "E21_elongated__10.3390_ma16031222_g006_f_fullres_x3": {
+      "mean_direction_deg": 65.645,
+      "order_parameter": 0.264,
+      "median_aspect_ratio": 1.802,
+      "n_flakes": 131,
+      "flake_area_fraction": 0.484,
+      "n_scratches": 0,
+      "mode": "phase",
+      "flake_width_px_used": 26.08
+    },
+    "E21_elongated__10.3390_ma16031222_g006_g_fullres": {
+      "mean_direction_deg": 165.115,
+      "order_parameter": 0.52,
+      "median_aspect_ratio": 1.817,
+      "n_flakes": 92,
+      "flake_area_fraction": 0.774,
+      "n_scratches": 0,
+      "mode": "boundaries",
+      "flake_width_px_used": 12.81
+    },
+    "E21_elongated__10.3390_ma16031222_g006_g_fullres_x3": {
+      "mean_direction_deg": 167.462,
+      "order_parameter": 0.45,
+      "median_aspect_ratio": 1.737,
+      "n_flakes": 104,
+      "flake_area_fraction": 0.799,
+      "n_scratches": 0,
+      "mode": "boundaries",
+      "flake_width_px_used": 32.25
+    },
+    "E21_elongated__10.3390_ma16031222_g006_i_fullres": {
+      "mean_direction_deg": 116.937,
+      "order_parameter": 0.243,
+      "median_aspect_ratio": 1.73,
+      "n_flakes": 133,
+      "flake_area_fraction": 0.47,
+      "n_scratches": 0,
+      "mode": "phase",
+      "flake_width_px_used": 10.2
+    },
+    "E21_elongated__10.3390_ma16031222_g006_i_fullres_x3": {
+      "mean_direction_deg": 111.708,
+      "order_parameter": 0.266,
+      "median_aspect_ratio": 1.683,
+      "n_flakes": 155,
+      "flake_area_fraction": 0.476,
+      "n_scratches": 0,
+      "mode": "phase",
+      "flake_width_px_used": 24.08
+    }
+  }
+}

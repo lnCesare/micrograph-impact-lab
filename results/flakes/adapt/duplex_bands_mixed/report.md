@@ -1,13 +1,13 @@
 # Flake measurements: duplex_bands_mixed
 
-4 images; reading: **phase** (minority phase is separate blobs about as thick as the matrix); flake width 10.385 px; code version 2d70afd967.
+4 images; reading: **phase** (minority phase is separate blobs about as thick as the matrix); flake width 10.385 px; code version 77a86cd85c.
 
 ## Confidence
 
 - **Within tolerances** on held-out twin images, and consistent under rotation on the real images.
 - Twin accuracy (held-out twin images, exact truth): worst family ratio 0.38, pooled 0.34 (<= 1 means within the tolerances of config.yaml); dev 0.39: a gap shows how much the search fitted the dev twin images.
 - The twin resembles the real images (worst profile mismatch x1.24; flake aspect ratio and width as measured by the method differ by up to x1.02); the twin accuracy carries over only as far as that, and only for structures the generator draws (straight laths in colonies).
-- Rotation check on the real images (central disk turned by 30 deg and measured again): worst ratio 0.27 (passes); S changes by 0.00025, the direction by 0.2241 deg, the median aspect ratio by 0.013600000000000001 (relative); for comparison, the 95 % interval of S from the finite number of flakes is +/-0.009.
+- Rotation check on the real images (central disk turned by 30 deg and measured again): worst ratio 0.27 (passes); S changes by 0.000, the direction by 0.22 deg, the median aspect ratio by 1.4 %; for comparison, the 95 % interval of S from the finite number of flakes is +/-0.009.
 - Lengths are in pixels (no --um-per-px given).
 
 ## Set summary
@@ -49,13 +49,14 @@ Warm start: colour_lamellar_ma16020804 (distance 0.32), banded_islands_ma1708184
 
 ## Real images: rotation check
 
-Central disk measured as is and turned by 30 deg: direction off by 0.2241 deg, S by 0.00025, aspect ratio by 0.013600000000000001 (worst ratio to tolerance 0.272; <= 1 passes). Necessary, not sufficient.
+Central disk measured as is and turned by 30 deg: direction off by 0.22 deg, S by 0.000, aspect ratio by 0.014 (relative) (worst ratio to tolerance 0.27; <= 1 passes). Necessary, not sufficient.
 
 ## Drawings (left: original, right: flakes coloured by orientation; grey = not used)
 
 ![L01__rank076__MB_DSSx100-3](review/L01__rank076__MB_DSSx100-3.jpg)
 ![L04__rank007__MB_DSSx200-4](review/L04__rank007__MB_DSSx200-4.jpg)
 ![L05__rank005__MBX200+ech](review/L05__rank005__MBX200+ech.jpg)
+![L24__rank027__102_Microstructure_of_2707_Hyper_Duplex_Stainless_Steel__CC-BY-4.0](review/L24__rank027__102_Microstructure_of_2707_Hyper_Duplex_Stainless_Steel__CC-BY-4.0.jpg)
 
 ![rose.png](rose.png)
 ![aspect_ratio.png](aspect_ratio.png)

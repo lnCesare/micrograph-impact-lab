@@ -1,0 +1,78 @@
+{
+  "code_root": "/Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab",
+  "params": {},
+  "images": {
+    "E21_elongated__10.3390_ma16031222_g006_f_fullres": {
+      "mean_direction_deg": 64.543,
+      "order_parameter": 0.269,
+      "median_aspect_ratio": 1.746,
+      "n_flakes": 117,
+      "n_pockets": 0,
+      "flake_area_fraction": 0.475,
+      "n_scratches": 0,
+      "mode": "phase",
+      "out_of_focus_fraction": 0.0,
+      "flake_width_px_used": 10.77
+    },
+    "E21_elongated__10.3390_ma16031222_g006_f_fullres_x3": {
+      "mean_direction_deg": 60.461,
+      "order_parameter": 0.232,
+      "median_aspect_ratio": 1.801,
+      "n_flakes": 135,
+      "n_pockets": 0,
+      "flake_area_fraction": 0.484,
+      "n_scratches": 0,
+      "mode": "phase",
+      "out_of_focus_fraction": 0.0,
+      "flake_width_px_used": 26.08
+    },
+    "E21_elongated__10.3390_ma16031222_g006_g_fullres": {
+      "mean_direction_deg": 165.115,
+      "order_parameter": 0.52,
+      "median_aspect_ratio": 1.817,
+      "n_flakes": 92,
+      "n_pockets": 0,
+      "flake_area_fraction": 0.774,
+      "n_scratches": 0,
+      "mode": "boundaries",
+      "out_of_focus_fraction": 0.0,
+      "flake_width_px_used": 12.81
+    },
+    "E21_elongated__10.3390_ma16031222_g006_g_fullres_x3": {
+      "mean_direction_deg": 166.463,
+      "order_parameter": 0.441,
+      "median_aspect_ratio": 1.755,
+      "n_flakes": 117,
+      "n_pockets": 0,
+      "flake_area_fraction": 0.799,
+      "n_scratches": 0,
+      "mode": "boundaries",
+      "out_of_focus_fraction": 0.0,
+      "flake_width_px_used": 32.25
+    },
+    "E21_elongated__10.3390_ma16031222_g006_i_fullres": {
+      "mean_direction_deg": 116.937,
+      "order_parameter": 0.243,
+      "median_aspect_ratio": 1.73,
+      "n_flakes": 133,
+      "n_pockets": 0,
+      "flake_area_fraction": 0.47,
+      "n_scratches": 0,
+      "mode": "phase",
+      "out_of_focus_fraction": 0.0,
+      "flake_width_px_used": 10.2
+    },
+    "E21_elongated__10.3390_ma16031222_g006_i_fullres_x3": {
+      "mean_direction_deg": 109.937,
+      "order_parameter": 0.275,
+      "median_aspect_ratio": 1.679,
+      "n_flakes": 161,
+      "n_pockets": 1,
+      "flake_area_fraction": 0.476,
+      "n_scratches": 0,
+      "mode": "phase",
+      "out_of_focus_fraction": 0.0,
+      "flake_width_px_used": 24.08
+    }
+  }
+}

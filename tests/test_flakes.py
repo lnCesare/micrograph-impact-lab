@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import numpy as np
+from scipy import ndimage as ndi
 import pytest
 from PIL import Image
 
@@ -256,3 +257,99 @@ def test_a_drawing_keeps_the_full_image_name(tmp_path):
     Image.fromarray(g).save(b)
     res = METHODS["flakes"]([a, b], {}, tmp_path / "out", overlay=[a.stem, b.stem])
     assert sorted(Path(o).name for o in res["overlays"]) == ["L08__10.3390_a.jpg", "L08__10.3390_b.jpg"]
+
+
+def test_junction_pockets_are_not_counted_as_flakes(tmp_path):
+    # failure 4 of the private coarse-cell test: textured pockets at triple junctions were measured as flakes
+    from src import score_masks
+    from src.synth_cells import CellSpec, generate as cells
+
+    g = cells(CellSpec("p", "clean", seed=31, pocket_fraction=0.3))
+    path = tmp_path / "p.png"
+    Image.fromarray(g["image"]).save(path)
+    score = {}
+    for flag in (False, True):
+        res = METHODS["flakes"]([path], {"detect_pockets": flag}, tmp_path / str(flag))
+        lab = np.array(Image.open(tmp_path / str(flag) / "labels" / "p.png"))
+        score[flag] = score_masks.score_image(lab, g["mask"])
+    assert score[False]["pocket_fp"] >= 5
+    assert score[True]["pocket_fp"] <= 0.3 * score[False]["pocket_fp"]
+    assert score[True]["tp"] >= 0.97 * score[False]["tp"]  # real cells are not taken for pockets
+    assert res["image_summaries"]["p"]["n_pockets"] >= 0.5 * score[False]["pocket_fp"]
+
+
+def test_fine_lamellae_are_never_taken_for_pockets(tmp_path):
+    g = generate(Spec("f", "t", seed=5, shape=(400, 520), lath_width_px=(5, 9), boundary_px=1.5, noise=0.04))["image"]
+    path = tmp_path / "f.png"
+    Image.fromarray(g).save(path)
+    res = METHODS["flakes"]([path], {}, tmp_path / "out")
+    assert res["image_summaries"]["f"]["n_pockets"] == 0
+
+
+def test_pores_inside_coarse_cells_do_not_cut_them(tmp_path):
+    # failure 3 of the private coarse-cell test: over-splitting; on the twin most splits ran from a pore to the
+    # boundary (the pore was a hole in the interior, and the watershed cut through it)
+    from src import score_masks
+    from src.synth_cells import CellSpec, generate as cells
+
+    g = cells(CellSpec("d", "clean", seed=41, dots_per_cell=4, pocket_fraction=0.05))
+    path = tmp_path / "d.png"
+    Image.fromarray(g["image"]).save(path)
+    METHODS["flakes"]([path], {}, tmp_path / "out")
+    s = score_masks.score_image(np.array(Image.open(tmp_path / "out" / "labels" / "d.png")), g["mask"])
+    assert s["splits"] <= 0.07 * s["n_true"]  # (before the pore filling: 0.15)
+    assert s["aspect_ratio_rel_error"] > -0.08
+
+
+def test_pieces_with_a_darker_shared_border_are_not_merged():
+    # failure 3: coarse cells stacked end to end have faint, broken boundaries; the watershed cuts the leaked region
+    # at the neck, and the pieces must stay apart when their shared border is darker than both (a boundary is
+    # there), but merge back when it is not (a cut inside one flake)
+    from src.methods.flakes import merge_by_saddle
+
+    labels = np.zeros((60, 200), int)
+    labels[10:50, 10:100] = 1
+    labels[10:50, 100:190] = 2           # two pieces end to end, touching at column 100
+    distance = ndi.distance_transform_edt(labels > 0)
+    img = np.full(labels.shape, 0.8)
+    plain = merge_by_saddle(labels, distance, 0.5, 30.0, min_fill=0.9, evidence=(img, 0.05))
+    assert len(np.unique(plain[plain > 0])) == 1   # no darker border: one flake
+    img[10:50, 98:102] = 0.65                       # a faint line along the shared border
+    kept = merge_by_saddle(labels, distance, 0.5, 30.0, min_fill=0.9, evidence=(img, 0.05))
+    assert len(np.unique(kept[kept > 0])) == 2
+    assert len(np.unique(merge_by_saddle(labels, distance, 0.5, 30.0, min_fill=0.9)[labels > 0])) == 1  # (no evidence: merged)
+
+
+def test_hairline_and_thick_scratches_across_coarse_cells_are_found(tmp_path):
+    # failure 5 of the private coarse-cell test: 2 scratches found in 8 images, not the thick one
+    from src.synth_cells import CellSpec, generate as cells
+
+    hits, thick_hit = [], False
+    for seed in (51, 52):
+        g = cells(CellSpec("s", "scratched", seed=seed, n_hairline=3, thick_probability=1.0, pocket_fraction=0.1))
+        path = tmp_path / f"s{seed}.png"
+        Image.fromarray(g["image"]).save(path)
+        res = METHODS["flakes"]([path], {}, tmp_path / str(seed))
+        found = res["defect_maps"][f"s{seed}"] == 1
+        crossing = g["scratch_crossing"]
+        near = ndi.binary_dilation(found, iterations=2)
+        hits.append(float(near[crossing].mean()))
+        # the thick one: its pixels are the darkest scratch pixels of the truth
+        lines = res["defects"][f"s{seed}"]
+        thick_hit |= any(it.get("kind") == "dark" and it["length_px"] > 200 for it in lines)
+        # no false scratch along the cell boundaries
+        false = found & ~ndi.binary_dilation(g["scratch"], iterations=3)
+        assert false.sum() <= 0.2 * max(found.sum(), 1)
+    assert np.mean(hits) >= 0.4
+    assert thick_hit
+
+
+def test_no_scratch_is_invented_on_clean_coarse_cells(tmp_path):
+    from src.synth_cells import CellSpec, generate as cells
+
+    for seed in (53, 54):
+        g = cells(CellSpec("c", "clean", seed=seed))
+        path = tmp_path / f"c{seed}.png"
+        Image.fromarray(g["image"]).save(path)
+        res = METHODS["flakes"]([path], {}, tmp_path / str(seed))
+        assert (res["defect_maps"][f"c{seed}"] == 1).sum() == 0

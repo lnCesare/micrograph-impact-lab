@@ -1,0 +1,308 @@
+adapt sem_user: 1 images, code 77a86cd85c
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 4.0 px
+  fine flakes: analysed at 3x size; flake width now 8.25 px
+  twin: reused
+  [start 0] objective 9.301 (worst family 8.295478382363461, pooled 4.023003547212934) cached
+  twin not trusted (realism ok False, start flake recall 0.37): no search; the scaled defaults are used
+  done in 67 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/sem_user/report.md
+{"sem_user": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.416, "twin_structure_mismatch": 0.198, "twin_trusted": false, "upsample_factor": 3, "twin_holdout_worst_family": 10.500240213422781, "twin_holdout_pooled": 7.251562569111119, "consistency": 0.4545333333333333, "consistency_ratios": {"mean_direction_deg": 0.4545333333333333, "order_parameter": 0.21333333333333335, "aspect_ratio_rel": 0.218}, "median_n_flakes_used": 1303, "warm_started_from": null, "two_scales": null, "seconds": 67}}
+adapt ti64_dev: 13 images, code 77a86cd85c
+  profile: boundaries (minority phase is a connected thin network); flake width 10.0 px
+  twin: reused
+  [start 0] objective 1.125 (worst family 0.9364252045856158, pooled 0.7552987297706526) cached
+  [start 0] objective 1.125 (worst family 0.9364252045856158, pooled 0.7552987297706526) cached
+  [boundary_sensitivity=0.7] objective 1.012 (worst family 0.8448708421924545, pooled 0.6691952479170815)
+  [boundary_sensitivity=0.85] objective 1.041 (worst family 0.8614252045856174, pooled 0.7172987297706523)
+  [boundary_sensitivity=1.0] objective 1.125 (worst family 0.9364252045856158, pooled 0.7552987297706526) cached
+  [boundary_sensitivity=1.2] objective 1.270 (worst family 1.0624252045856164, pooled 0.8301952479170815)
+  [boundary_sensitivity=1.4] objective 1.472 (worst family 1.2304252045856168, pooled 0.96763714957115)
+  [bridge_gaps_px=0] objective 1.024 (worst family 0.8508708421924549, pooled 0.694195247917081)
+  [bridge_gaps_px=4] objective 1.036 (worst family 0.858870842192454, pooled 0.7081952479170817)
+  [bridge_gaps_px=14] objective 1.099 (worst family 0.919870842192454, pooled 0.7181952479170817)
+  [bridge_gaps_px=20] objective 1.104 (worst family 0.9194252045856166, pooled 0.7366371495711499)
+  [h_px=0.25] objective 1.060 (worst family 0.8794252045856166, pooled 0.7223205488280737)
+  [h_px=1.0] objective 0.893 (worst family 0.7464252045856168, pooled 0.5852987297706524)
+  [h_px=3.5] objective 0.563 (worst family 0.4564000000000007, pooled 0.42520000000000097)
+  [merge_saddle_ratio=0.35] objective 0.562 (worst family 0.45600000000000024, pooled 0.425)
+  [merge_saddle_ratio=0.5] objective 0.563 (worst family 0.4564000000000007, pooled 0.42520000000000097) cached
+  [merge_saddle_ratio=0.65] objective 0.563 (worst family 0.4564000000000007, pooled 0.4254000000000019)
+  [merge_saddle_ratio=0.8] objective 0.580 (worst family 0.4734252045856169, pooled 0.42680000000000007)
+  [merge_min_fill=0.8] objective 0.562 (worst family 0.45600000000000024, pooled 0.4245999999999981)
+  [merge_min_fill=0.9] objective 0.562 (worst family 0.45600000000000024, pooled 0.425) cached
+  [merge_min_fill=0.97] objective 0.562 (worst family 0.45600000000000024, pooled 0.4250799999999998)
+  [sigma=0.7] objective 0.559 (worst family 0.45249999999999935, pooled 0.42479999999999907)
+  [sigma=0.98] objective 0.562 (worst family 0.4563999999999965, pooled 0.4241999999999962)
+  [boundary_width_px=1.75] objective 0.574 (worst family 0.46539999999999965, pooled 0.43400000000000316)
+  [boundary_width_px=3.5] objective 0.613 (worst family 0.5091954106984653, pooled 0.41370000000000146)
+  [min_area_px=15] objective 0.559 (worst family 0.45300000000000046, pooled 0.42479999999999907)
+  [min_area_px=60] objective 0.555 (worst family 0.4502999999999986, pooled 0.4204000000000008)
+  [scratch_min_contrast_fraction=0.25] objective 0.555 (worst family 0.4502999999999986, pooled 0.4204000000000008)
+  [scratch_min_contrast_fraction=0.5] objective 0.555 (worst family 0.4502999999999986, pooled 0.42040000000000005)
+  [random] objective 0.562 (worst family 0.45600000000000024, pooled 0.42479999999999907)
+  [random] objective 0.555 (worst family 0.4502999999999986, pooled 0.4204000000000008)
+  [random] objective 0.555 (worst family 0.4502999999999986, pooled 0.42000000000000454)
+  [random] objective 0.571 (worst family 0.46399999999999864, pooled 0.4282000000000039)
+  [random] objective 0.557 (worst family 0.45100000000000195, pooled 0.42199999999999704)
+  [random] objective 0.530 (worst family 0.4296000000000021, pooled 0.4019999999999982)
+  real-image guard: start {'rotation': 0.23223333333333332, 'flakes_used': 1487.5}, chosen {'rotation': 0.18999999999999997, 'flakes_used': 623.5}: chosen kept
+  done in 1094 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/ti64_dev/report.md
+{"ti64_dev": {"mode": "boundaries", "mode_reason": "minority phase is a connected thin network", "twin_realism_ok": true, "twin_profile_mismatch": 0.062, "twin_structure_mismatch": 0.146, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 0.5085000000000015, "twin_holdout_pooled": 0.40399999999999636, "consistency": 0.18999999999999997, "consistency_ratios": {"mean_direction_deg": 0.17875, "order_parameter": 0.11166666666666668, "aspect_ratio_rel": 0.18999999999999997}, "median_n_flakes_used": 623.5, "warm_started_from": null, "two_scales": null, "seconds": 1094}}
+adapt banded_islands_ma17081847: 7 images, code 77a86cd85c
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 13.42 px
+  two scales: 46% of the dark phase is in structures ~58.0 px wide; measuring the fine scale (13.42 px)
+  twin: reused
+  warm start from ti64_dev (distance 5.92)
+  [start 0] objective 1.435 (worst family 1.169090122405139, pooled 1.0633506802903725) cached
+  [start 1] objective 2.034 (worst family 1.6680439198775703, pooled 1.4640167122300551)
+  [start 0] objective 1.435 (worst family 1.169090122405139, pooled 1.0633506802903725) cached
+  [start 1] objective 2.034 (worst family 1.6680439198775703, pooled 1.4640167122300551) cached
+  [phase_offset=-0.12] objective 2.100 (worst family 1.7099883027947171, pooled 1.561702923008522)
+  [phase_offset=-0.06] objective 1.745 (worst family 1.410393853245892, pooled 1.3401398368130057)
+  [phase_offset=0.06] objective 1.125 (worst family 0.9151107940038761, pooled 0.8395987336544485)
+  [phase_offset=0.12] objective 0.711 (worst family 0.593441232233991, pooled 0.47027986264776994)
+  [h_px=0.335] objective 0.741 (worst family 0.6168166076377019, pooled 0.4959713517170526)
+  [h_px=1.34] objective 0.711 (worst family 0.593441232233991, pooled 0.47027986264776994)
+  [h_px=2.345] objective 0.774 (worst family 0.636623774806106, pooled 0.5491870503469531)
+  [merge_saddle_ratio=0.35] objective 0.709 (worst family 0.593441232233991, pooled 0.4639611980817708)
+  [merge_saddle_ratio=0.5] objective 0.711 (worst family 0.593441232233991, pooled 0.47027986264776994) cached
+  [merge_saddle_ratio=0.65] objective 0.711 (worst family 0.593441232233991, pooled 0.47027986264776994)
+  [merge_saddle_ratio=0.8] objective 0.931 (worst family 0.7455130248964831, pooled 0.7423134278661685)
+  [merge_min_fill=0.8] objective 0.709 (worst family 0.593441232233991, pooled 0.4639611980817708)
+  [merge_min_fill=0.97] objective 0.713 (worst family 0.5928543364432075, pooled 0.4795382695751175)
+  [sigma=0.938] objective 0.767 (worst family 0.6271730301701383, pooled 0.5607416965989772)
+  [sigma=1.876] objective 0.977 (worst family 0.804605156031281, pooled 0.6910281112401596)
+  [min_area_px=27] objective 0.816 (worst family 0.6708784116646045, pooled 0.5801698525769005)
+  [min_area_px=108] objective 0.555 (worst family 0.4604471826985359, pooled 0.3762476681214394)
+  [flatten_px=26.84] objective 0.513 (worst family 0.4234837068904595, pooled 0.35779999999999745)
+  [flatten_px=53.68] objective 0.555 (worst family 0.4604471826985359, pooled 0.3762476681214394) cached
+  [random] objective 0.501 (worst family 0.41203957143767245, pooled 0.3560000000000002)
+  [random] objective 0.488 (worst family 0.3990000000000009, pooled 0.3556100000000006)
+  [random] objective 0.488 (worst family 0.3990000000000009, pooled 0.35560000000000114)
+  real-image guard: start {'rotation': 0.5129999999999999, 'flakes_used': 147.0}, chosen {'rotation': 0.44999999999999996, 'flakes_used': 158.5}: chosen kept
+  done in 383 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/banded_islands_ma17081847/report.md
+{"banded_islands_ma17081847": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": true, "twin_profile_mismatch": 0.128, "twin_structure_mismatch": 0.284, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 0.4866, "twin_holdout_pooled": 0.38199999999999934, "consistency": 0.44999999999999996, "consistency_ratios": {"mean_direction_deg": 0.21866666666666665, "order_parameter": 0.29833333333333334, "aspect_ratio_rel": 0.44999999999999996}, "median_n_flakes_used": 158.5, "warm_started_from": "ti64_dev (distance 5.92)", "two_scales": {"phase": "dark", "area_share": 0.46, "coarse_width_px": 58.0, "fine_width_px": 13.42}, "seconds": 383}}
+adapt ti_basketweave_ma19010080: 4 images, code 77a86cd85c
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 15.22 px
+  twin: reused
+  warm start from ti64_dev (distance 0.74), banded_islands_ma17081847 (distance 5.64)
+  [start 0] objective 2.174 (worst family 1.842627706347053, pooled 1.3248874979240632)
+  [start 1] objective 1.144 (worst family 0.9796277063470538, pooled 0.6559649126334599)
+  [start 2] objective 1.595 (worst family 1.4036277063470537, pooled 0.7658874979240637)
+  [start 0] objective 2.174 (worst family 1.842627706347053, pooled 1.3248874979240632) cached
+  [start 1] objective 1.144 (worst family 0.9796277063470538, pooled 0.6559649126334599) cached
+  [start 2] objective 1.595 (worst family 1.4036277063470537, pooled 0.7658874979240637) cached
+  [boundary_sensitivity=0.85] objective 1.682 (worst family 1.4026277063470538, pooled 1.116887497924064)
+  [boundary_sensitivity=1.0] objective 1.818 (worst family 1.5029649126334599, pooled 1.258627706347053)
+  [boundary_sensitivity=1.2] objective 2.449 (worst family 2.1009649126334593, pooled 1.3912870029961977)
+  [boundary_sensitivity=1.4] objective 2.385 (worst family 1.9769649126334599, pooled 1.631264921527874)
+  [bridge_gaps_px=0] objective 1.069 (worst family 0.9249151705644977, pooled 0.5743715199725785)
+  [h_px=3.642] objective 1.459 (worst family 1.2576277063470542, pooled 0.8043177623662747)
+  [h_px=14.566] objective 12.616 (worst family 11.914054360404025, pooled 2.8082886784563414)
+  [h_px=25.491] objective inf (worst family None, pooled None)
+  [merge_saddle_ratio=0.5] objective 1.069 (worst family 0.9249151705644977, pooled 0.5743715199725785)
+  [merge_saddle_ratio=0.65] objective 1.069 (worst family 0.9249151705644977, pooled 0.5743715199725785)
+  [merge_saddle_ratio=0.8] objective 1.069 (worst family 0.9249151705644977, pooled 0.5743715199725785)
+  [merge_min_fill=0.9] objective 1.069 (worst family 0.9249151705644977, pooled 0.5743715199725785)
+  [merge_min_fill=0.97] objective 1.069 (worst family 0.9249151705644977, pooled 0.5743715199725785)
+  [sigma=0.745] objective 1.415 (worst family 1.2462984323500774, pooled 0.6743715199725786)
+  [sigma=1.491] objective 1.154 (worst family 0.968229933520075, pooled 0.7436277063470542)
+  [boundary_width_px=2.663] objective 1.083 (worst family 0.9342984323500775, pooled 0.5953644177055939)
+  [boundary_width_px=5.327] objective 1.377 (worst family 1.1782984323500771, pooled 0.7936348086140388)
+  [min_area_px=70] objective 1.095 (worst family 0.9366277063470541, pooled 0.6343715199725786)
+  [min_area_px=282] objective 1.065 (worst family 0.9363751705644973, pooled 0.5132747752469846)
+  [scratch_min_contrast_fraction=0.25] objective 1.277 (worst family 1.1332984323500774, pooled 0.5752676729799999)
+  real-image guard: start {'rotation': 2.14, 'flakes_used': 63.5}, chosen {'rotation': 3.8995166666666665, 'flakes_used': 61.0}: start kept (a worse rotation check)
+  done in 371 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/ti_basketweave_ma19010080/report.md
+{"ti_basketweave_ma19010080": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": true, "twin_profile_mismatch": 0.22, "twin_structure_mismatch": 0.128, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 1.1088559681858423, "twin_holdout_pooled": 0.476400000000001, "consistency": 2.14, "consistency_ratios": {"mean_direction_deg": 0.20503333333333332, "order_parameter": 2.14, "aspect_ratio_rel": 1.8109999999999997}, "median_n_flakes_used": 63.5, "warm_started_from": "ti64_dev (distance 0.74), banded_islands_ma17081847 (distance 5.64)", "two_scales": null, "seconds": 371}}
+adapt colour_lamellar_ma16020804: 3 images, code 77a86cd85c
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 4.47 px
+  fine flakes: analysed at 3x size; flake width now 12.17 px
+  twin: reused
+  warm start from banded_islands_ma17081847 (distance 0.25), ti_basketweave_ma19010080 (distance 5.67)
+  [start 0] objective 1.064 (worst family 0.8559676670285843, pooled 0.8325642898272203)
+  [start 1] objective 4.404 (worst family 3.828880454180431, pooled 2.3012430307872944)
+  [start 2] objective 1.639 (worst family 1.383631967309027, pooled 1.0229010340556033)
+  [start 0] objective 1.064 (worst family 0.8559676670285843, pooled 0.8325642898272203) cached
+  [start 1] objective 4.404 (worst family 3.828880454180431, pooled 2.3012430307872944) cached
+  [start 2] objective 1.639 (worst family 1.383631967309027, pooled 1.0229010340556033) cached
+  [phase_offset=-0.12] objective 1.571 (worst family 1.2727457022486899, pooled 1.1915842642198888)
+  [phase_offset=-0.06] objective 1.299 (worst family 1.047428516623851, pooled 1.0071647717982224)
+  [phase_offset=0.06] objective 0.843 (worst family 0.678325451921165, pooled 0.6574020819376455)
+  [phase_offset=0.12] objective 0.645 (worst family 0.5306319673090265, pooled 0.45593522029260936)
+  [h_px=0.305] objective 0.627 (worst family 0.5153526486055499, pooled 0.44849931881953575)
+  [h_px=0.61] objective 0.645 (worst family 0.5306319673090265, pooled 0.45593522029260936) cached
+  [h_px=1.067] objective 0.630 (worst family 0.515631967309027, pooled 0.4568016244472332)
+  [merge_saddle_ratio=0.35] objective 0.628 (worst family 0.515998218062368, pooled 0.44849931881953575)
+  [merge_saddle_ratio=0.65] objective 0.643 (worst family 0.5298140766980405, pooled 0.4519282507758099)
+  [merge_saddle_ratio=0.8] objective 0.856 (worst family 0.7087959156401007, pooled 0.5903094784030846)
+  [merge_min_fill=0.8] objective 0.616 (worst family 0.5038000000000011, pooled 0.44777816842841084)
+  [merge_min_fill=0.9] objective 0.627 (worst family 0.5153526486055499, pooled 0.44849931881953575) cached
+  [merge_min_fill=0.97] objective 0.721 (worst family 0.606339833958063, pooled 0.45920293078703767)
+  [sigma=0.854] objective 0.681 (worst family 0.5716319673090264, pooled 0.43580000000000024)
+  [sigma=1.708] objective 0.765 (worst family 0.6176182454229723, pooled 0.590432411192916)
+  [min_area_px=22] objective 0.628 (worst family 0.5146319673090272, pooled 0.45405847888221407)
+  [min_area_px=88] objective 0.610 (worst family 0.5028999999999992, pooled 0.4299999999999983)
+  [flatten_px=24.34] objective 0.597 (worst family 0.48779999999999857, pooled 0.43740000000000234)
+  [flatten_px=48.68] objective 0.610 (worst family 0.5028999999999992, pooled 0.4299999999999983) cached
+  [random] objective 0.597 (worst family 0.48779999999999857, pooled 0.4366899999999987)
+  [random] objective 0.590 (worst family 0.4809999999999988, pooled 0.4358000000000004)
+  [random] objective 0.590 (worst family 0.4809999999999988, pooled 0.43560000000000015)
+  [random] objective 0.592 (worst family 0.4821399999999992, pooled 0.4383400000000002)
+  real-image guard: start {'rotation': 0.38666666666666666, 'flakes_used': 789.0}, chosen {'rotation': 1.36, 'flakes_used': 749.0}: start kept (a worse rotation check)
+  done in 753 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/colour_lamellar_ma16020804/report.md
+{"colour_lamellar_ma16020804": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": true, "twin_profile_mismatch": 0.134, "twin_structure_mismatch": 0.046, "twin_trusted": true, "upsample_factor": 3, "twin_holdout_worst_family": 0.974530186913523, "twin_holdout_pooled": 0.8065344269281819, "consistency": 0.38666666666666666, "consistency_ratios": {"mean_direction_deg": 0.09763333333333334, "order_parameter": 0.38666666666666666, "aspect_ratio_rel": 0.32399999999999995}, "median_n_flakes_used": 789, "warm_started_from": "banded_islands_ma17081847 (distance 0.25), ti_basketweave_ma19010080 (distance 5.67)", "two_scales": null, "seconds": 753}}
+adapt duplex_bands_mixed: 4 images, code 77a86cd85c
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 10.385 px
+  twin: reused
+  warm start from colour_lamellar_ma16020804 (distance 0.32), banded_islands_ma17081847 (distance 0.46)
+  [start 0] objective 0.525 (worst family 0.43649385748999536, pooled 0.3544241497053127)
+  [start 1] objective 0.525 (worst family 0.43649385748999536, pooled 0.3544241497053127)
+  [start 2] objective 4.736 (worst family 4.18344444322589, pooled 2.209110712879885)
+  [start 0] objective 0.525 (worst family 0.43649385748999536, pooled 0.3544241497053127) cached
+  [start 1] objective 0.525 (worst family 0.43649385748999536, pooled 0.3544241497053127) cached
+  [start 2] objective 4.736 (worst family 4.18344444322589, pooled 2.209110712879885) cached
+  [phase_offset=-0.12] objective 1.237 (worst family 1.0103692567272575, pooled 0.9064793054218142)
+  [phase_offset=-0.06] objective 0.868 (worst family 0.7163826819262952, pooled 0.6070651538979349)
+  [phase_offset=0.06] objective 0.482 (worst family 0.39561090820074196, pooled 0.34399999999999975)
+  [phase_offset=0.12] objective 0.475 (worst family 0.3896109082007426, pooled 0.34039999999999965)
+  [h_px=0.26] objective 0.475 (worst family 0.3896109082007426, pooled 0.34039999999999965)
+  [h_px=1.04] objective 0.475 (worst family 0.3896109082007426, pooled 0.34039999999999965)
+  [h_px=1.82] objective 0.475 (worst family 0.3896109082007426, pooled 0.34039999999999965)
+  [merge_saddle_ratio=0.35] objective 0.475 (worst family 0.3896109082007426, pooled 0.3405999999999949)
+  [merge_saddle_ratio=0.65] objective 0.481 (worst family 0.39561090820074196, pooled 0.3415999999999997)
+  [merge_saddle_ratio=0.8] objective 2.169 (worst family 1.8489874098503194, pooled 1.2788766006316645)
+  [merge_min_fill=0.8] objective 0.475 (worst family 0.3896109082007426, pooled 0.34019999999999867)
+  [merge_min_fill=0.9] objective 0.475 (worst family 0.3896109082007426, pooled 0.34039999999999965) cached
+  [merge_min_fill=0.97] objective 0.481 (worst family 0.39561090820074196, pooled 0.34170000000000156)
+  [sigma=0.728] objective 0.481 (worst family 0.39561090820074307, pooled 0.3428000000000001)
+  [sigma=1.456] objective 0.482 (worst family 0.39761090820074285, pooled 0.33659999999999857)
+  [min_area_px=16] objective 0.491 (worst family 0.4046109082007432, pooled 0.34540000000000076)
+  [min_area_px=64] objective 0.553 (worst family 0.46567919334011315, pooled 0.3489104208131122)
+  [flatten_px=20.77] objective 0.494 (worst family 0.40761090820074175, pooled 0.34399999999999975)
+  [flatten_px=83.08] objective 0.471 (worst family 0.38661090820074295, pooled 0.3373399999999993)
+  [random] objective 0.471 (worst family 0.38661090820074295, pooled 0.3367999999999995)
+  [random] objective 0.471 (worst family 0.38661090820074184, pooled 0.3384000000000015)
+  real-image guard: start {'rotation': 0.953, 'flakes_used': 336.5}, chosen {'rotation': 0.272, 'flakes_used': 338.0}: chosen kept
+  done in 752 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/duplex_bands_mixed/report.md
+{"duplex_bands_mixed": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": true, "twin_profile_mismatch": 0.216, "twin_structure_mismatch": 0.018, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 0.3783999999999992, "twin_holdout_pooled": 0.33999999999999775, "consistency": 0.272, "consistency_ratios": {"mean_direction_deg": 0.0747, "order_parameter": 0.008333333333333333, "aspect_ratio_rel": 0.272}, "median_n_flakes_used": 338.0, "warm_started_from": "colour_lamellar_ma16020804 (distance 0.32), banded_islands_ma17081847 (distance 0.46)", "two_scales": null, "seconds": 752}}
+adapt purple_flakes_L10: 1 images, code 77a86cd85c
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 30.07 px
+  twin: reused
+  warm start from banded_islands_ma17081847 (distance 0.92), colour_lamellar_ma16020804 (distance 1.00)
+  [start 0] objective 1.482 (worst family 1.3152518299274663, pooled 0.6659999999999997)
+  [start 1] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [start 2] objective 4.498 (worst family 3.888824325698703, pooled 2.4364797506210305)
+  [start 0] objective 1.482 (worst family 1.3152518299274663, pooled 0.6659999999999997) cached
+  [start 1] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987) cached
+  [start 2] objective 4.498 (worst family 3.888824325698703, pooled 2.4364797506210305) cached
+  [phase_offset=-0.12] objective 1.953 (worst family 1.7583810546800493, pooled 0.7802838805224741)
+  [phase_offset=-0.06] objective 1.519 (worst family 1.3480637469049885, pooled 0.6841999999999985)
+  [phase_offset=0.0] objective 1.588 (worst family 1.4188515654532934, pooled 0.675999999999999)
+  [phase_offset=0.06] objective 1.496 (worst family 1.3390253588747199, pooled 0.6259999999999991)
+  [h_px=0.639] objective 1.116 (worst family 0.9642713857629488, pooled 0.6080000000000041)
+  [h_px=2.558] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [h_px=4.476] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [merge_saddle_ratio=0.5] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [merge_saddle_ratio=0.65] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [merge_saddle_ratio=0.8] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [merge_min_fill=0.8] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [merge_min_fill=0.9] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [merge_min_fill=0.97] objective 1.051 (worst family 0.90292138576295, pooled 0.5919999999999987)
+  [sigma=2.102] objective 1.115 (worst family 0.9612999999999999, pooled 0.6148000000000025)
+  [sigma=4.204] objective 0.995 (worst family 0.8472, pooled 0.5922000000000025)
+  [min_area_px=281] objective 1.288 (worst family 1.1192000000000006, pooled 0.673399999999998)
+  [min_area_px=1124] objective 2.164 (worst family 2.044772299354494, pooled 0.47849999999999965)
+  [flatten_px=20.572] objective 1.310 (worst family 1.148599999999999, pooled 0.6459999999999979)
+  [flatten_px=82.286] objective 0.940 (worst family 0.7980000000000018, pooled 0.5682000000000016)
+  [random] objective 0.939 (worst family 0.7980000000000018, pooled 0.5622000000000014)
+  real-image guard: start {'rotation': 2.424, 'flakes_used': 15.0}, chosen {'rotation': 2.126, 'flakes_used': 15.0}: chosen kept
+  done in 280 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/purple_flakes_L10/report.md
+{"purple_flakes_L10": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": true, "twin_profile_mismatch": 0.224, "twin_structure_mismatch": 0.111, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 1.5079999999999985, "twin_holdout_pooled": 0.604568471159409, "consistency": 2.126, "consistency_ratios": {"mean_direction_deg": 0.7363666666666666, "order_parameter": 0.6900000000000001, "aspect_ratio_rel": 2.126}, "median_n_flakes_used": 15, "warm_started_from": "banded_islands_ma17081847 (distance 0.92), colour_lamellar_ma16020804 (distance 1.00)", "two_scales": null, "seconds": 280}}
+adapt tial_lamellar_L26: 1 images, code 77a86cd85c
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 18.44 px
+  two scales: 42% of the dark phase is in structures ~78.7 px wide; measuring the fine scale (18.44 px)
+  twin: reused
+  warm start from ti_basketweave_ma19010080 (distance 0.47), ti64_dev (distance 0.93)
+  [start 0] objective 3.289 (worst family 2.7842498458885587, pooled 2.017392444924888)
+  [start 1] objective 0.917 (worst family 0.8257020375234411, pooled 0.36599999999999683)
+  [start 2] objective 1.045 (worst family 0.9539246405065281, pooled 0.36443000000000153)
+  twin not trusted (realism ok False, start flake recall 0.81): no search; the scaled defaults are used
+  done in 453 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/tial_lamellar_L26/report.md
+{"tial_lamellar_L26": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.316, "twin_structure_mismatch": 0.307, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 2.7791428973490224, "twin_holdout_pooled": 2.389545022244326, "consistency": 0.974, "consistency_ratios": {"mean_direction_deg": 0.0159, "order_parameter": 0.73, "aspect_ratio_rel": 0.974}, "median_n_flakes_used": 988, "warm_started_from": "ti_basketweave_ma19010080 (distance 0.47), ti64_dev (distance 0.93)", "two_scales": {"phase": "dark", "area_share": 0.42, "coarse_width_px": 78.7, "fine_width_px": 18.44}, "seconds": 453}}
+adapt pearlite_L02: 1 images, code 77a86cd85c
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 10.0 px
+  two scales: 53% of the bright phase is in structures ~44.9 px wide; measuring the fine scale (10.0 px)
+  twin: reused
+  warm start from ti_basketweave_ma19010080 (distance 0.46), ti64_dev (distance 0.51)
+  [start 0] objective 1.147 (worst family 0.9909764531837217, pooled 0.6258846819101471)
+  [start 1] objective 0.789 (worst family 0.6755961644591872, pooled 0.4538491678198403)
+  [start 2] objective 0.789 (worst family 0.6755961644591872, pooled 0.4538491678198403) cached
+  [start 0] objective 1.147 (worst family 0.9909764531837217, pooled 0.6258846819101471) cached
+  [start 1] objective 0.789 (worst family 0.6755961644591872, pooled 0.4538491678198403) cached
+  [start 2] objective 0.789 (worst family 0.6755961644591872, pooled 0.4538491678198403) cached
+  [boundary_sensitivity=0.85] objective 0.783 (worst family 0.6575846742779612, pooled 0.5004404772130131)
+  [boundary_sensitivity=1.0] objective 1.038 (worst family 0.9219764531837227, pooled 0.46263885667074034)
+  [boundary_sensitivity=1.2] objective 1.570 (worst family 1.411976453183722, pooled 0.6334050631556276)
+  [boundary_sensitivity=1.4] objective 1.760 (worst family 1.5525846742779625, pooled 0.8304471630465915)
+  [bridge_gaps_px=0] objective 0.845 (worst family 0.7495846742779622, pooled 0.3822283896268284)
+  [bridge_gaps_px=4] objective 0.790 (worst family 0.6825846742779618, pooled 0.4303844358748766)
+  [bridge_gaps_px=14] objective 0.877 (worst family 0.7437399453790912, pooled 0.5328557188366079)
+  [bridge_gaps_px=20] objective 1.016 (worst family 0.8659764531837222, pooled 0.5986573293117906)
+  [h_px=2.393] objective 0.851 (worst family 0.730584674277962, pooled 0.48088468191014755)
+  [h_px=9.57] objective 21.757 (worst family 17.40592287941631, pooled 17.40592287941631)
+  [h_px=16.748] objective inf (worst family None, pooled None)
+  [merge_saddle_ratio=0.5] objective 0.781 (worst family 0.6562121219704805, pooled 0.4998975890479748)
+  [merge_saddle_ratio=0.65] objective 0.779 (worst family 0.6579548287426391, pooled 0.48447034402317374)
+  [merge_saddle_ratio=0.8] objective 0.767 (worst family 0.6556639567222043, pooled 0.4460337049375551)
+  [merge_min_fill=0.9] objective 0.767 (worst family 0.6556639567222043, pooled 0.4438168769966555)
+  [merge_min_fill=0.97] objective 0.769 (worst family 0.6595846742779621, pooled 0.4377206001591821)
+  [sigma=0.49] objective 0.773 (worst family 0.6625846742779617, pooled 0.4415799254703449)
+  [sigma=0.98] objective 0.811 (worst family 0.6819764531837225, pooled 0.5170914577547527)
+  [boundary_width_px=1.75] objective 0.754 (worst family 0.6469764531837219, pooled 0.42817695487791224)
+  [boundary_width_px=2.45] objective 0.997 (worst family 0.8869764531837221, pooled 0.4381778816334414)
+  real-image guard: start {'rotation': 0.49333333333333335, 'flakes_used': 81.0}, chosen {'rotation': 4.503333333333334, 'flakes_used': 92.0}: start kept (a worse rotation check)
+  done in 445 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/pearlite_L02/report.md
+{"pearlite_L02": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": true, "twin_profile_mismatch": 0.132, "twin_structure_mismatch": 0.139, "twin_trusted": true, "upsample_factor": 1, "twin_holdout_worst_family": 1.2310759737426524, "twin_holdout_pooled": 0.6581193334462931, "consistency": 0.49333333333333335, "consistency_ratios": {"mean_direction_deg": null, "order_parameter": 0.49333333333333335, "aspect_ratio_rel": 0.432}, "median_n_flakes_used": 81, "warm_started_from": "ti_basketweave_ma19010080 (distance 0.46), ti64_dev (distance 0.51)", "two_scales": {"phase": "bright", "area_share": 0.53, "coarse_width_px": 44.9, "fine_width_px": 10.0}, "seconds": 445}}
+adapt needles_L23: 1 images, code 77a86cd85c
+  profile: phase (minority phase is separate blobs about as thick as the matrix); flake width 4.0 px
+  twin: reused
+  warm start from duplex_bands_mixed (distance 1.55), colour_lamellar_ma16020804 (distance 1.76)
+  [start 0] objective 4.191 (worst family 3.5049170653706887, pooled 2.7441982529722586)
+  [start 1] objective 5.449 (worst family 4.678047065370689, pooled 3.0843908898681827)
+  [start 2] objective 5.129 (worst family 4.334504893403787, pooled 3.1790011908882727)
+  twin not trusted (realism ok False, start flake recall 0.98): no search; the scaled defaults are used
+  done in 182 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/needles_L23/report.md
+{"needles_L23": {"mode": "phase", "mode_reason": "minority phase is separate blobs about as thick as the matrix", "twin_realism_ok": false, "twin_profile_mismatch": 0.347, "twin_structure_mismatch": 0.274, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 4.197444774233406, "twin_holdout_pooled": 2.616738289338447, "consistency": 0.7033333333333334, "consistency_ratios": {"mean_direction_deg": null, "order_parameter": 0.7033333333333334, "aspect_ratio_rel": 0.11199999999999999}, "median_n_flakes_used": 10015, "warm_started_from": "duplex_bands_mixed (distance 1.55), colour_lamellar_ma16020804 (distance 1.76)", "two_scales": null, "seconds": 182}}
+adapt widmanstaetten_L18: 1 images, code 77a86cd85c
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 13.42 px
+  two scales: 57% of the bright phase is in structures ~62.1 px wide; measuring the fine scale (13.42 px)
+  twin: reused
+  warm start from ti_basketweave_ma19010080 (distance 0.38), pearlite_L02 (distance 0.49)
+  [start 0] objective 2.431 (worst family 2.080669356951288, pooled 1.4028398989842117)
+  [start 1] objective 2.534 (worst family 2.272669356951287, pooled 1.0463562130151083)
+  [start 2] objective 2.534 (worst family 2.272669356951287, pooled 1.0463562130151083)
+  twin not trusted (realism ok False, start flake recall 0.92): no search; the scaled defaults are used
+  done in 129 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/widmanstaetten_L18/report.md
+{"widmanstaetten_L18": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.55, "twin_structure_mismatch": 0.298, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 2.047392631968643, "twin_holdout_pooled": 1.2293790913431257, "consistency": 0.34706666666666663, "consistency_ratios": {"mean_direction_deg": 0.34706666666666663, "order_parameter": 0.3466666666666667, "aspect_ratio_rel": 0.32599999999999996}, "median_n_flakes_used": 397, "warm_started_from": "ti_basketweave_ma19010080 (distance 0.38), pearlite_L02 (distance 0.49)", "two_scales": {"phase": "bright", "area_share": 0.57, "coarse_width_px": 62.1, "fine_width_px": 13.42}, "seconds": 129}}
+adapt bainite_L06: 1 images, code 77a86cd85c
+  profile: boundaries (ambiguous profile; boundary reading by default (the agent review checks it)); flake width 23.41 px
+  two scales: 35% of the bright phase is in structures ~91.3 px wide; measuring the fine scale (23.41 px)
+  twin: reused
+  warm start from ti_basketweave_ma19010080 (distance 0.81), pearlite_L02 (distance 1.06)
+  [start 0] objective 2.520 (worst family 2.1862126740159327, pooled 1.3362855499979591)
+  [start 1] objective 2.163 (worst family 1.8563039182452734, pooled 1.2271999999999992)
+  [start 2] objective 2.163 (worst family 1.850303918245274, pooled 1.2502000000000009)
+  twin not trusted (realism ok False, start flake recall 0.70): no search; the scaled defaults are used
+  done in 213 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/bainite_L06/report.md
+{"bainite_L06": {"mode": "boundaries", "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)", "twin_realism_ok": false, "twin_profile_mismatch": 0.695, "twin_structure_mismatch": 0.142, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 2.617600801885711, "twin_holdout_pooled": 1.6433014691875336, "consistency": 0.6851333333333334, "consistency_ratios": {"mean_direction_deg": 0.6851333333333334, "order_parameter": 0.4633333333333333, "aspect_ratio_rel": 0.366}, "median_n_flakes_used": 330, "warm_started_from": "ti_basketweave_ma19010080 (distance 0.81), pearlite_L02 (distance 1.06)", "two_scales": {"phase": "bright", "area_share": 0.35, "coarse_width_px": 91.3, "fine_width_px": 23.41}, "seconds": 213}}
+adapt tial_regions_L26: 1 images, code 77a86cd85c
+  profile: regions (set by the user); flake width 10.0 px
+  two scales: 68% of the dark phase is in structures ~50.2 px wide; measuring the fine scale (10.0 px)
+  twin: reused
+  warm start from pearlite_L02 (distance 5.28), duplex_bands_mixed (distance 5.28)
+  [start 0] objective 2.868 (worst family 2.3240868803341637, pooled 2.1743374333482666)
+  [start 1] objective 2.099 (worst family 1.7186784089556792, pooled 1.5209847187229357)
+  [start 2] objective 3.108 (worst family 2.5356879105509984, pooled 2.2893118819690828)
+  twin not trusted (realism ok False, start flake recall 0.61): no search; the scaled defaults are used
+  done in 386 s: report /Users/cesaregarberino/Desktop/Image Analyzer/micrograph-impact-lab/results/flakes/adapt/tial_regions_L26/report.md
+{"tial_regions_L26": {"mode": "regions", "mode_reason": "set by the user", "twin_realism_ok": false, "twin_profile_mismatch": 0.156, "twin_structure_mismatch": 0.428, "twin_trusted": false, "upsample_factor": 1, "twin_holdout_worst_family": 2.7770108898091532, "twin_holdout_pooled": 2.1493747527985407, "consistency": 0.25, "consistency_ratios": {"mean_direction_deg": 0.17933333333333334, "order_parameter": 0.25, "aspect_ratio_rel": 0.054}, "median_n_flakes_used": 4335, "warm_started_from": "pearlite_L02 (distance 5.28), duplex_bands_mixed (distance 5.28)", "two_scales": {"phase": "dark", "area_share": 0.68, "coarse_width_px": 50.2, "fine_width_px": 10.0}, "seconds": 386}}

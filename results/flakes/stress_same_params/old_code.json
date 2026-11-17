@@ -1,0 +1,301 @@
+{
+ "sem_user": {
+  "images": {
+   "sem_bse": {
+    "order_parameter": 0.4261,
+    "mean_direction_deg": 86.2311,
+    "median_aspect_ratio": 2.191,
+    "n_used_orientation": 1303
+   }
+  },
+  "rotation": 0.4545333333333333
+ },
+ "ti64_dev": {
+  "images": {
+   "Ti64_21": {
+    "order_parameter": 0.4587,
+    "mean_direction_deg": 3.1343,
+    "median_aspect_ratio": 3.794,
+    "n_used_orientation": 679
+   },
+   "Ti64_22": {
+    "order_parameter": 0.3792,
+    "mean_direction_deg": 18.77,
+    "median_aspect_ratio": 4.429,
+    "n_used_orientation": 607
+   },
+   "Ti64_23": {
+    "order_parameter": 0.5745,
+    "mean_direction_deg": 134.5787,
+    "median_aspect_ratio": 3.452,
+    "n_used_orientation": 799
+   },
+   "Ti64_24": {
+    "order_parameter": 0.5741,
+    "mean_direction_deg": 15.2897,
+    "median_aspect_ratio": 3.803,
+    "n_used_orientation": 644
+   },
+   "Ti64_28": {
+    "order_parameter": 0.579,
+    "mean_direction_deg": 0.2166,
+    "median_aspect_ratio": 6.961,
+    "n_used_orientation": 531
+   },
+   "Ti64_29": {
+    "order_parameter": 0.5435,
+    "mean_direction_deg": 44.9322,
+    "median_aspect_ratio": 6.462,
+    "n_used_orientation": 522
+   },
+   "Ti64_32": {
+    "order_parameter": 0.2058,
+    "mean_direction_deg": 159.7637,
+    "median_aspect_ratio": 4.243,
+    "n_used_orientation": 516
+   },
+   "Ti64_33": {
+    "order_parameter": 0.6414,
+    "mean_direction_deg": 0.2736,
+    "median_aspect_ratio": 3.94,
+    "n_used_orientation": 691
+   },
+   "Ti64_34": {
+    "order_parameter": 0.7637,
+    "mean_direction_deg": 0.7588,
+    "median_aspect_ratio": 3.36,
+    "n_used_orientation": 932
+   },
+   "Ti64_36": {
+    "order_parameter": 0.1566,
+    "mean_direction_deg": 21.7903,
+    "median_aspect_ratio": 3.5955,
+    "n_used_orientation": 574
+   },
+   "Ti64_37": {
+    "order_parameter": 0.8709,
+    "mean_direction_deg": 0.3711,
+    "median_aspect_ratio": 5.1955,
+    "n_used_orientation": 805
+   },
+   "Ti64_38": {
+    "order_parameter": 0.2638,
+    "mean_direction_deg": 148.9854,
+    "median_aspect_ratio": 3.456,
+    "n_used_orientation": 717
+   },
+   "Ti64_39": {
+    "order_parameter": 0.5965,
+    "mean_direction_deg": 19.0688,
+    "median_aspect_ratio": 4.046,
+    "n_used_orientation": 608
+   }
+  },
+  "rotation": 0.441
+ },
+ "banded_islands_ma17081847": {
+  "images": {
+   "L03__10.3390_ma17081847_g009_p6": {
+    "order_parameter": 0.9308,
+    "mean_direction_deg": 0.7631,
+    "median_aspect_ratio": 3.239,
+    "n_used_orientation": 133
+   },
+   "L07__10.3390_ma17081847_g009_p2": {
+    "order_parameter": 0.9152,
+    "mean_direction_deg": 0.4215,
+    "median_aspect_ratio": 3.394,
+    "n_used_orientation": 176
+   },
+   "L11__10.3390_ma17081847_g009_p7": {
+    "order_parameter": 0.9287,
+    "mean_direction_deg": 179.8591,
+    "median_aspect_ratio": 2.275,
+    "n_used_orientation": 143
+   },
+   "L14__10.3390_ma17081847_g009_p3": {
+    "order_parameter": 0.9159,
+    "mean_direction_deg": 0.2819,
+    "median_aspect_ratio": 2.8035,
+    "n_used_orientation": 116
+   },
+   "L16__10.3390_ma17081847_g010_p8": {
+    "order_parameter": 0.904,
+    "mean_direction_deg": 179.7072,
+    "median_aspect_ratio": 2.3365,
+    "n_used_orientation": 142
+   },
+   "L17__10.3390_ma17081847_g010_p7": {
+    "order_parameter": 0.9398,
+    "mean_direction_deg": 179.9897,
+    "median_aspect_ratio": 2.4535,
+    "n_used_orientation": 128
+   },
+   "L19__10.3390_ma17081847_g009_p1": {
+    "order_parameter": 0.8314,
+    "mean_direction_deg": 1.3375,
+    "median_aspect_ratio": 2.7275,
+    "n_used_orientation": 174
+   }
+  },
+  "rotation": 0.47000000000000003
+ },
+ "ti_basketweave_ma19010080": {
+  "images": {
+   "L08__10.3390_ma19010080_g003_p10": {
+    "order_parameter": 0.1369,
+    "mean_direction_deg": 158.7952,
+    "median_aspect_ratio": 2.108,
+    "n_used_orientation": 152
+   },
+   "L20__10.3390_ma19010080_g003_p9": {
+    "order_parameter": 0.2779,
+    "mean_direction_deg": 166.7181,
+    "median_aspect_ratio": 1.635,
+    "n_used_orientation": 167
+   },
+   "L21__10.3390_ma19010080_g003_p7": {
+    "order_parameter": 0.2379,
+    "mean_direction_deg": 35.0582,
+    "median_aspect_ratio": 1.714,
+    "n_used_orientation": 268
+   },
+   "L22__10.3390_ma19010080_g003_p5": {
+    "order_parameter": 0.0763,
+    "mean_direction_deg": 6.3962,
+    "median_aspect_ratio": 1.686,
+    "n_used_orientation": 227
+   }
+  },
+  "rotation": 0.8750000000000001
+ },
+ "colour_lamellar_ma16020804": {
+  "images": {
+   "L09__10.3390_ma16020804_g005_p3": {
+    "order_parameter": 0.9048,
+    "mean_direction_deg": 109.8802,
+    "median_aspect_ratio": 2.813,
+    "n_used_orientation": 613
+   },
+   "L12__10.3390_ma16020804_g002_p3": {
+    "order_parameter": 0.8542,
+    "mean_direction_deg": 117.072,
+    "median_aspect_ratio": 2.4895,
+    "n_used_orientation": 693
+   },
+   "L13__10.3390_ma16020804_g002_p9": {
+    "order_parameter": 0.8357,
+    "mean_direction_deg": 43.7266,
+    "median_aspect_ratio": 2.879,
+    "n_used_orientation": 767
+   }
+  },
+  "rotation": 0.2681
+ },
+ "duplex_bands_mixed": {
+  "images": {
+   "L01__rank076__MB_DSSx100-3": {
+    "order_parameter": 0.9894,
+    "mean_direction_deg": 0.8078,
+    "median_aspect_ratio": 5.69,
+    "n_used_orientation": 481
+   },
+   "L04__rank007__MB_DSSx200-4": {
+    "order_parameter": 0.9846,
+    "mean_direction_deg": 6.9193,
+    "median_aspect_ratio": 4.806,
+    "n_used_orientation": 150
+   },
+   "L05__rank005__MBX200+ech": {
+    "order_parameter": 0.981,
+    "mean_direction_deg": 176.7943,
+    "median_aspect_ratio": 3.626,
+    "n_used_orientation": 459
+   },
+   "L24__rank027__102_Microstructure_of_2707_Hyper_Duplex_Stainless_Steel__CC-BY-4.0": {
+    "order_parameter": 0.9096,
+    "mean_direction_deg": 2.1308,
+    "median_aspect_ratio": 2.2695,
+    "n_used_orientation": 217
+   }
+  },
+  "rotation": 0.272
+ },
+ "purple_flakes_L10": {
+  "images": {
+   "L10__rank046__40MIN-G500-00": {
+    "order_parameter": 0.9875,
+    "mean_direction_deg": 179.903,
+    "median_aspect_ratio": 3.212,
+    "n_used_orientation": 19
+   }
+  },
+  "rotation": 0.064
+ },
+ "tial_lamellar_L26": {
+  "images": {
+   "L26__rank038__056_TiAl_Lammelar__CC0": {
+    "order_parameter": 0.5634,
+    "mean_direction_deg": 116.5933,
+    "median_aspect_ratio": 2.9375,
+    "n_used_orientation": 988
+   }
+  },
+  "rotation": 0.974
+ },
+ "pearlite_L02": {
+  "images": {
+   "L02__10.3390_ma18204798_g006_p4": {
+    "order_parameter": 0.4487,
+    "mean_direction_deg": 146.3987,
+    "median_aspect_ratio": 2.406,
+    "n_used_orientation": 489
+   }
+  },
+  "rotation": 1.97
+ },
+ "needles_L23": {
+  "images": {
+   "L23__rank003__066_Primaerzementit__CC-BY-SA-3.0": {
+    "order_parameter": 0.035,
+    "mean_direction_deg": 48.2898,
+    "median_aspect_ratio": 2.059,
+    "n_used_orientation": 10015
+   }
+  },
+  "rotation": 0.7033333333333334
+ },
+ "widmanstaetten_L18": {
+  "images": {
+   "L18__rank078__043_Widmannstaetten__CC-BY-SA-3.0": {
+    "order_parameter": 0.533,
+    "mean_direction_deg": 179.1557,
+    "median_aspect_ratio": 1.986,
+    "n_used_orientation": 397
+   }
+  },
+  "rotation": 0.34706666666666663
+ },
+ "bainite_L06": {
+  "images": {
+   "L06__rank063__085_Bainit_Gefuge_von_80_Si_13__CC-BY-SA-3.0": {
+    "order_parameter": 0.7841,
+    "mean_direction_deg": 31.3394,
+    "median_aspect_ratio": 2.292,
+    "n_used_orientation": 330
+   }
+  },
+  "rotation": 0.6785333333333333
+ },
+ "tial_regions_L26": {
+  "images": {
+   "L26__rank038__056_TiAl_Lammelar__CC0": {
+    "order_parameter": 0.586,
+    "mean_direction_deg": 115.8172,
+    "median_aspect_ratio": 4.426,
+    "n_used_orientation": 4289
+   }
+  },
+  "rotation": 0.5478666666666666
+ }
+}

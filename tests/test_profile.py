@@ -111,3 +111,58 @@ def test_an_sem_data_bar_is_left_out_of_the_region_of_interest():
     # and nothing is cut from an image without a bar
     plain = generate(Spec("plain", "t", seed=8, shape=(400, 520), noise=0.02))["image"] / 255.0
     assert region_of_interest(plain)[330:390, 50:470].mean() > 0.9
+
+
+def test_scaled_params_are_capped_by_the_image_size():
+    # coarse cells (~62 px) in a 1100 x 1400 image: 20 x the width would ask for scratches longer than the image
+    free = scaled_params(62.0, 3.5, ())
+    assert free["scratch_min_length_px"] > 1100
+    capped = scaled_params(62.0, 3.5, (), shape=(1100, 1400))
+    assert capped["scratch_min_length_px"] <= 0.25 * 1100
+    assert capped["tile_px"] <= 0.5 * 1100 and capped["flatten_px"] <= 0.25 * 1400
+    assert capped["min_area_px"] == free["min_area_px"]  # caps only where the image size matters
+    # given params are left alone; small images are not pushed below the floors
+    assert scaled_params(62.0, 3.5, ("scratch_min_length_px",), shape=(1100, 1400)).get("scratch_min_length_px") is None
+    tiny = scaled_params(10.0, 5.66, (), shape=(120, 160))
+    assert tiny["scratch_min_length_px"] >= 40
+
+
+def test_the_method_resolves_reachable_params_on_coarse_cells():
+    from src.methods.flakes import DEFAULTS, resolve
+    from src.methods.profile import profile as prof_fn
+    from src.synth_cells import CellSpec, generate as cells
+
+    g = cells(CellSpec("r", "clean", seed=13))["image"] / 255.0
+    pr = prof_fn(g)
+    q = resolve({**DEFAULTS, "_given": []}, pr, "boundaries")
+    assert q["scratch_min_length_px"] <= 0.25 * min(g.shape)
+    assert q["_width_used"] >= 50
+
+
+def test_an_out_of_focus_region_is_found_and_left_out():
+    from src.methods.profile import out_of_focus
+    from src.synth_cells import CellSpec, generate as cells
+
+    g = cells(CellSpec("b", "blurred", seed=21, blur=True))
+    img = g["image"] / 255.0
+    oof = out_of_focus(img, np.ones(img.shape, bool))
+    truth = g["mask"] == 3
+    iou = (oof & truth).sum() / max((oof | truth).sum(), 1)
+    assert iou >= 0.6
+    assert not region_of_interest(img)[truth].mean() > 0.3  # mostly out of the region of interest
+
+
+@pytest.mark.parametrize("which", ["cells", "laths", "ti64"])
+def test_sharp_images_have_no_out_of_focus_region(which):
+    from PIL import Image as PILImage
+
+    from src.methods.profile import load, out_of_focus
+    from src.synth_cells import CellSpec, generate as cells
+
+    if which == "cells":
+        img = cells(CellSpec("c", "clean", seed=22))["image"] / 255.0
+    elif which == "laths":
+        img = generate(Spec("l", "t", seed=4, shape=(500, 640), n_scratches=2))["image"] / 255.0
+    else:
+        img = load("data/sample/Ti64/Ti64_21.jpg")
+    assert out_of_focus(img, np.ones(img.shape, bool)).mean() < 0.02

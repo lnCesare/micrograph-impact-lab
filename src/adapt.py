@@ -143,7 +143,7 @@ def resolved_start(profile: dict, mode: str, extra: dict | None = None) -> dict:
     m = profile["by_mode"][mode]
     p = {k: v for k, v in DEFAULTS.items() if k != "um_per_px"}
     boundary = m.get("boundary_width_px") if mode == "boundaries" else None
-    p.update(scaled_params(m.get("flake_width_px") or 10.0, boundary, (), DEFAULTS))
+    p.update(scaled_params(m.get("flake_width_px") or 10.0, boundary, (), DEFAULTS, shape=profile.get("shape")))
     p.update(mode=mode, flake_width_px=None, flake_phase=m.get("flake_phase", "auto") if mode == "phase" else "auto")
     p.update(extra or {})
     return p
@@ -188,6 +188,29 @@ def side_by_side(images: list[Path], overlays: list[str], out_dir: Path, max_wid
         c.save(path, quality=88)
         written.append(str(path))
     return written
+
+
+def write_input_size_labels(originals: list[Path], analysed: list[Path], labels_dir: Path) -> None:
+    """One label PNG per input image, at the input's size (0 background, k = flake k of flakes.csv; pockets are 0),
+    for src.score_masks: labels of images analysed enlarged are shrunk back (nearest neighbour)."""
+    from PIL import Image
+
+    for orig, ana in zip(originals, analysed):
+        path = labels_dir / f"{Path(ana).stem}.png"
+        if not path.exists():
+            continue
+        lab = np.array(Image.open(path)).astype(np.int64)
+        w, h = Image.open(orig).size
+        if lab.shape != (h, w):
+            rr = (np.arange(h) * lab.shape[0] / h + lab.shape[0] / (2 * h)).astype(int).clip(0, lab.shape[0] - 1)
+            cc = (np.arange(w) * lab.shape[1] / w + lab.shape[1] / (2 * w)).astype(int).clip(0, lab.shape[1] - 1)
+            lab = lab[rr][:, cc]
+        if lab.max() > 65535:
+            raise ValueError(f"{orig}: more than 65535 flakes do not fit a 16-bit label PNG")
+        out = labels_dir / f"{Path(orig).stem}.png"
+        Image.fromarray(lab.astype(np.uint16)).save(out)
+        if out != path:
+            path.unlink()
 
 
 def bootstrap(flakes: list[dict], n: int = 300, seed: int = 0) -> dict:
@@ -735,6 +758,7 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int = 
     # 8. real images
     final_params = dict(best["params"]) | ({"um_per_px": um_per_px / factor} if um_per_px else {})
     real = measure_real(images, final_params, out, workers)
+    write_input_size_labels(original_images, images, out / "labels")
     review_files = side_by_side(images, real["overlays"], out / "review")  # (upsampled images, when fine)
     rows = []
     for n, s in real["image_summaries"].items():

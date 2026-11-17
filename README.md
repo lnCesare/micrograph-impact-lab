@@ -345,6 +345,79 @@ Results go to `results/flakes/adapt/<name>/`:
 - Scratch detection on real texture finds about a third of strong scratches (blind test, F-16).
   The measurements are robust to them anyway: a strong scratch moves them by ≤ 0.12 of the tolerance.
 
+## Coarse cell structures (added 2026-11-17)
+
+A private test on optical micrographs of a coarse, elongated cell structure showed the tool losing to a plain h-maxima watershed (flake F1 0.64 vs 0.74, aspect ratio −22 %, one image 7° off).
+These images cannot be shared, so the fixes were developed and checked on a code-generated family built from their description, with exact truth.
+Details, numbers and the variants that failed are in [JOURNAL.md](JOURNAL.md) (2026-11-17, "Coarse cell structures").
+
+**The twin family** ([src/synth_cells.py](src/synth_cells.py); `python -m src.synth_cells --out data/coarse_cells`):
+- bright cells ~60–70 px wide, aspect ratio 2.4–3.6, rounded ends, stacked end to end in curved rows (S 0.8–0.9), 90–150 per 1100 × 1400 image;
+- thin dark boundaries (2–5 px), broken and dotted, the end-to-end ones fainter;
+- grey speckled pockets at triple junctions, dark pores inside the cells;
+- faint hairline scratches and an occasional thick one, uneven illumination, and in one family an out-of-focus half-plane.
+
+Truth is written as cell ids, scratch maps, and masks in the private test's convention (0 boundary, 1 cell, 2 pocket, 3 ignore).
+There are three families (clean, scratched, blurred); dev and holdout images are generated, not committed.
+
+**Scoring** ([src/score_masks.py](src/score_masks.py)), for any method's label PNGs:
+
+```shell
+.venv/bin/python -m src.score_masks --labels results/flakes/adapt/<name>/labels --masks <dir of mask PNGs> [--json score.json]
+```
+
+It reports:
+- flake precision, recall and F1 at IoU 0.5;
+- merges, splits and pocket false positives;
+- per image, the errors of mean direction, S and median aspect ratio, measured the same way from both label images.
+
+`src.adapt` writes one label PNG per input image at the input's size (0 background, label k = flake k of `flakes.csv`).
+
+**What changed in the method.**
+The first two changes act on any image where they apply; the rest only where flakes are ≥ 24 px wide, so the fine-lath behaviour validated on Ti64 is untouched.
+1. *Flake width* from the spacing of the boundary lines along the flakes (scan lines across the local direction, peak of the spacing distribution).
+   Where it disagrees strongly with the old Otsu-thickness estimate (> 1.6×, smooth blend up to 1.9×) and has a clear peak, it takes over; disagreements are reported.
+   On the twin: 30.5 px → 62.4 px (true 55–75); the private images read 31 px.
+2. *Pixel parameters capped by the image size*: 20 × a 62 px width asked for scratches longer than the image.
+3. *Splits:* pores are filled before the watershed (they were the cut points). Pieces are not merged across a shared border darker than both (faint end-to-end boundaries).
+4. *Pockets:* fine speckle without a direction is found, and flakes lying on it are `not_a_flake` (left out of the statistics and the label PNGs).
+5. *Scratches:* the line candidates and the tests use a direction field over half a flake width.
+   Faint hairlines and thick scratches are looked for, and scratches within 25° of the cells are not (they look like boundaries).
+6. *Out-of-focus areas* (sharpness and contrast both low, ≥ 10 % of the image) are left out of the region of interest, and their fraction is reported.
+
+**Results on the twin** (defaults, no API):
+
+| | dev, before | dev, after | blind set 2, before | **blind set 2, after** |
+|---|---|---|---|---|
+| flake F1 | 0.726 | 0.864 | 0.748 | **0.863** |
+| splits / merges | 167 / 93 | 73 / 114 | 173 / 68 | 77 / 99 |
+| pockets counted as flakes | 542 | 21 | 427 | 7 |
+| median aspect ratio bias | −19 % | −4.0 % | −17.8 % | **−3.6 %** |
+| median S error | 0.024 | 0.005 | 0.025 | 0.015 |
+| worst direction error | 2.5° | 1.2° | 1.45° | 1.3° |
+
+- *Blind set 2:* 12 images from a fresh OS-entropy seed, generated after the code (`77a86cd85c`) and params were frozen, and run once; the "before" column is the tool at commit `d99b04a`.
+- *Blind set 1* (the code before a last regression fix): F1 0.856, aspect ratio −4.5 %.
+- *A plain h-maxima watershed* scores F1 0.39–0.63 on blind set 2.
+- *Existing targets:* lamellar_synth (worst family 0.657, scratch P/R 0.92/0.82) and the Ti64 rotation check (0.218) are unchanged.
+- *Stress sets (13 real-image sets):* with each set's parameters held fixed, 11 sets give identical results and 2 differ slightly ([scripts/stress_same_params.py](scripts/stress_same_params.py)).
+  Run as a whole, the adapt tool now fails the rotation check on 2 sets (ti_basketweave, purple_flakes_L10) and passes it on pearlite.
+  This comes from the search's history (knowledge memory, search cache), not from the method; see JOURNAL and TASKS A-14.
+
+**Limits.**
+- The twin is a model of a description, not of the images.
+  It is fair evidence that the tool improves, not that it now beats a watershed tuned on the real images: only the private rerun can say that (`src.adapt` on the 8 images, then `src.score_masks`).
+- *Blurred images remain the weak point.*
+  The out-of-focus detector is conservative: it flags none of the 47 real images at hand, and misses some blur.
+  On the blurred family the aspect ratio is still −12 % (blind set 2) to −23 % (blind set 1), the same failure the private test showed.
+- Scratches within ~25° of the local cell direction are not found (geometry cannot tell them from boundaries); the faintest bright hairlines are missed.
+- The rules for coarse flakes switch on at 24 px; a structure near that width gets either behaviour.
+- *A public check without truth* ([scripts/public_cells_check.py](scripts/public_cells_check.py)): three optical images of coarse elongated cells in SLM AlSi10Mg.
+  Source: Zhang et al. 2023, *Materials* 16(3) 1222, Fig. 6 f, g, i, [doi:10.3390/ma16031222](https://doi.org/10.3390/ma16031222), CC BY 4.0.
+  - At their published size (cells ~20–25 px), nothing changes; enlarged ×3, little changes ([drawing](results/flakes/cells/public_E21/before_vs_after.jpg)).
+  - The check shows a different limit: wide *pale* boundary bands between two-tone cells fit neither reading, and on two of the three images about half the cells are left out (TASKS C-6).
+  - It is not evidence for or against the fixes above.
+
 ## Flakes: shape and alignment of laths (added 2026-11-16)
 
 A second task on the same loop, for lamellar microstructures such as Ti-6Al-4V:
@@ -505,4 +578,5 @@ Code is licensed under the [Apache License 2.0](LICENSE),
 and text under [CC BY 4.0](LICENSE-CC-BY-4.0),
 the default of the Claude Impact Lab.
 Data keeps the licence of its source, listed in [data/sample/](data/sample/README.md);
-the 316L images in [docs/](docs/) are from Warren et al. 2024 (CC BY 4.0).
+the 316L images in [docs/](docs/) are from Warren et al. 2024 (CC BY 4.0);
+the drawings in [results/flakes/cells/public_E21/](results/flakes/cells/public_E21/) are made from Zhang et al. 2023, *Materials* 16(3) 1222, Fig. 6 ([doi:10.3390/ma16031222](https://doi.org/10.3390/ma16031222), CC BY 4.0), enlarged with segmentation lines drawn on them.

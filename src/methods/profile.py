@@ -168,15 +168,104 @@ def data_bar(gray: np.ndarray, k: int = 3) -> np.ndarray:
     return out
 
 
-def region_of_interest(gray: np.ndarray, mode: str = "auto") -> np.ndarray:
-    """Pixels of the specimen: drops dark mounting resin (resin_regions), flat padding and label boxes
-    (flat_regions), and keeps away from their edges."""
+def out_of_focus(gray: np.ndarray, roi: np.ndarray, min_fraction: float = 0.1, ratio_core: float = 0.72,
+                 contrast_core: float = 0.72, ratio_grow: float = 0.8, contrast_grow: float = 0.82) -> np.ndarray:
+    """Out-of-focus areas, from two cues that must hold together, each averaged over windows of ~1/16 image:
+    - sharpness: at the edges (gradient at 3 px above half its Otsu threshold), the fine-scale gradient (1 px) over
+      the coarse one is about 2 where the image is sharp and drops towards 1 where it is blurred: below 0.72 x the
+      image's own sharp part (90th percentile);
+    - contrast: blur erases thin boundary lines, so the local contrast (std at 1 px) drops below 0.72 x the image's
+      75th percentile. Without it, sharp areas of broad step edges (large plates, ferrite grains) read as blurred.
+    Confident cores of at least min_fraction (10 %) of the image are grown over the transition (0.8 x sharpness,
+    0.82 x contrast). Relative to the image itself: a uniformly soft image (an enlarged one) has no out-of-focus area.
+    The thresholds flag none of the 47 real images at hand (Ti64, the lamellar set, the scientist's SEM image) and
+    remove 62-81 % of the blurred area in 7 of 8 coarse-cell twin images: some blur is missed rather than sharp
+    specimen cut away (with 0.8 x contrast, a third of the SEM specimen was taken for blurred).
+    (Failure 6 of the private coarse-cell test: a blurred half-image measured with the rest put one image 7 deg off.)"""
+    h, w = gray.shape
+    out = np.zeros(gray.shape, bool)
+    if roi.sum() < 1000:
+        return out
+    g1 = ndi.gaussian_gradient_magnitude(gray, 1.0)
+    g3 = ndi.gaussian_gradient_magnitude(gray, 3.0)
+    edges = (g3 > 0.5 * threshold_otsu(g3[roi])) & roi  # (blurred edges are weaker: a low threshold keeps them)
+    if edges.sum() < 500:
+        return out
+    win = max(24.0, min(h, w) / 16)
+    num = gaussian(np.where(edges, g1 / (g3 + 1e-9), 0.0), win)
+    den = gaussian(edges.astype(float), win)
+    have = (den > 0.01) & roi
+    if have.sum() < 1000:
+        return out
+    ratio = np.where(have, num / np.maximum(den, 1e-9), np.nan)
+    sharp = np.nanpercentile(ratio[have], 90)
+    sm = gaussian(np.where(roi, gray, float(np.median(gray[roi]))), 1.0)
+    std = np.sqrt(np.maximum(gaussian(sm ** 2, win) - gaussian(sm, win) ** 2, 0))
+    ref = np.percentile(std[have], 75)
+    core = ndi.binary_opening(have & (ratio < ratio_core * sharp) & (std < contrast_core * ref), iterations=3)
+    lab_c, n_c = ndi.label(core)
+    if not n_c:
+        return out
+    sizes_c = np.bincount(lab_c.ravel())
+    big = sizes_c >= min_fraction * gray.size
+    big[0] = False
+    core = big[lab_c]
+    grow = have & (ratio < ratio_grow * sharp) & (std < contrast_grow * ref)
+    lab_g, _ = ndi.label(grow)
+    return np.isin(lab_g, np.unique(lab_g[core & (lab_g > 0)])) & (lab_g > 0)
+
+
+def textured_regions(gray: np.ndarray, roi: np.ndarray, flake_width: float | None) -> np.ndarray:
+    """Patches of fine speckle texture that are not flakes (grey "pockets" at triple junctions of coarse cells):
+    a high density of small intensity extrema (5 px neighbourhood, prominence > 3 x the pixel noise; > 4 x the
+    image's median density and > 0.004 per px, in a window of 0.15 x the flake width) where the texture has no
+    direction (structure-tensor coherence < 0.3: boundary lines are coherent), kept as blobs of at least
+    (0.2 x the flake width)^2. Only for coarse structures (flakes >= 24 px wide): at finer scales the speckle cannot
+    be told from the structure itself (fine lamellae, pearlite). (Failure 4 of the private coarse-cell test.)"""
+    out = np.zeros(gray.shape, bool)
+    if not flake_width or not np.isfinite(flake_width) or flake_width < 24 or roi.sum() < 1000:
+        return out
+    from skimage.feature import structure_tensor
+
+    si = 0.15 * flake_width
+    sm = gaussian(gray, 1.2)
+    resid = gray - gaussian(gray, 1.0)
+    noise = 1.4826 * float(np.median(np.abs(resid - np.median(resid))))
+    local = gaussian(gray, 4.0)
+    extrema = (((sm == ndi.maximum_filter(sm, 5)) & (sm - local > 3 * noise))
+               | ((sm == ndi.minimum_filter(sm, 5)) & (local - sm > 3 * noise))) & roi
+    density = gaussian(extrema.astype(float), si)
+    arr, acc, aqq = structure_tensor(gaussian(gray, 1.0), sigma=si, order="rc")
+    coherence = np.hypot(aqq - arr, 2 * acc) / (aqq + arr + 1e-12)
+    t = max(0.004, 4 * float(np.median(density[roi])))
+    tex = (density > t) & (coherence < 0.3) & roi
+    tex = ndi.binary_opening(tex, iterations=2)
+    lab, n = ndi.label(tex)
+    if n:
+        sizes = np.bincount(lab.ravel())
+        keep = sizes >= (0.2 * flake_width) ** 2
+        keep[0] = False
+        out = ndi.binary_dilation(keep[lab], iterations=3) & roi
+    return out
+
+
+def region_of_interest(gray: np.ndarray, mode: str = "auto", info: dict | None = None) -> np.ndarray:
+    """Pixels of the specimen: drops dark mounting resin (resin_regions), an instrument data bar (data_bar), flat
+    padding and label boxes (flat_regions) and out-of-focus areas (out_of_focus), and keeps away from their edges.
+    With a dict as `info`, the out-of-focus fraction of the image is written into it."""
+    if info is not None:
+        info["out_of_focus_fraction"] = 0.0
     if mode == "full":
         return np.ones(gray.shape, bool)
     roi = ~resin_regions(gray) & ~data_bar(gray)
     flat = flat_regions(gray)
     if flat.any() and flat.mean() < 0.7:
         roi &= ~flat
+    blurred = out_of_focus(gray, roi)
+    if blurred.any() and blurred.mean() < 0.7:
+        roi &= ~blurred
+        if info is not None:
+            info["out_of_focus_fraction"] = round(float(blurred.mean()), 4)
     if roi.mean() < 0.05:  # nothing sensible left: fall back to the whole image
         return np.ones(gray.shape, bool)
     return ndi.binary_erosion(roi, iterations=6) if not roi.all() else roi
@@ -199,6 +288,91 @@ def _connectivity(phase: np.ndarray) -> float:
     lab, n = ndi.label(remove_small_objects(phase, max_size=4))
     sizes = np.bincount(lab.ravel())[1:] if n else np.array([0])
     return float(sizes.max() / max(sizes.sum(), 1))
+
+
+def boundary_spacing(gray: np.ndarray, roi: np.ndarray, dark_lines: bool = True, exclude: np.ndarray | None = None,
+                     n_lines: int = 240, seed: int = 0) -> dict:
+    """Spacing of the boundary lines across the flakes: thin lines (Sato ridges, 1-3 px) that run along the local
+    flake direction (within 25 deg of the coarse structure-tensor direction) are crossed by scan lines laid across
+    that direction; the spacing is the most common distance between consecutive crossings (log-histogram peak,
+    refined by the median within +-25 %). Dots and pores (short, any direction), pocket texture (short ridges in all
+    directions) and the boundaries between flakes stacked end to end (across the direction) drop out of the line map;
+    a missing stretch of boundary makes one spacing twice as long, which moves the median but not the peak.
+    Also returned: the mean intercept (scan length / crossings), which a broken boundary biases up and stray lines
+    bias down, as a cross-check."""
+    h, w = gray.shape
+    valid = roi.copy() if exclude is None else roi & ~exclude
+    out = {"spacing_px": None, "intercept_px": None, "n_spacings": 0, "peak_share": 0.0, "reliable": False}
+    if valid.sum() < 1000:
+        return out
+    from skimage.feature import hessian_matrix, structure_tensor
+    from skimage.filters import sato
+
+    sm = gaussian(gray, 1.0)
+    ridge = sato(sm, sigmas=[1.0, 2.0, 3.0], black_ridges=dark_lines)
+    t = threshold_otsu(ridge[valid])
+    lines = (ridge > t) & valid
+    hrr, hrc, hcc = hessian_matrix(sm, sigma=2.0, order="rc", use_gaussian_derivatives=True)
+    principal = 0.5 * np.degrees(np.arctan2(-2 * hrc, hcc - hrr))
+    line_dir = (principal + 90) % 180 if dark_lines else principal % 180
+    arr, acc, aqq = structure_tensor(sm, sigma=max(8.0, min(h, w) / 40), order="rc")
+    tex_dir = (0.5 * np.degrees(np.arctan2(-2 * acc, aqq - arr)) + 90) % 180
+    d = np.abs((line_dir - tex_dir) % 180)
+    along = lines & (np.minimum(d, 180 - d) <= 25)
+    along = remove_small_objects(along, max_size=15)
+    rng = np.random.default_rng(seed)
+    starts = np.flatnonzero(valid.ravel())
+    starts = rng.choice(starts, size=min(n_lines, starts.size), replace=False)
+    reach = int(min(h, w) * 0.6)
+    steps = np.arange(-reach, reach + 1)
+    spacings, total_len, crossings = [], 0, 0
+    for st in starts:
+        r0, c0 = divmod(int(st), w)
+        theta = np.deg2rad(tex_dir[r0, c0])
+        nr, nc = np.cos(theta), np.sin(theta)  # across the flakes, in (row, col)
+        rr = np.round(r0 + steps * nr).astype(int)
+        cc = np.round(c0 + steps * nc).astype(int)
+        inside = (rr >= 0) & (rr < h) & (cc >= 0) & (cc < w)
+        ok = np.zeros(steps.size, bool)
+        ok[inside] = valid[rr[inside], cc[inside]]
+        # the contiguous valid stretch through the start point
+        centre = reach
+        lo = centre
+        while lo > 0 and ok[lo - 1]:
+            lo -= 1
+        hi = centre
+        while hi < steps.size - 1 and ok[hi + 1]:
+            hi += 1
+        if hi - lo < 20:
+            continue
+        seg = along[rr[lo:hi + 1], cc[lo:hi + 1]]
+        rises = np.flatnonzero(np.diff(seg.astype(np.int8)) == 1) + 1
+        falls = np.flatnonzero(np.diff(seg.astype(np.int8)) == -1) + 1
+        if seg[0]:
+            rises = np.r_[0, rises]
+        if seg[-1]:
+            falls = np.r_[falls, seg.size]
+        centres = (rises + falls[: rises.size]) / 2.0
+        total_len += hi - lo + 1
+        crossings += centres.size
+        if centres.size >= 2:
+            spacings.extend(np.diff(centres).tolist())
+    s = np.asarray([v for v in spacings if v >= 3])
+    out["n_spacings"] = int(s.size)
+    if crossings:
+        out["intercept_px"] = round(float(total_len / crossings), 2)
+    if s.size < 10:
+        return out
+    edges = np.logspace(np.log10(3), np.log10(s.max() + 1), 60)
+    counts, _ = np.histogram(s, edges)
+    smooth_counts = np.convolve(counts, [1, 2, 3, 2, 1], mode="same")
+    k = int(np.argmax(smooth_counts))
+    peak = float(np.sqrt(edges[k] * edges[k + 1]))
+    near = s[(s >= 0.75 * peak) & (s <= 1.25 * peak)]
+    out["spacing_px"] = round(float(np.median(near)) if near.size else peak, 2)
+    out["peak_share"] = round(float(near.size / s.size), 3)
+    out["reliable"] = bool(s.size >= 30 and out["peak_share"] >= 0.4)
+    return out
 
 
 def mode_hint(connectivity: float, ratio: float) -> str:
@@ -251,8 +425,33 @@ def profile(gray: np.ndarray, roi: np.ndarray | None = None) -> dict:
     magnitude = np.hypot(ndi.sobel(smooth, axis=0), ndi.sobel(smooth, axis=1))
     high = threshold_otsu(magnitude[roi])
     steps = ndi.binary_dilation(canny(smooth, sigma=1.0, low_threshold=0.5 * high, high_threshold=high)) & roi
+    # boundaries reading: the flake width from the spacing of the boundary lines (robust to dots, pockets and broken
+    # boundaries, which bias the thickness of the Otsu split low: 31 px for ~65 px cells on the private test)
+    # The two estimators agree on regular laths (Ti64: spacing - line = Otsu thickness x 1.03-1.5), and the method's
+    # defaults were tuned with the Otsu one: the spacing takes over, smoothly, only where the two disagree by more
+    # than 1.6x and the spacing has a clear peak (coarse cells: 62 px against 31). Disagreements over 1.3x are flagged.
+    spacing = boundary_spacing(smooth, roi, dark_lines=(minority_name == "dark"))
+    width_b, width_s = t_maj, None
+    if spacing["spacing_px"]:
+        line = min(t_min, 0.35 * spacing["spacing_px"]) if np.isfinite(t_min) else 0.0
+        width_s = spacing["spacing_px"] - line
+    ratio_s = max(width_s, t_maj) / min(width_s, t_maj) if width_s and np.isfinite(t_maj) and t_maj > 0 else 1.0
+    disagree = bool(ratio_s > 1.3)
+    # a smooth blend, not a switch: an on/off rule flipped between an image and the same image turned by 30 deg
+    # (Ti64 rotation check 0.22 -> 0.40); Ti64 stays below a ratio of 1.6 (weight 0), coarse cells are at 1.8-2.7
+    weight = float(np.clip((ratio_s - 1.6) / 0.3, 0, 1) * np.clip((spacing["peak_share"] - 0.4) / 0.15, 0, 1)) \
+        if width_s and spacing["n_spacings"] >= 30 else 0.0
+    use_spacing = weight > 0
+    if use_spacing:
+        width_b = t_maj + weight * (width_s - t_maj)
+    width_check = {"otsu_px": round(float(t_maj), 2) if np.isfinite(t_maj) else None,
+                   "spacing_width_px": round(float(width_s), 2) if width_s else None,
+                   "spacing_px": spacing["spacing_px"], "intercept_px": spacing["intercept_px"],
+                   "n_spacings": spacing["n_spacings"], "peak_share": spacing["peak_share"],
+                   "used": "spacing" if weight >= 0.5 else "otsu", "spacing_weight": round(weight, 3),
+                   "disagree": disagree}
     by_mode = {
-        "boundaries": {"flake_width_px": t_maj, "boundary_width_px": t_min, "flake_phase": other[minority_name]},
+        "boundaries": {"flake_width_px": width_b, "boundary_width_px": t_min, "flake_phase": other[minority_name]},
         "phase": {"flake_width_px": t_island, "boundary_width_px": t_matrix, "flake_phase": island_phase},
         # regions of uniform level between intensity steps (the regions reading; never chosen automatically)
         "regions": {"flake_width_px": _thickness(~steps & roi, roi), "boundary_width_px": None, "flake_phase": "all"},
@@ -286,6 +485,7 @@ def profile(gray: np.ndarray, roi: np.ndarray | None = None) -> dict:
         "roi_fraction": round(float(roi.mean()), 3),
         "flatten_sigma_px": round(float(sigma), 1),
         "shape": [h, w],
+        "width_check": width_check,
     }
 
 
@@ -316,9 +516,16 @@ def effective_scale(flake_width_px: float) -> float:
     return 1.0 if r >= DEAD_ZONE_LOW else r / DEAD_ZONE_LOW
 
 
-def scaled_params(flake_width_px: float, boundary_width_px: float | None, given, current: dict | None = None) -> dict:
+# caps by image size (fraction of the shorter / longer image side): a parameter scaled to wide flakes must stay
+# reachable in the image (coarse cells, 62 px: 20 x the width asked for scratches longer than the image is tall)
+SIZE_CAPS = {"scratch_min_length_px": ("min", 0.25), "tile_px": ("min", 0.5), "flatten_px": ("max", 0.25),
+             "bridge_gaps_px": ("min", 0.05)}
+
+
+def scaled_params(flake_width_px: float, boundary_width_px: float | None, given, current: dict | None = None,
+                  shape=None) -> dict:
     """Pixel params for an image whose flakes are flake_width_px wide; params named in `given` are left alone
-    (their values are read from `current`)."""
+    (their values are read from `current`). With the image `shape`, the size caps apply (never below the floors)."""
     given = set(given)
     current = current or {}
     s = effective_scale(flake_width_px)
@@ -326,6 +533,12 @@ def scaled_params(flake_width_px: float, boundary_width_px: float | None, given,
     for key, (base, power, lo, hi) in SCALED.items():
         if key not in given:
             v = float(np.clip(base * s**power, lo, hi))
+            if shape is not None and key in SIZE_CAPS:
+                side, frac = SIZE_CAPS[key]
+                cap = frac * (min(shape) if side == "min" else max(shape))
+                # never below the default at the reference scale: a cap is for values the image cannot hold, and
+                # on small images of fine flakes a shorter minimum scratch length let short false lines through
+                v = min(v, max(cap, base))
             out[key] = int(round(v)) if isinstance(base, int) else round(v, 2)
     if "boundary_width_px" not in given:
         if boundary_width_px:  # measured: keep the ratio to the reference, with the same dead zone

@@ -3,12 +3,12 @@
     "mode": "boundaries",
     "mode_reason": "ambiguous profile; boundary reading by default (the agent review checks it)",
     "twin_realism_ok": false,
-    "twin_profile_mismatch": 0.589,
-    "twin_structure_mismatch": 0.219,
+    "twin_profile_mismatch": 0.416,
+    "twin_structure_mismatch": 0.198,
     "twin_trusted": false,
     "upsample_factor": 3,
-    "twin_holdout_worst_family": 7.476561408940887,
-    "twin_holdout_pooled": 4.833052415347153,
+    "twin_holdout_worst_family": 10.500240213422781,
+    "twin_holdout_pooled": 7.251562569111119,
     "consistency": 0.4545333333333333,
     "consistency_ratios": {
       "mean_direction_deg": 0.4545333333333333,
@@ -16,9 +16,9 @@
       "aspect_ratio_rel": 0.218
     },
     "median_n_flakes_used": 1303,
-    "warm_started_from": "pearlite_L02 (distance 0.38), ti64_dev (distance 0.51)",
+    "warm_started_from": null,
     "two_scales": null,
-    "seconds": 128
+    "seconds": 67
   },
   "ti64_dev": {
     "mode": "boundaries",
@@ -28,18 +28,18 @@
     "twin_structure_mismatch": 0.146,
     "twin_trusted": true,
     "upsample_factor": 1,
-    "twin_holdout_worst_family": 0.49018534068367964,
-    "twin_holdout_pooled": 0.3720000000000027,
-    "consistency": 0.441,
+    "twin_holdout_worst_family": 0.5085000000000015,
+    "twin_holdout_pooled": 0.40399999999999636,
+    "consistency": 0.18999999999999997,
     "consistency_ratios": {
-      "mean_direction_deg": 0.18456666666666666,
-      "order_parameter": 0.215,
-      "aspect_ratio_rel": 0.441
+      "mean_direction_deg": 0.17875,
+      "order_parameter": 0.11166666666666668,
+      "aspect_ratio_rel": 0.18999999999999997
     },
-    "median_n_flakes_used": 625.5,
+    "median_n_flakes_used": 623.5,
     "warm_started_from": null,
     "two_scales": null,
-    "seconds": 794
+    "seconds": 1094
   },
   "banded_islands_ma17081847": {
     "mode": "phase",
@@ -49,15 +49,15 @@
     "twin_structure_mismatch": 0.284,
     "twin_trusted": true,
     "upsample_factor": 1,
-    "twin_holdout_worst_family": 0.998771782065701,
-    "twin_holdout_pooled": 0.36599999999999683,
-    "consistency": 0.47000000000000003,
+    "twin_holdout_worst_family": 0.4866,
+    "twin_holdout_pooled": 0.38199999999999934,
+    "consistency": 0.44999999999999996,
     "consistency_ratios": {
-      "mean_direction_deg": 0.13166666666666668,
-      "order_parameter": 0.47000000000000003,
-      "aspect_ratio_rel": 0.414
+      "mean_direction_deg": 0.21866666666666665,
+      "order_parameter": 0.29833333333333334,
+      "aspect_ratio_rel": 0.44999999999999996
     },
-    "median_n_flakes_used": 137.5,
+    "median_n_flakes_used": 158.5,
     "warm_started_from": "ti64_dev (distance 5.92)",
     "two_scales": {
       "phase": "dark",
@@ -65,7 +65,7 @@
       "coarse_width_px": 58.0,
       "fine_width_px": 13.42
     },
-    "seconds": 285
+    "seconds": 383
   },
   "ti_basketweave_ma19010080": {
     "mode": "boundaries",
@@ -75,18 +75,18 @@
     "twin_structure_mismatch": 0.128,
     "twin_trusted": true,
     "upsample_factor": 1,
-    "twin_holdout_worst_family": 0.5968559681858432,
-    "twin_holdout_pooled": 0.4149000000000001,
-    "consistency": 0.8750000000000001,
+    "twin_holdout_worst_family": 1.1088559681858423,
+    "twin_holdout_pooled": 0.476400000000001,
+    "consistency": 2.14,
     "consistency_ratios": {
-      "mean_direction_deg": null,
-      "order_parameter": 0.8750000000000001,
-      "aspect_ratio_rel": 0.537
+      "mean_direction_deg": 0.20503333333333332,
+      "order_parameter": 2.14,
+      "aspect_ratio_rel": 1.8109999999999997
     },
-    "median_n_flakes_used": 197.0,
+    "median_n_flakes_used": 63.5,
     "warm_started_from": "ti64_dev (distance 0.74), banded_islands_ma17081847 (distance 5.64)",
     "two_scales": null,
-    "seconds": 314
+    "seconds": 371
   },
   "colour_lamellar_ma16020804": {
     "mode": "phase",
@@ -96,18 +96,18 @@
     "twin_structure_mismatch": 0.046,
     "twin_trusted": true,
     "upsample_factor": 3,
-    "twin_holdout_worst_family": 0.42600000000000193,
-    "twin_holdout_pooled": 0.397199999999998,
-    "consistency": 0.2681,
+    "twin_holdout_worst_family": 0.974530186913523,
+    "twin_holdout_pooled": 0.8065344269281819,
+    "consistency": 0.38666666666666666,
     "consistency_ratios": {
-      "mean_direction_deg": 0.2681,
-      "order_parameter": 0.22333333333333336,
-      "aspect_ratio_rel": 0.208
+      "mean_direction_deg": 0.09763333333333334,
+      "order_parameter": 0.38666666666666666,
+      "aspect_ratio_rel": 0.32399999999999995
     },
-    "median_n_flakes_used": 693,
+    "median_n_flakes_used": 789,
     "warm_started_from": "banded_islands_ma17081847 (distance 0.25), ti_basketweave_ma19010080 (distance 5.67)",
     "two_scales": null,
-    "seconds": 417
+    "seconds": 753
   },
   "duplex_bands_mixed": {
     "mode": "phase",
@@ -128,7 +128,7 @@
     "median_n_flakes_used": 338.0,
     "warm_started_from": "colour_lamellar_ma16020804 (distance 0.32), banded_islands_ma17081847 (distance 0.46)",
     "two_scales": null,
-    "seconds": 462
+    "seconds": 752
   },
   "purple_flakes_L10": {
     "mode": "phase",
@@ -138,18 +138,18 @@
     "twin_structure_mismatch": 0.111,
     "twin_trusted": true,
     "upsample_factor": 1,
-    "twin_holdout_worst_family": 1.895999999999998,
-    "twin_holdout_pooled": 1.0665684711594092,
-    "consistency": 0.064,
+    "twin_holdout_worst_family": 1.5079999999999985,
+    "twin_holdout_pooled": 0.604568471159409,
+    "consistency": 2.126,
     "consistency_ratios": {
-      "mean_direction_deg": 0.01813333333333333,
-      "order_parameter": 0.016666666666666666,
-      "aspect_ratio_rel": 0.064
+      "mean_direction_deg": 0.7363666666666666,
+      "order_parameter": 0.6900000000000001,
+      "aspect_ratio_rel": 2.126
     },
-    "median_n_flakes_used": 19,
+    "median_n_flakes_used": 15,
     "warm_started_from": "banded_islands_ma17081847 (distance 0.92), colour_lamellar_ma16020804 (distance 1.00)",
     "two_scales": null,
-    "seconds": 176
+    "seconds": 280
   },
   "tial_lamellar_L26": {
     "mode": "boundaries",
@@ -167,7 +167,7 @@
       "order_parameter": 0.73,
       "aspect_ratio_rel": 0.974
     },
-    "median_n_flakes_used": 989,
+    "median_n_flakes_used": 988,
     "warm_started_from": "ti_basketweave_ma19010080 (distance 0.47), ti64_dev (distance 0.93)",
     "two_scales": {
       "phase": "dark",
@@ -175,7 +175,7 @@
       "coarse_width_px": 78.7,
       "fine_width_px": 18.44
     },
-    "seconds": 394
+    "seconds": 453
   },
   "pearlite_L02": {
     "mode": "boundaries",
@@ -185,15 +185,15 @@
     "twin_structure_mismatch": 0.139,
     "twin_trusted": true,
     "upsample_factor": 1,
-    "twin_holdout_worst_family": 0.7210759737426531,
-    "twin_holdout_pooled": 0.41606518311333107,
-    "consistency": 1.97,
+    "twin_holdout_worst_family": 1.2310759737426524,
+    "twin_holdout_pooled": 0.6581193334462931,
+    "consistency": 0.49333333333333335,
     "consistency_ratios": {
-      "mean_direction_deg": 0.7556666666666666,
-      "order_parameter": 1.97,
-      "aspect_ratio_rel": 1.5979999999999999
+      "mean_direction_deg": null,
+      "order_parameter": 0.49333333333333335,
+      "aspect_ratio_rel": 0.432
     },
-    "median_n_flakes_used": 489,
+    "median_n_flakes_used": 81,
     "warm_started_from": "ti_basketweave_ma19010080 (distance 0.46), ti64_dev (distance 0.51)",
     "two_scales": {
       "phase": "bright",
@@ -201,7 +201,7 @@
       "coarse_width_px": 44.9,
       "fine_width_px": 10.0
     },
-    "seconds": 396
+    "seconds": 445
   },
   "needles_L23": {
     "mode": "phase",
@@ -222,7 +222,7 @@
     "median_n_flakes_used": 10015,
     "warm_started_from": "duplex_bands_mixed (distance 1.55), colour_lamellar_ma16020804 (distance 1.76)",
     "two_scales": null,
-    "seconds": 166
+    "seconds": 182
   },
   "widmanstaetten_L18": {
     "mode": "boundaries",
@@ -233,7 +233,7 @@
     "twin_trusted": false,
     "upsample_factor": 1,
     "twin_holdout_worst_family": 2.047392631968643,
-    "twin_holdout_pooled": 1.226379091343126,
+    "twin_holdout_pooled": 1.2293790913431257,
     "consistency": 0.34706666666666663,
     "consistency_ratios": {
       "mean_direction_deg": 0.34706666666666663,
@@ -248,7 +248,7 @@
       "coarse_width_px": 62.1,
       "fine_width_px": 13.42
     },
-    "seconds": 182
+    "seconds": 129
   },
   "bainite_L06": {
     "mode": "boundaries",
@@ -259,12 +259,12 @@
     "twin_trusted": false,
     "upsample_factor": 1,
     "twin_holdout_worst_family": 2.617600801885711,
-    "twin_holdout_pooled": 1.6748407052101932,
-    "consistency": 0.6785333333333333,
+    "twin_holdout_pooled": 1.6433014691875336,
+    "consistency": 0.6851333333333334,
     "consistency_ratios": {
-      "mean_direction_deg": 0.6785333333333333,
-      "order_parameter": 0.47000000000000003,
-      "aspect_ratio_rel": 0.06599999999999999
+      "mean_direction_deg": 0.6851333333333334,
+      "order_parameter": 0.4633333333333333,
+      "aspect_ratio_rel": 0.366
     },
     "median_n_flakes_used": 330,
     "warm_started_from": "ti_basketweave_ma19010080 (distance 0.81), pearlite_L02 (distance 1.06)",
@@ -274,7 +274,7 @@
       "coarse_width_px": 91.3,
       "fine_width_px": 23.41
     },
-    "seconds": 254
+    "seconds": 213
   },
   "tial_regions_L26": {
     "mode": "regions",
@@ -284,22 +284,22 @@
     "twin_structure_mismatch": 0.428,
     "twin_trusted": false,
     "upsample_factor": 1,
-    "twin_holdout_worst_family": 2.9062862902342284,
-    "twin_holdout_pooled": 2.1565792040410314,
-    "consistency": 0.5478666666666666,
+    "twin_holdout_worst_family": 2.7770108898091532,
+    "twin_holdout_pooled": 2.1493747527985407,
+    "consistency": 0.25,
     "consistency_ratios": {
-      "mean_direction_deg": 0.5478666666666666,
-      "order_parameter": 0.34,
-      "aspect_ratio_rel": 0.26999999999999996
+      "mean_direction_deg": 0.17933333333333334,
+      "order_parameter": 0.25,
+      "aspect_ratio_rel": 0.054
     },
-    "median_n_flakes_used": 4199,
-    "warm_started_from": "duplex_bands_mixed (distance 5.27), pearlite_L02 (distance 5.28)",
+    "median_n_flakes_used": 4335,
+    "warm_started_from": "pearlite_L02 (distance 5.28), duplex_bands_mixed (distance 5.28)",
     "two_scales": {
-      "phase": "bright",
-      "area_share": 0.44,
-      "coarse_width_px": 42.8,
-      "fine_width_px": 10.2
+      "phase": "dark",
+      "area_share": 0.68,
+      "coarse_width_px": 50.2,
+      "fine_width_px": 10.0
     },
-    "seconds": 352
+    "seconds": 386
   }
 }
