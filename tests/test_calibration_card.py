@@ -107,8 +107,78 @@ def test_cli_pairs_images_and_masks_and_writes_the_card(tmp_path):
 
 def test_the_shipped_example_card_is_complete():
     card = cc.load_card(ROOT / "data" / "cards" / "coarse_cells_example.json")
-    for key in cc.SUMMARY_KEYS:
+    for key in cc.SUMMARY_KEYS_V1:
         lo, hi = card["summary"][key]
         assert lo <= hi
     assert card["summary"]["cell_width_px"] == [51, 67]
     assert card["soft"]["ignore_fraction"] == [0.34, 0.55]
+
+
+def test_the_shipped_example_card_v2_is_complete_and_marks_its_assumptions():
+    card = cc.load_card(ROOT / "data" / "cards" / "coarse_cells_example_v2.json")
+    assert card["card_version"] == 2
+    for key in cc.SUMMARY_KEYS:
+        lo, hi = card["summary"][key]
+        assert lo <= hi
+    assert card["summary"]["invisible_fraction_local_along"] == [0.13, 0.21]
+    assert card["summary"]["invisible_fraction_along"][1] <= 0.03          # the 5x5 measure on the real images
+    assert {"gap_run_p50_px", "gap_run_p90_px", "gap_share_gt5", "gap_share_gt10", "gap_share_gt20"} <= set(card["assumed"])
+
+
+# --- card v2 (round 3): contrast with a 3x3 window and a local interior level, and gap runs along the boundaries ---
+
+def beaded(gap=5, dark=10, long_gap_rows=(305, 320), noise=0.0, gradient=0.0, seed=0):
+    """Vertical bricks whose boundaries along the cells are beaded: dark segments (`dark` rows, contrast 0.25) and
+    short gaps (`gap` rows, at cell level), plus one long gap on every line; boundaries across the cells continuous
+    (contrast 0.15). Optional left-to-right illumination gradient (the level drops by `gradient` across the image)."""
+    rng = np.random.default_rng(seed)
+    h, w = 600, 800
+    mask = np.ones((h, w), np.uint8)
+    cols = np.arange(w)
+    vline = (cols % (W + B)) >= W
+    mask[:, vline] = 0
+    dark_vline = np.zeros(h, bool)
+    for r0 in range(0, h, gap + dark):
+        dark_vline[r0:r0 + dark] = True
+    dark_vline[long_gap_rows[0]:long_gap_rows[1]] = False
+    rel = np.zeros((h, w))                                      # relative darkness of each pixel
+    rel[np.ix_(dark_vline, vline)] = 0.25
+    for c0 in range(0, w, W + B):
+        off = (c0 // (W + B)) % 2 * (L // 2)
+        for r in range(off, h, L + B):
+            mask[r:r + B, c0:c0 + W] = 0
+            rel[r:r + B, c0:c0 + W] = 0.15
+    level = LEVEL * (1 - gradient * cols / w)[None, :] * np.ones((h, 1))
+    img = level * (1 - rel) + rng.normal(0, noise, (h, w))
+    return np.clip(img, 0, 1), mask
+
+
+def test_local_contrast_sees_short_gaps_that_the_5x5_window_jumps():
+    img, mask = beaded(gap=5, dark=10)
+    s = cc.image_stats(img, mask)
+    # along the cells: a 5-row gap is invisible over its 3 middle rows with a 3x3 window, its middle row with 5x5
+    assert 0.15 <= s["invisible_fraction_local_along"] <= 0.27
+    assert s["invisible_fraction_along"] <= 0.12
+    assert s["invisible_fraction_local_across"] <= 0.05
+    assert s["contrast_local"]["median"] == pytest.approx(0.25, abs=0.03)
+
+
+def test_gap_runs_along_the_boundary_skeleton():
+    img, mask = beaded(gap=5, dark=10, long_gap_rows=(305, 320))
+    s = cc.image_stats(img, mask)
+    assert 2 <= s["gap_run_p50_px"] <= 4                         # the short gaps: 5 rows, 3 invisible with 3x3
+    assert s["gap_share_gt10"] > 0.005                           # the long gaps (13 invisible rows) ...
+    assert s["gap_share_gt20"] == 0.0                            # ... are not longer than 20 px
+    assert s["gap_share_gt5"] == pytest.approx(s["gap_share_gt10"], abs=1e-9)   # nothing between 5 and 10 px
+
+
+def test_local_contrast_follows_uneven_illumination():
+    img, mask = beaded(gap=5, dark=10, gradient=0.2)
+    s = cc.image_stats(img, mask)
+    assert s["contrast_local"]["median"] == pytest.approx(0.25, abs=0.03)   # relative to the cells nearby
+
+
+def test_version_1_cards_still_load():
+    card = cc.load_card(ROOT / "data" / "cards" / "coarse_cells_example.json")
+    assert card["card_version"] == 1
+    assert "invisible_fraction_local_along" not in card["summary"]

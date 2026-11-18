@@ -345,11 +345,23 @@ Results go to `results/flakes/adapt/<name>/`:
 - Scratch detection on real texture finds about a third of strong scratches (blind test, F-16).
   The measurements are robust to them anyway: a strong scratch moves them by ≤ 0.12 of the tolerance.
 
-## Coarse cell structures (added 2026-11-17, second round 2026-11-18)
+## Coarse cell structures (added 2026-11-17; rounds 2 and 3 on 2026-11-18)
 
 A private test on optical micrographs of a coarse, elongated cell structure showed the tool losing to a plain h-maxima watershed (flake F1 0.64 vs 0.74, aspect ratio −22 %, one image 7° off).
 These images cannot be shared, so the fixes were developed and checked on code-generated images with exact truth.
 Details, numbers and the variants that failed are in [JOURNAL.md](JOURNAL.md) (2026-11-17, "Coarse cell structures", and 2026-11-18, "Coarse cells, second round").
+
+**Round 3 (2026-11-18): what the private rerun of round 2 showed, and what changed.**
+- On the 8 private images round 2 reached F1 0.64 (round 1: 0.56; the reference watershed tuned on them: 0.72), with merges 192 → 36, no pocket counted, direction and aspect ratio better than the reference, but ~20 cut cells on every image and no soft area found.
+- The cause of much of that was a bug in `src.adapt` (the method lost the measured width: pores were not filled, soft areas never looked for). Fixed; small fragments of cut cells now rejoin their cell, pores are filled by shape, and the guard refuses settings that cut cells as well as settings that merge them.
+- Card v2 adds a 3 × 3 local contrast and the length of the gaps along the boundaries; the twin draws short gaps between beads.
+- Not done: thick scratches near the cell direction, soft areas from the card's sharpness, and the twin is still easier than the hardest private images for this tool (JOURNAL 2026-11-18, round 3).
+
+**How the tool improves over time on your images.**
+1. Run `src.adapt` on a folder; read its report and drawings (the width estimators, "coarse cells", the twin's realism, the guard's decision are printed).
+2. Hand-correct the masks of a few images (0 boundary, 1 cell, 2 not a cell, 3 ignore) and run `src.calibration_card` on them: the card fits the twin to your kind of images and stays on your machine.
+3. Run `src.adapt --calibration card.json` and score its label PNGs against the masks with `src.score_masks`: the numbers say where it is wrong (cut or merged cells, soft areas, direction, S, aspect ratio).
+4. Those numbers (not the images) are what a next round of changes is aimed at; the knowledge memory warm-starts similar sets from earlier runs (`--no-knowledge` keeps a run out of it).
 
 **Second round: a calibration card and a calibrated twin.**
 The first round's twin was built from a description and proved too easy: on the private images the first round's tool scored F1 0.56 (full `src.adapt`) against 0.74 for the tuned watershed, read the cell width as 34 px for cells 51-67 px wide, and collapsed S on two soft images.

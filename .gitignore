@@ -64,3 +64,10 @@ results/flakes/baseline_v10/*/outputs/rotated/
 results/flakes/baseline_v11/*/outputs/flakes.csv
 results/flakes/baseline_v11/*/outputs/overlays/
 results/flakes/baseline_v11/*/outputs/rotated/
+# baseline_v12 (2026-11-18, code bb3e96b366): identical in number to v10; execute.json holds the numbers
+results/flakes/baseline_v12/*/outputs/flakes.csv
+results/flakes/baseline_v12/*/outputs/overlays/
+results/flakes/baseline_v12/*/outputs/rotated/
+
+# Claude Code helper worktrees (temporary copies of the repository)
+.claude/worktrees/

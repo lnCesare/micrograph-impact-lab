@@ -33,6 +33,19 @@ Per image (g: grey level; I: interior level; "cells": the 4-connected regions of
   divided by the largest sharpness_raw_median of the set ("relative to the sharpest image").
 - soft: ignore_fraction >= 0.10 (an image partly unreadable from blur).
 
+Card version 2 (round 3) adds, because the 5 x 5 window jumps across the short gaps of beaded boundaries (the
+private images: invisible 1-3 % with it, 13-21 % with the scientist's 3 x 3 measure):
+- contrast_local {p25, median, p75}: per boundary pixel, (I_loc - m3) / I_loc, where m3 is the darkest boundary
+  pixel within the 3 x 3 window around it and I_loc the local interior level: the median of the cell pixels eroded
+  by 2 px within the 31 x 31 window around it (computed on an 8 px grid and interpolated bilinearly; where a window
+  holds fewer than 30 such pixels, I is used).
+- invisible_fraction_local, _local_along, _local_across: share of boundary pixels with contrast_local < 0.05
+  (the along / across split of v1).
+- gap runs along the boundary skeleton (skeletonize(mask == 0)): a skeleton pixel is invisible when contrast_local
+  < 0.05 there; a run is an 8-connected group of invisible skeleton pixels, its length its pixel count.
+  gap_run_p50_px, gap_run_p90_px: median and 90th percentile of the run lengths (0 without runs);
+  gap_share_gt5, _gt10, _gt20: share of the skeleton's length in runs longer than 5, 10, 20 px.
+
 Summary: [min, max] over the images of each key in SUMMARY_KEYS, over the sharp images (contrast, invisible
 fractions and sharpness) or all images (the rest); "soft": [min, max] over the soft images of SOFT_KEYS.
 """
@@ -49,22 +62,50 @@ from skimage.measure import label
 from src import axial
 from src.score_masks import _key, _regions, _stats
 
-CARD_VERSION = 1
+CARD_VERSION = 2
 SOFT_IGNORE = 0.10
-SUMMARY_KEYS = ("interior_level", "cell_width_px", "cell_length_px", "cell_aspect_ratio", "order_parameter", "n_cells",
-                "contrast_p25", "contrast_median", "contrast_p75", "invisible_fraction_along",
-                "invisible_fraction_across", "boundary_fraction", "noise", "dots_per_megapixel", "pocket_fraction",
-                "illumination_range", "sharpness_median", "sharpness_p10")
+SUMMARY_KEYS_V1 = ("interior_level", "cell_width_px", "cell_length_px", "cell_aspect_ratio", "order_parameter",
+                   "n_cells", "contrast_p25", "contrast_median", "contrast_p75", "invisible_fraction_along",
+                   "invisible_fraction_across", "boundary_fraction", "noise", "dots_per_megapixel", "pocket_fraction",
+                   "illumination_range", "sharpness_median", "sharpness_p10")
+SUMMARY_KEYS_V2 = ("contrast_local_p25", "contrast_local_median", "contrast_local_p75", "invisible_fraction_local_along",
+                   "invisible_fraction_local_across", "gap_run_p50_px", "gap_run_p90_px", "gap_share_gt5",
+                   "gap_share_gt10", "gap_share_gt20")
+SUMMARY_KEYS = SUMMARY_KEYS_V1 + SUMMARY_KEYS_V2
 SHARP_ONLY = {"contrast_p25", "contrast_median", "contrast_p75", "invisible_fraction_along",
-              "invisible_fraction_across", "sharpness_median", "sharpness_p10"}
-SOFT_KEYS = ("contrast_median", "invisible_fraction", "sharpness_median", "sharpness_p10", "ignore_fraction")
+              "invisible_fraction_across", "sharpness_median", "sharpness_p10", *SUMMARY_KEYS_V2}
+SOFT_KEYS = ("contrast_median", "invisible_fraction", "sharpness_median", "sharpness_p10", "ignore_fraction",
+             "contrast_local_median", "invisible_fraction_local")
 
 
 def _flat(row: dict) -> dict:
     out = dict(row)
     for k, v in row.get("boundary_contrast", {}).items():
         out[f"contrast_{k}"] = v
+    for k, v in (row.get("contrast_local") or {}).items():
+        out[f"contrast_local_{k}"] = v
     return out
+
+
+def local_interior_level(g: np.ndarray, cells: np.ndarray, fallback: float, win: int = 31, step: int = 8,
+                         min_count: int = 30) -> np.ndarray:
+    """Median of the cell pixels (eroded by 2 px) in the win x win window around each pixel, on a step px grid,
+    interpolated bilinearly; fallback where a window holds fewer than min_count of them."""
+    from numpy.lib.stride_tricks import sliding_window_view
+
+    h, w = g.shape
+    inner = ndi.binary_erosion(cells, iterations=2)
+    vals = np.pad(np.where(inner, g, np.nan), win // 2, constant_values=np.nan)
+    view = sliding_window_view(vals, (win, win))
+    rows, cols = np.arange(0, h, step), np.arange(0, w, step)
+    grid = np.full((rows.size, cols.size), fallback)
+    for i, r in enumerate(rows):
+        block = view[r, cols].reshape(cols.size, -1)
+        n = np.sum(~np.isnan(block), axis=1)
+        with np.errstate(all="ignore"):
+            med = np.nanmedian(np.where(n[:, None] > 0, block, 0.0), axis=1)
+        grid[i] = np.where(n >= min_count, med, fallback)
+    return ndi.zoom(grid, (h / grid.shape[0], w / grid.shape[1]), order=1, mode="nearest")[:h, :w]
 
 
 def boundary_tangent_deg(mask: np.ndarray) -> np.ndarray:
@@ -109,6 +150,11 @@ def image_stats(g: np.ndarray, mask: np.ndarray) -> dict:
 
     darkest = ndi.grey_erosion(np.where(boundary, g, 1.0), size=(5, 5))
     contrast = (I - darkest[boundary]) / I
+    # v2: 3 x 3 window, local interior level
+    I_loc = local_interior_level(g, cells, I)
+    m3 = ndi.grey_erosion(np.where(boundary, g, 1.0), size=(3, 3))
+    c_loc_map = np.where(boundary, (I_loc - m3) / np.maximum(I_loc, 1e-6), np.nan)
+    c_loc = c_loc_map[boundary]
     tangent = boundary_tangent_deg(mask)[boundary]
     mean_dir = st["mean_direction_deg"]
     if mean_dir is not None and np.isfinite(mean_dir):
@@ -116,6 +162,13 @@ def image_stats(g: np.ndarray, mask: np.ndarray) -> dict:
     else:
         along = np.ones(contrast.shape, bool)
     inv = contrast < 0.05
+    inv_loc = c_loc < 0.05
+    from skimage.morphology import skeletonize
+
+    skel = skeletonize(boundary)
+    gaps, n_gaps = ndi.label(skel & (np.nan_to_num(c_loc_map, nan=1.0) < 0.05), structure=np.ones((3, 3)))
+    runs = np.bincount(gaps.ravel())[1:] if n_gaps else np.zeros(0, int)
+    skel_len = max(int(skel.sum()), 1)
 
     dark = g < 0.75 * I
     inside2 = ndi.binary_erosion(cells, iterations=2)
@@ -136,6 +189,15 @@ def image_stats(g: np.ndarray, mask: np.ndarray) -> dict:
         "cell_aspect_ratio": float(np.nanmedian(ars)) if ars else None,
         "mean_direction_deg": mean_dir, "order_parameter": st["order_parameter"],
         "boundary_contrast": {"p25": q(contrast, 25), "median": q(contrast, 50), "p75": q(contrast, 75)},
+        "contrast_local": {"p25": q(c_loc, 25), "median": q(c_loc, 50), "p75": q(c_loc, 75)},
+        "invisible_fraction_local": float(inv_loc.mean()) if inv_loc.size else None,
+        "invisible_fraction_local_along": float(inv_loc[along].mean()) if along.any() else None,
+        "invisible_fraction_local_across": float(inv_loc[~along].mean()) if (~along).any() else None,
+        "gap_run_p50_px": float(np.percentile(runs, 50)) if runs.size else 0.0,
+        "gap_run_p90_px": float(np.percentile(runs, 90)) if runs.size else 0.0,
+        "gap_share_gt5": float(runs[runs > 5].sum() / skel_len),
+        "gap_share_gt10": float(runs[runs > 10].sum() / skel_len),
+        "gap_share_gt20": float(runs[runs > 20].sum() / skel_len),
         "invisible_fraction": float(inv.mean()) if inv.size else None,
         "invisible_fraction_along": float(inv[along].mean()) if along.any() else None,
         "invisible_fraction_across": float(inv[~along].mean()) if (~along).any() else None,
@@ -178,10 +240,12 @@ def make_card(items, scale: float = 1.0, soft_ignore: float = SOFT_IGNORE, sourc
 
 
 def load_card(path: Path) -> dict:
+    """A card of any version: version 1 cards lack the v2 keys, and a card may leave keys out on purpose (a card
+    shared with only its imaging statistics); the twin fit uses the keys present."""
     card = json.loads(Path(path).read_text())
-    missing = [k for k in SUMMARY_KEYS if k not in card.get("summary", {})]
-    if missing:
-        raise ValueError(f"calibration card {path} lacks {missing}")
+    if not isinstance(card.get("summary"), dict):
+        raise ValueError(f"calibration card {path} has no summary")
+    card.setdefault("card_version", 1)
     return card
 
 

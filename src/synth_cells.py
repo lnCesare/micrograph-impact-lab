@@ -32,6 +32,7 @@ from PIL import Image
 from scipy import ndimage as ndi
 from scipy.spatial import cKDTree
 from skimage.measure import label as cc_label
+from skimage.morphology import skeletonize
 
 from src.axial import moments_orientation
 
@@ -52,12 +53,16 @@ class CellSpec:
     waviness_px: float = 40.0           # curvature of the rows (local direction +-10-20 deg)
     boundary_px: int = 3                # drawn width of a boundary (truth and line), 2-4
     interior_level: float = 0.975
-    contrast_median: float = 0.12       # per boundary segment, before blur
+    contrast_median: float = 0.17       # per boundary segment, before blur
     contrast_spread: float = 0.40       # log-normal sigma between segments
-    bead_amplitude: float = 0.6         # darkness modulation along a boundary (beads)
-    gap_fraction_along: float = 0.27    # share of boundary (by kind) where the line vanishes
-    gap_fraction_across: float = 0.22
-    gap_corr_px: float = 6.0            # correlation length of the gaps along a boundary (sigma)
+    bead_amplitude: float = 0.3         # irregular darkness modulation along a boundary (0.6 before the explicit beads)
+    gap_fraction_along: float = 0.003   # long gaps: share of boundary (by kind) where the line vanishes (rare:
+    gap_fraction_across: float = 0.002  # the private images read 1.5-2.7 % invisible with a 5 x 5 window)
+    gap_corr_px: float = 6.0            # correlation length of the long gaps along a boundary (sigma)
+    bead_period_px: tuple = (8.0, 14.0)   # beads along a boundary: one gap per this many px (per segment; round 3)
+    bead_gap_px: tuple = (3.8, 5.2)     # the gap's length (px) before blur: mostly invisible to a 3 x 3 window only
+    bead_gap_fraction: float = 0.0      # irregular short gaps on top: share of boundary length
+    bead_gap_corr_px: float = 1.0       # their correlation length along the boundary (sigma)
     inclusions_per_mpx: float = 12.0
     pocket_fraction: float = 0.012      # area share of speckled junction pockets
     dots_per_mpx: float = 25.0
@@ -71,7 +76,7 @@ class CellSpec:
     soft_fraction: tuple = (0.27, 0.45)   # unreadable share; with the cells touching it, 34-55 % is 'ignore'
     soft_transition: tuple = (0.15, 0.35)  # share of the field over which the blur grows to unreadable (readable)
     unreadable_blur_px: float = 3.0     # blur from which the field is unreadable ("ignore")
-    soft_base_blur_px: float = 1.9      # blur at the best-focused side of a soft image
+    soft_base_blur_px: float = 1.3      # blur at the best-focused side of a soft image
     oof_blur_px: tuple = (5.0, 8.0)     # blur at the far side of the focus gradient
     illumination: float = 0.03
     noise: float = 0.012
@@ -253,12 +258,38 @@ def generate(spec: CellSpec) -> dict:
     bead = ndi.gaussian_filter(rng.normal(0, 1, (h, w)), 1.5)
     bead /= bead.std()
     c_pix *= np.exp(spec.bead_amplitude * bead - spec.bead_amplitude ** 2 / 2)
-    gapf = ndi.gaussian_filter(rng.normal(0, 1, (h, w)), spec.gap_corr_px)
+    # gaps are decided along the boundary's centre line and spread over its width (each boundary pixel takes the
+    # value at its nearest skeleton pixel): a gap is then a stretch where the whole line vanishes, as between beads
+    # (round 3: the private images' boundaries have many short gaps, invisible to a 3 x 3 window, few long ones)
+    skel = skeletonize(boundary)
+    _, (ir, ic) = ndi.distance_transform_edt(~skel, return_indices=True)
+    gapf = ndi.gaussian_filter(rng.normal(0, 1, (h, w)), spec.gap_corr_px)[ir, ic]
     for kind_mask, frac in ((boundary & ~across, spec.gap_fraction_along), (boundary & across, spec.gap_fraction_across)):
         if kind_mask.any() and frac > 0:
             cut = np.quantile(gapf[kind_mask], frac)
             gap = kind_mask & (gapf < cut)
             c_pix[gap] *= rng.uniform(0.0, 0.2, int(gap.sum()))
+    if spec.bead_period_px and spec.bead_period_px[1] > 0 and boundary.any():
+        # regular beads: the position along the line (from the boundary's tangent at its centre-line pixel) cut into
+        # periods, each with a gap of a few px; period, gap and phase drawn per boundary segment. A random field
+        # gives gap lengths with a long tail, which a 5 x 5 window sees: 5x5 / 3x3 invisible 0.35-0.45 against
+        # ~0.12 on the private images (1.5-2.7 % against 13-21 %)
+        from src.calibration_card import boundary_tangent_deg
+
+        tang = np.deg2rad(boundary_tangent_deg(np.where(boundary, 0, 1).astype(np.uint8)))[ir, ic]
+        s_al = ic * np.cos(tang) - ir * np.sin(tang)
+        per = rng.uniform(*spec.bead_period_px, codes.size)[inv]
+        glen = rng.uniform(*spec.bead_gap_px, codes.size)[inv]
+        phase = rng.uniform(0, 1, codes.size)[inv]
+        pos = (s_al[boundary] / per + phase) % 1.0
+        bmask = np.zeros((h, w), bool)
+        bmask[boundary] = pos < glen / per
+        c_pix[bmask] *= rng.uniform(0.0, 0.15, int(bmask.sum()))
+    if spec.bead_gap_fraction > 0 and boundary.any():
+        beadf = ndi.gaussian_filter(rng.normal(0, 1, (h, w)), spec.bead_gap_corr_px)[ir, ic]
+        cut = np.quantile(beadf[boundary], spec.bead_gap_fraction)
+        bgap = boundary & (beadf < cut)
+        c_pix[bgap] *= rng.uniform(0.0, 0.15, int(bgap.sum()))
     img[boundary] = I * (1 - np.clip(c_pix[boundary], 0, 0.85))
     img[incl] = I * (1 - incl_dark[incl])
     if pocket.any():
@@ -422,7 +453,7 @@ def default_specs(seed: int = 0, per_family: int = 6, holdout: int = 2, shape=(1
                 aspect_ratio=proto.aspect_ratio * float(np.exp(rng.normal(0, 0.03))),
                 waviness_px=float(rng.uniform(0.6, 1.4) * proto.waviness_px),
                 boundary_px=int(rng.integers(3, 5)),
-                interior_level=float(rng.uniform(0.96, 0.99)),
+                interior_level=float(rng.uniform(0.965, 0.988)),
                 contrast_median=proto.contrast_median * float(np.exp(rng.normal(0, 0.10))),
                 gap_fraction_along=float(np.clip(proto.gap_fraction_along * np.exp(rng.normal(0, 0.10)), 0, 0.6)),
                 gap_fraction_across=float(np.clip(proto.gap_fraction_across * np.exp(rng.normal(0, 0.10)), 0, 0.6)),
@@ -482,8 +513,10 @@ FIT_KEYS = {  # card key -> (spec field, exponent of the damped update: field *=
     "dots_per_megapixel": ("dots_per_mpx", 0.5),
     "pocket_fraction": ("pocket_fraction", 0.5),
     "illumination_range": ("illumination", 0.6),
+    # card v2 (round 3): the share of short gaps (3 x 3 window) sets the bead period, inversely
+    "invisible_fraction_local_along": ("bead_period_px", -0.6),
 }
-FIT_LIMITS = {"cell_width_px": (15.0, 400.0), "aspect_ratio": (1.5, 8.0), "contrast_median": (0.02, 0.6),
+FIT_LIMITS = {"bead_period_px": (4.0, 60.0), "cell_width_px": (15.0, 400.0), "aspect_ratio": (1.5, 8.0), "contrast_median": (0.02, 0.6),
               "gap_fraction_along": (0.0, 0.7), "gap_fraction_across": (0.0, 0.7), "noise": (0.002, 0.08),
               "dots_per_mpx": (0.0, 400.0), "pocket_fraction": (0.0, 0.1), "illumination": (0.0, 0.3),
               "soft_base_blur_px": (0.6, 4.0)}
@@ -559,7 +592,10 @@ def fit_to_card(card: dict, seed: int = 0, iters: int = 3, log=print) -> tuple[d
             if key in mis and mis[key]["twin"] > 0 and _mid(card["summary"].get(key)) and mis[key]["outside"] > 0:
                 f = (_mid(card["summary"][key]) / mis[key]["twin"]) ** power
                 lo, hi = FIT_LIMITS[field]
-                base[field] = float(np.clip(base[field] * f, lo, hi))
+                if isinstance(base[field], (tuple, list)):  # a range: both ends scaled
+                    base[field] = tuple(float(np.clip(v * f, lo, hi)) for v in base[field])
+                else:
+                    base[field] = float(np.clip(base[field] * f, lo, hi))
         if "soft_contrast_median" in mis and mis["soft_contrast_median"]["twin"] > 0 \
                 and mis["soft_contrast_median"]["outside"] > 0:
             t = _mid(card["soft"]["contrast_median"])  # softer best-focused side -> fainter readable lines

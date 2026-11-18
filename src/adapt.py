@@ -147,7 +147,12 @@ def resolved_start(profile: dict, mode: str, extra: dict | None = None) -> dict:
     boundary = m.get("boundary_width_px") if mode == "boundaries" else None
     p.update(scaled_params(m.get("flake_width_px") or 10.0, boundary, (), DEFAULTS, shape=profile.get("shape")))
     p.update(coarse_overrides(m.get("flake_width_px"), mode))  # (coarse cells: their own threshold and seeds)
-    p.update(mode=mode, flake_width_px=None, flake_phase=m.get("flake_phase", "auto") if mode == "phase" else "auto")
+    # the measured width goes in explicitly: with null the method lost it (every other param being given), and the
+    # rules that depend on it fell back to a guess from tile_px (round-2 private rerun: pores filled up to 26 px
+    # instead of ~120, soft regions never looked for, flake_width_px_used empty)
+    width = m.get("flake_width_px")
+    p.update(mode=mode, flake_width_px=round(float(width), 2) if width else None,
+             flake_phase=m.get("flake_phase", "auto") if mode == "phase" else "auto")
     p.update(extra or {})
     return p
 
@@ -244,8 +249,25 @@ def _fmt(v, nd=2):
     return "n/a" if v is None else f"{v:.{nd}f}"
 
 
+def _density(image: Path, s: dict) -> float | None:
+    """Flakes (pockets left out) per megapixel of readable image (soft and out-of-focus areas left out)."""
+    from PIL import Image
+
+    try:
+        with Image.open(image) as im:
+            mpx = im.width * im.height / 1e6
+    except OSError:
+        return None
+    readable = mpx * max(1.0 - (s.get("soft_fraction") or 0.0) - (s.get("out_of_focus_fraction") or 0.0), 0.05)
+    n = (s.get("n_flakes") or 0) - (s.get("n_pockets") or 0)
+    return n / readable if readable > 0 else None
+
+
+DENSITY_SPLIT, DENSITY_MERGE = 1.4, 0.65  # flakes per readable area over the expected: cut cells / merged cells
+
+
 def real_image_guard(sample: list[Path], start: dict, chosen: dict, out: Path, tolerances: dict, cells: bool = False,
-                     twin_length_px: float | None = None) -> dict:
+                     twin_length_px: float | None = None, expected_density: float | None = None) -> dict:
     """The twin cannot see everything: settings tuned on it are kept only if, on the real images, they are not
     clearly less stable under rotation than the start settings, and do not collapse the number of flakes
     (label-free checks). Found on the basketweave set: a 6 % better twin objective came with a rotation check of 3.9
@@ -255,16 +277,23 @@ def real_image_guard(sample: list[Path], start: dict, chosen: dict, out: Path, t
     Fields of coarse cells (cells=True) are stricter, because the rotation check passes a consistently merged
     segmentation (the private rerun: F1 0.56 with 188 merges): the chosen settings are refused when they keep under
     60 % of the start's flakes, or make the flakes' median length over 1.5 x the twin's true median length
-    (twin_length_px) and over 1.2 x the start's."""
+    (twin_length_px) and over 1.2 x the start's. And, with the cells per readable megapixel expected from the
+    calibration card or the twin's truth (expected_density), settings with over DENSITY_SPLIT x as many flakes per
+    readable area (cut cells: the round-2 private rerun had ~20 splits on every image) or under DENSITY_MERGE x are
+    refused; when both settings are outside, the one nearer the expected density is kept."""
     res = {}
     for which, params in (("start", start), ("chosen", chosen)):
         real = measure_real(sample, params, out / which, workers=6)
         cons = consistency.check(METHODS["flakes"], sample, params, out / which / "consistency",
                                  {"image_summaries": real["image_summaries"]}, tolerances)
         lengths = [s["median_length_px"] for s in real["image_summaries"].values() if s.get("median_length_px")]
+        by_name = {Path(i).stem: i for i in sample}
+        dens = [d for n, s in real["image_summaries"].items()
+                if (img := by_name.get(n)) is not None and (d := _density(img, s))]
         res[which] = {"rotation": cons["metrics"].get("worst_consistency_ratio"),
                       "flakes_used": float(np.median([s["n_used_orientation"] for s in real["image_summaries"].values()])),
-                      "median_length_px": float(np.median(lengths)) if lengths else None}
+                      "median_length_px": float(np.median(lengths)) if lengths else None,
+                      "density": float(np.median(dens)) if dens else None}
     a, b = res["start"], res["chosen"]
     worse_rotation = b["rotation"] is not None and a["rotation"] is not None and \
         b["rotation"] > max(1.0, 1.25 * a["rotation"])
@@ -274,13 +303,50 @@ def real_image_guard(sample: list[Path], start: dict, chosen: dict, out: Path, t
         longer = bool(twin_length_px and b["median_length_px"] and a["median_length_px"]
                       and b["median_length_px"] > 1.5 * twin_length_px and b["median_length_px"] > 1.2 * a["median_length_px"])
         merged = b["flakes_used"] < 0.6 * a["flakes_used"] or longer
-    res["keep_chosen"] = not (worse_rotation or lost_flakes or merged)
+    cut = False
+    if cells and expected_density and a.get("density") and b.get("density"):
+        ra, rb = a["density"] / expected_density, b["density"] / expected_density
+        outside = lambda r: r > DENSITY_SPLIT or r < DENSITY_MERGE
+        if outside(rb) and abs(np.log(rb)) > abs(np.log(ra)):
+            cut, merged = (rb > DENSITY_SPLIT), (merged or rb < DENSITY_MERGE)
+        elif outside(ra) and not outside(rb):
+            merged = False  # the chosen settings are the ones within the expected density
+        res["density_ratio"] = {"start": round(ra, 3), "chosen": round(rb, 3)}
+    res["keep_chosen"] = not (worse_rotation or lost_flakes or merged or cut)
     reasons = ([("fewer than a quarter of the flakes")] if lost_flakes else []) + \
         (["fewer flakes or longer ones than the start and the twin allow (merged cells)"] if merged and not lost_flakes else []) + \
+        (["more flakes per readable area than the card or the twin allow (cut cells)"] if cut else []) + \
         (["a worse rotation check"] if worse_rotation else [])
     res["reason"] = " and ".join(reasons)
-    res["cells"], res["twin_length_px"] = cells, twin_length_px
+    res["cells"], res["twin_length_px"], res["expected_density"] = cells, twin_length_px, expected_density
     return res
+
+
+def expected_cell_density(card: dict | None, twin_dir: Path, tinfo: dict) -> float | None:
+    """Cells per megapixel of readable image expected on the real images: from the calibration card (per image, n_cells
+    over the image area outside 'ignore'; or the middle of the summary's n_cells range over the image area), else
+    from the twin's truth (cells over the area that is not 'ignore', dev images)."""
+    from PIL import Image
+
+    if card:
+        rows = card.get("per_image") or []
+        vals = [r["n_cells"] / (r["shape"][0] * r["shape"][1] * max(1 - r.get("ignore_fraction", 0.0), 0.05) / 1e6)
+                for r in rows if r.get("n_cells") and r.get("shape")]
+        if vals:
+            return float(np.median(vals))
+        rng, shape = card.get("summary", {}).get("n_cells"), card.get("image_shape")
+        if rng and shape:
+            return float(0.5 * (rng[0] + rng[1]) / (shape[0] * shape[1] / 1e6))
+    vals = []
+    for n in tinfo.get("dev", []):
+        m = twin_dir / "truth" / "masks" / f"{n}.png"
+        ids = twin_dir / "truth" / "flake_ids" / f"{n}.png"
+        if m.exists() and ids.exists():
+            mask, lab = np.asarray(Image.open(m)), np.asarray(Image.open(ids))
+            readable = (mask != 3).sum() / 1e6
+            if readable > 0:
+                vals.append(len(np.unique(lab[lab > 0])) / readable)
+    return float(np.median(vals)) if vals else None
 
 
 # --- the agent stage --------------------------------------------------------------------------------------------
@@ -696,7 +762,7 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int | 
                                      "rotation_check": e.get("consistency"), "last_review": e.get("review")})
         near = [(d, e) for d, e in knowledge.nearest(entries, prof, mode) if e.get("name") != name]
         for d, e in near[:2]:
-            starts.append(knowledge.warm_start(e, prof, mode) | {"flake_width_px": None})
+            starts.append(knowledge.warm_start(e, prof, mode) | {"flake_width_px": start["flake_width_px"]})
         if near:
             warm = ", ".join(f"{e['name']} (distance {d:.2f})" for d, e in near[:2])
             log(f"  warm start from {warm}")
@@ -810,9 +876,10 @@ def adapt(images: list[Path], name: str, mode: str | None = None, budget: int | 
             tf = pd.read_csv(twin_dir / "truth" / "flakes.csv")
             tf = tf[tf.image.isin(tinfo["dev"]) & ~tf.touches_edge]
             twin_length = float(tf.major_px.median()) if len(tf) else None
+        expected_density = expected_cell_density(card, twin_dir, tinfo) if cells else None
         guard = real_image_guard(images[:6], guard_start, best["params"], out / "guard",
                                  load_config(ROOT / "config.yaml")["flakes"]["consistency_tolerances"],
-                                 cells=cells, twin_length_px=twin_length)
+                                 cells=cells, twin_length_px=twin_length, expected_density=expected_density)
         guard["by_eye"] = set_by_eye
         log(f"  real-image guard: start {guard['start']}, chosen {guard['chosen']}: "
             + ("chosen kept" if guard["keep_chosen"] else f"start kept ({guard['reason']})"))

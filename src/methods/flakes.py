@@ -32,6 +32,7 @@ DEFAULTS = {
     "boundary_width_px": 2.5,
     "boundary_sensitivity": 1.0,
     "boundary_hysteresis": "auto",
+    "absorb_fragments": "auto",
     "detect_scratches": True,
     "detect_pockets": True,
     "detect_soft": True,
@@ -121,6 +122,10 @@ def flakes(images, params, out_dir, overlay=()):
     - boundary_hysteresis: "auto" | 0-1, faint boundary (ridge response above this fraction of the threshold) is kept
       where it connects to boundary above the threshold: beaded, broken boundaries between coarse cells; "auto": 0.4
       for flakes >= 24 px wide, off below; 0 = off ["auto"]
+    - absorb_fragments: "auto" | 0-1, coarse cells: a piece smaller than this fraction of the median piece, cut off
+      without a real boundary (its shared border at most half as dark as a typical boundary), joins the neighbour
+      with the weakest shared border when the joined shape stays cell-like; "auto": 0.3 for flakes >= 24 px wide,
+      off below; 0 = off ["auto"]
     - detect_scratches: find straight thin lines that cross the flakes and inpaint them before segmenting [true]
     - detect_pockets: true/false, coarse structures (flakes >= 24 px wide): patches of fine speckle texture without a
       direction (grey "pockets" at triple junctions) are found, and flakes lying at least half on them are marked
@@ -559,7 +564,7 @@ def segment_boundaries(clean: np.ndarray, roi: np.ndarray, direction, coherence,
         across = (ridge > 0.6 * t) & roi & (axial.axial_diff(line_dir, direction) >= 60)
         across = remove_small_objects(across, max_size=4)
         boundary = boundary | directional_closing(across, (direction + 90) % 180, coherence, ends)
-    return remove_small_holes(~boundary, max_size=_pore_area(p)) & roi
+    return fill_pores(~boundary, p) & roi
 
 
 def _boundary_hysteresis(p: dict) -> float:
@@ -584,9 +589,118 @@ def _end_bridge_px(p: dict) -> int:
 def _pore_area(p: dict) -> int:
     """Largest hole in a flake that is filled before the watershed: a pore or a dot is not a boundary, and as a hole
     it makes the watershed cut the flake through it (coarse-cell twin: 127 of 138 cut cells). (0.15 x flake width)^2,
-    at least 11 px (the old fixed value, unchanged for flakes up to ~22 px)."""
+    at least 11 px (the old fixed value, unchanged for flakes up to ~22 px); see fill_pores for coarse cells."""
     width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
     return int(max(11, (0.15 * width) ** 2))
+
+
+def fill_pores(interior: np.ndarray, p: dict) -> np.ndarray:
+    """Holes in the flake interior that are filled before the watershed: up to _pore_area(p) whatever their shape;
+    for coarse cells (>= COARSE_PX) also compact holes (major / minor axis <= 2.5) up to (0.25 x width)^2: pores are
+    round, while an isolated dash of a beaded boundary (gaps at both ends) is elongated and is boundary evidence
+    (filling every hole up to (0.2 x width)^2 merged cells on the calibrated twin: merges 121 -> 184). With the
+    boundary hysteresis a pore is drawn as a wider ring (round 2: 15 % of a v1 image's cells cut through pores)."""
+    out = remove_small_holes(interior, max_size=_pore_area(p))
+    width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    if width < COARSE_PX:
+        return out
+    holes = ndi.binary_fill_holes(out) & ~out
+    lab, n = ndi.label(holes)
+    if not n:
+        return out
+    limit = (0.25 * width) ** 2
+    for i, sl in enumerate(ndi.find_objects(lab), start=1):
+        if sl is None:
+            continue
+        rr, cc = np.nonzero(lab[sl] == i)
+        if rr.size > limit or rr.size < 3:
+            continue
+        _, major, minor = axial.moments_orientation(rr, cc)
+        if minor > 0 and major / minor <= 2.5:
+            out[sl][lab[sl] == i] = True
+    return out
+
+
+def _absorb_fraction(p: dict) -> float:
+    v = p.get("absorb_fragments", 0)
+    if v != "auto":
+        return float(v or 0)
+    width = p.get("_width_used") or 10.0 * float(p["tile_px"]) / 160.0
+    return 0.3 if width >= COARSE_PX else 0.0
+
+
+def absorb_fragments(labels: np.ndarray, img: np.ndarray, roi: np.ndarray, p: dict) -> np.ndarray:
+    """Fragments back into their cell (coarse cells; round-2 private rerun: ~20 cut cells on every image): a piece
+    smaller than absorb_fragments x the median piece joins the neighbour it touches directly (a watershed cut leaves
+    no boundary pixel between the pieces) whose contact line is the weakest, if that border is at most half as dark as a real boundary (the 75th percentile of
+    the boundary darkness, interior level minus grey level) and the joined shape stays cell-like (solidity at least
+    0.8 and 0.9 x the neighbour's). A watershed cut through a pore or texture has no dark border; a thin sliver
+    behind a real boundary stays apart. Smallest pieces first; ids are renumbered at the end."""
+    from skimage.measure import regionprops
+
+    frac = _absorb_fraction(p)
+    labels = np.asarray(labels).copy()
+    if not frac or labels.max() < 3:
+        return labels
+    areas = np.bincount(labels.ravel())
+    present = np.flatnonzero(areas[1:]) + 1
+    small = [int(i) for i in present if areas[i] < frac * float(np.median(areas[present]))]
+    if not small:
+        return labels
+    level = float(np.median(img[labels > 0]))
+    bnd = (labels == 0) & roi
+    strong = float(np.percentile(level - img[bnd], 75)) if bnd.any() else 0.0
+    r = int(np.ceil(float(p.get("boundary_width_px", 2.5)))) + 2
+    h, w = labels.shape
+    boxes = {i + 1: sl for i, sl in enumerate(ndi.find_objects(labels)) if sl is not None}
+
+    def grow(sl, k):
+        return (slice(max(sl[0].start - k, 0), min(sl[0].stop + k, h)), slice(max(sl[1].start - k, 0), min(sl[1].stop + k, w)))
+
+    def union(a, b):
+        return (slice(min(a[0].start, b[0].start), max(a[0].stop, b[0].stop)),
+                slice(min(a[1].start, b[1].start), max(a[1].stop, b[1].stop)))
+
+    for i in sorted(small, key=lambda k: areas[k]):
+        if i not in boxes:
+            continue
+        sl = grow(boxes[i], r + 1)
+        sub = labels[sl]
+        mi = sub == i
+        if not mi.any():
+            continue
+        di = ndi.binary_dilation(mi, iterations=r)
+        best = None
+        for j in np.unique(sub[di & ~mi]):
+            if j in (0, i):
+                continue
+            mj = sub == j
+            # pieces in direct contact (a watershed cut): the border is the contact line; otherwise the boundary
+            # pixels between them
+            contact = (mi & ndi.binary_dilation(mj)) | (mj & ndi.binary_dilation(mi))
+            if contact.sum() < r:
+                continue  # only pieces in direct contact (a watershed cut): behind boundary pixels, even a faint
+                #           beaded boundary is a real one (calibrated twin: merges 121 -> 190 when they were joined)
+            dark = float(level - img[sl][contact].mean())
+            if best is None or dark < best[0]:
+                best = (dark, int(j))
+        if best is None or best[0] > 0.5 * strong:
+            continue
+        j = best[1]
+        box = grow(union(boxes[i], boxes[j]), r + 1)
+        sub = labels[box]
+        mi, mj = sub == i, sub == j
+        between = ndi.binary_dilation(mi, iterations=r) & ndi.binary_dilation(mj, iterations=r) & (sub == 0)
+        merged = mi | mj | between
+        sol_j = regionprops(mj.astype(np.uint8))[0].solidity
+        sol_m = regionprops(merged.astype(np.uint8))[0].solidity
+        if sol_m < max(0.8, 0.9 * sol_j):
+            continue
+        sub[merged] = j
+        boxes[j] = union(boxes[i], boxes[j])
+        del boxes[i]
+    labels, _, _ = relabel_sequential(labels)
+    return labels
 
 
 def segment_regions(clean: np.ndarray, roi: np.ndarray, direction, coherence, p: dict) -> np.ndarray:
@@ -603,7 +717,7 @@ def segment_regions(clean: np.ndarray, roi: np.ndarray, direction, coherence, p:
     edge = ndi.binary_dilation(edge) | ~roi
     if p["bridge_gaps_px"] and p["bridge_gaps_px"] > 1:
         edge = edge | directional_closing(edge, direction, coherence, int(p["bridge_gaps_px"]))
-    return remove_small_holes(~edge, max_size=_pore_area(p)) & roi
+    return fill_pores(~edge, p) & roi
 
 
 def segment_phase(clean: np.ndarray, roi: np.ndarray, p: dict, flake_phase: str) -> np.ndarray:
@@ -742,6 +856,8 @@ def analyse_mode(raw, gray, roi, p, mode, prof) -> dict:
     else:
         interior = segment_phase(clean, roi, p, "bright")  # img was turned so that the flakes are bright
     labels = split_regions(interior, direction, coherence, p, clean)
+    if mode != "phase":
+        labels = absorb_fragments(labels, clean, roi, p)
 
     flakes_out = measure_flakes(labels, roi, scratch, p, pockets)
     summary = summarise(flakes_out, labels, smooth, roi, p)

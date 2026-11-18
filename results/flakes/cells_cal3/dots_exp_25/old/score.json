@@ -1,0 +1,198 @@
+{
+  "summary": {
+    "n_images": 4,
+    "n_true": 493,
+    "n_pred": 503,
+    "tp": 406,
+    "precision": 0.8071570576540755,
+    "recall": 0.8235294117647058,
+    "f1": 0.8152610441767069,
+    "merges": 50,
+    "splits": 48,
+    "pocket_fp": 15,
+    "median_abs_direction_error_deg": 1.609259807233279,
+    "max_direction_error_deg": 2.485857697350326,
+    "median_abs_order_error": 0.04959870521215115,
+    "median_order_bias": -0.04959870521215115,
+    "median_abs_aspect_ratio_rel_error": 0.2007784095557586,
+    "median_aspect_ratio_bias": -0.2007784095557586,
+    "masks_without_labels": [],
+    "labels_without_masks": []
+  },
+  "images": {
+    "clean_0": {
+      "n_true": 119,
+      "n_pred": 126,
+      "tp": 103,
+      "fp": 23,
+      "fn": 16,
+      "precision": 0.8174603174603174,
+      "recall": 0.865546218487395,
+      "f1": 0.8408163265306122,
+      "merges": 9,
+      "true_flakes_in_merges": 18,
+      "splits": 9,
+      "pocket_fp": 4,
+      "true": {
+        "mean_direction_deg": 47.600680790901926,
+        "order_parameter": 0.7688413394349417,
+        "median_aspect_ratio": 3.4127703340994606,
+        "n_orientation": 112,
+        "n_shape": 66
+      },
+      "pred": {
+        "mean_direction_deg": 48.75674496351987,
+        "order_parameter": 0.7367758915078536,
+        "median_aspect_ratio": 2.7510566363763385,
+        "n_orientation": 111,
+        "n_shape": 78
+      },
+      "direction_error_deg": 1.1560641726179455,
+      "order_error": -0.0320654479270881,
+      "aspect_ratio_rel_error": -0.19389341588898065,
+      "resized": false
+    },
+    "clean_1": {
+      "n_true": 131,
+      "n_pred": 129,
+      "tp": 105,
+      "fp": 24,
+      "fn": 26,
+      "precision": 0.813953488372093,
+      "recall": 0.8015267175572519,
+      "f1": 0.8076923076923077,
+      "merges": 17,
+      "true_flakes_in_merges": 39,
+      "splits": 14,
+      "pocket_fp": 5,
+      "true": {
+        "mean_direction_deg": 90.31786190451336,
+        "order_parameter": 0.8548411089503117,
+        "median_aspect_ratio": 3.109785672291694,
+        "n_orientation": 125,
+        "n_shape": 76
+      },
+      "pred": {
+        "mean_direction_deg": 87.83200420716304,
+        "order_parameter": 0.8074666668713417,
+        "median_aspect_ratio": 2.438735685567691,
+        "n_orientation": 113,
+        "n_shape": 83
+      },
+      "direction_error_deg": 2.485857697350326,
+      "order_error": -0.047374442078970014,
+      "aspect_ratio_rel_error": -0.2157865709856095,
+      "resized": false
+    },
+    "clean_2": {
+      "n_true": 113,
+      "n_pred": 117,
+      "tp": 96,
+      "fp": 21,
+      "fn": 17,
+      "precision": 0.8205128205128205,
+      "recall": 0.8495575221238938,
+      "f1": 0.8347826086956521,
+      "merges": 11,
+      "true_flakes_in_merges": 23,
+      "splits": 10,
+      "pocket_fp": 4,
+      "true": {
+        "mean_direction_deg": 57.70186408712808,
+        "order_parameter": 0.8002013243774297,
+        "median_aspect_ratio": 3.3456905978669633,
+        "n_orientation": 106,
+        "n_shape": 62
+      },
+      "pred": {
+        "mean_direction_deg": 57.28991472169283,
+        "order_parameter": 0.7483783560320975,
+        "median_aspect_ratio": 2.69339275573814,
+        "n_orientation": 99,
+        "n_shape": 72
+      },
+      "direction_error_deg": 0.4119493654352482,
+      "order_error": -0.05182296834533229,
+      "aspect_ratio_rel_error": -0.19496657657007924,
+      "resized": false
+    },
+    "clean_3": {
+      "n_true": 130,
+      "n_pred": 131,
+      "tp": 102,
+      "fp": 29,
+      "fn": 28,
+      "precision": 0.7786259541984732,
+      "recall": 0.7846153846153846,
+      "f1": 0.7816091954022989,
+      "merges": 13,
+      "true_flakes_in_merges": 28,
+      "splits": 15,
+      "pocket_fp": 2,
+      "true": {
+        "mean_direction_deg": 42.594711121689706,
+        "order_parameter": 0.8815039572205671,
+        "median_aspect_ratio": 2.9001935097039766,
+        "n_orientation": 128,
+        "n_shape": 78
+      },
+      "pred": {
+        "mean_direction_deg": 40.5322556798411,
+        "order_parameter": 0.8202952157881206,
+        "median_aspect_ratio": 2.301041829117128,
+        "n_orientation": 115,
+        "n_shape": 84
+      },
+      "direction_error_deg": 2.0624554418486127,
+      "order_error": -0.06120874143244648,
+      "aspect_ratio_rel_error": -0.20659024254143793,
+      "resized": false
+    }
+  },
+  "iou": 0.5,
+  "min_area": 30,
+  "by_family": {
+    "clean": {
+      "f1": 0.8152610441767069,
+      "merges": 50,
+      "splits": 48,
+      "pocket_fp": 15,
+      "median_aspect_ratio_bias": -0.2007784095557586,
+      "max_direction_error_deg": 2.485857697350326
+    }
+  },
+  "method": "flakes",
+  "params": {},
+  "info": {
+    "clean_0": {
+      "flake_width_px_used": 32.0,
+      "mode": "boundaries",
+      "n_scratches": 0,
+      "n_flakes": 126,
+      "n_used_orientation": 111
+    },
+    "clean_1": {
+      "flake_width_px_used": 30.59,
+      "mode": "boundaries",
+      "n_scratches": 0,
+      "n_flakes": 129,
+      "n_used_orientation": 113
+    },
+    "clean_2": {
+      "flake_width_px_used": 32.06,
+      "mode": "boundaries",
+      "n_scratches": 0,
+      "n_flakes": 117,
+      "n_used_orientation": 99
+    },
+    "clean_3": {
+      "flake_width_px_used": 33.53,
+      "mode": "boundaries",
+      "n_scratches": 0,
+      "n_flakes": 131,
+      "n_used_orientation": 115
+    }
+  },
+  "seconds": 18,
+  "code_root": "/private/tmp/claude-501/-Users-cesaregarberino-Library-Application-Support-Claude-scratch-workspaces-46ae8818-cab8-4195-8f92-430f1c157544-893f40a6-36cc-454f-b695-cb19ddae4f55-scratch-2026-11-16-7d1809/4775e40e-6e3f-41a4-8c3e-d54289a72830/scratchpad/r3/../wt_d99b04a"
+}

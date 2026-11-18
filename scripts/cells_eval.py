@@ -102,7 +102,18 @@ if __name__ == "__main__":
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--code-root", type=Path, help="run the method of another checkout (e.g. a worktree of an old commit)")
     ap.add_argument("--labels-only", action="store_true", help=argparse.SUPPRESS)
+    ap.add_argument("--adapt-start", action="store_true",
+                    help="run with src.adapt's start settings for the split (set profile, every param explicit), "
+                         "as an adapt run without search would; --params are applied on top")
     a = ap.parse_args()
+    if a.adapt_start and not a.labels_only:
+        from src import twin
+        from src.adapt import resolved_start
+
+        names = json.loads((a.data / "split.json").read_text())[a.split]
+        prof = twin.set_profile([a.data / "images" / f"{n}.png" for n in names])
+        mode = prof["mode"] if prof["mode"] != "ambiguous" else "boundaries"
+        a.params = json.dumps({**resolved_start(prof, mode), **json.loads(a.params)}, default=str)
     if a.labels_only:
         info = labels(a.data, a.split, a.method, json.loads(a.params), a.out, a.workers)
         (a.out / "info.json").write_text(json.dumps(score_masks_clean(info), indent=2) + "\n")

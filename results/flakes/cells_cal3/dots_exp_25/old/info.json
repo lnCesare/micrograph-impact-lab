@@ -1,0 +1,30 @@
+{
+  "clean_0": {
+    "flake_width_px_used": 32.0,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 126,
+    "n_used_orientation": 111
+  },
+  "clean_1": {
+    "flake_width_px_used": 30.59,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 129,
+    "n_used_orientation": 113
+  },
+  "clean_2": {
+    "flake_width_px_used": 32.06,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 117,
+    "n_used_orientation": 99
+  },
+  "clean_3": {
+    "flake_width_px_used": 33.53,
+    "mode": "boundaries",
+    "n_scratches": 0,
+    "n_flakes": 131,
+    "n_used_orientation": 115
+  }
+}

@@ -2487,3 +2487,142 @@ The images cannot be shared; only numbers came back, scored with `src.score_mask
     The lower threshold and the hysteresis draw pores as rings larger than the filled area, (0.15 × width)², and the watershed cuts through them.
     To fix in the next round, with a new freeze and a new blind set.
 - API spend in this round: **$0** (no `--live` run, no API call).
+
+## 2026-11-18 (night) · Coarse cells, round 3: the private round-2 rerun, an adapt bug, card v2
+
+### The private round-2 rerun (8 real images, the scientist's machine, the scientist's numbers)
+| scorer: src.score_masks, pooled | reference watershed | round 1 | round 2 (adapt, fast) |
+|---|---|---|---|
+| flake F1 | 0.722 | 0.56 | 0.637 |
+| merges / splits | 152 / 97 | 192 / 37 | 36 / 165 |
+| pocket false positives | 1 | 8 | 0 |
+| direction error | 0.60° (max 2.3°) | 1.31° | 0.71° (max 1.19°) |
+| S error | 0.019 | 0.036 | 0.023 |
+| aspect ratio bias | −12 % | −10 % | −9 % |
+| run time | | 36 min | 23.5 min |
+
+- What worked: the width (73.5 px from the fundamental spacing, Otsu 31; true 51-67), cells detected, the card-fitted twin, merges 192 → 36, pockets 0, direction and aspect ratio better than the reference.
+- What did not:
+  - ~20 cut cells on every image (165);
+  - soft_fraction 0 on all images (the worst image, a soft one, F1 0.34 against 0.69 for the reference);
+  - the card's 5 × 5 contrast reads 1-3 % invisible boundary where the scientist's 3 × 3 measure reads 13-21 %;
+  - `flake_width_px_used` empty;
+  - the thick scratch missed.
+- The scientist's frame (afterwards): these 8 images, at high zoom and modest quality, are harder than the images the tool will be used on. **A tool that comes close and can be improved over time is the goal**, not beating the hardest set at any cost.
+
+### An adapt bug behind the cut cells and the missing soft areas
+- *Found from:* the empty `flake_width_px_used` column.
+- *Cause:* `src.adapt` gives the method every param explicitly, with `flake_width_px` null.
+  The method then had no width, and the rules that depend on it fell back to a guess from `tile_px` (34 px, capped).
+  - pores were filled up to 26 px instead of ~119 px, so the watershed cut cells through them;
+  - soft regions were never looked for: on the same soft twin image, soft fraction 0.43 through the defaults and 0 through adapt's params;
+  - the width column stayed empty.
+- My blind tests used the defaults path, which keeps the width, so they never saw it. The simulated adapt runs of round 2 did show it (122-130 splits against 58 with the defaults), and I did not catch it then.
+- *Fix:* adapt's start settings and warm starts carry the measured width; explicit params are still kept as given.
+  A test runs the method with adapt's start settings and checks the width, soft detection and pore filling.
+- *Verdict:* fixed. Its effect on the real images is for the next private rerun to show.
+
+### Fragments, pores, and a guard against cut cells
+- *Fragments:* a piece under 0.3 × the median piece, **in direct contact** with a neighbour (a watershed cut leaves no boundary pixel between), joins the neighbour with the weakest contact line, if the joined shape stays cell-like.
+  - The first version also joined pieces across boundary pixels: on the calibrated dev set merges went 121 → 190, because even faint beaded boundaries are real. Contact only since.
+- *Pores (TASKS C-12):* filling every hole up to (0.2 × width)² merged cells (dev merges 121 → 184): an isolated dash of a beaded boundary is a "hole" too.
+  - Now compact holes (major / minor ≤ 2.5) are filled up to (0.25 × width)², other holes as before up to (0.15 × width)².
+  - The first-round pore test passes again (it failed in round 2).
+- *Result* (calibrated dev set, defaults): F1 0.771 (merges 143 / splits 84), against 0.772 (121 / 125) at the round-2 freeze: fewer cuts, a few more merges, the same F1; S error 0.037, aspect ratio −14 %.
+  The gain is expected on adapt's path (the bug above), which the twin does not show at the real level (below).
+- *Guard:* for cells, `src.adapt` now also refuses settings with over 1.4 × the expected flakes per readable megapixel (cut cells) or under 0.65 × (merged).
+  The expected density comes from the calibration card (cells per readable area of the masks) or the twin's truth; with both settings outside, the one nearer is kept. Test with faked measurements.
+- The pocket test's premise (≥ 5 pocket false positives without the detector) no longer holds: 0 with or without it, F1 0.91. The premise was dropped and the behaviour kept.
+
+### Not done in round 3
+- Thick scratches at ~20° to the cells (fix 7). A shorter minimum length for the thick pass (the scaled one is up to 275 px; these scratches are 100-400 px) let chains of boundary segments through as scratches: 26 found on one twin image. Backed out; `find_scratches` is the round-2 code; the test stays an expected failure.
+- Soft regions from the card's sharpness statistic with a set-level reference (the scientist's suggestion 3). The line-width detector of round 2 now actually runs through adapt; whether it finds the real soft areas is for the rerun to show.
+- New card statistics the twin may need (the helper's candidates for the remaining gap): the cells' length distribution (p10 / p90) and the drawn boundary width.
+
+
+Built by a helper in a separate worktree of commit 2f5ed6b (round-2 method code), then copied in; results in [results/flakes/cells_cal3/](results/flakes/cells_cal3/), the dev set `data/coarse_cells_cal3` (seed 0, not committed).
+
+### Card v2 ([src/calibration_card.py](src/calibration_card.py))
+- *Hypothesis:* the card's contrast (darkest boundary pixel in a 5 × 5 window, global interior level) jumps across the short gaps of beaded boundaries, so the twin fitted to it kept few, long gaps and stayed easy (the private round-2 rerun: invisible 1-3 % with the card tool, 13-21 % with the scientist's 3 × 3 measure).
+- *Change:* card version 2 keeps every v1 key and definition and adds:
+  - `contrast_local` (p25, median, p75): per boundary pixel, (I_loc − m3) / I_loc. m3 is the darkest boundary pixel in the 3 × 3 window; I_loc is the median of the cell pixels (eroded by 2 px) in the 31 × 31 window, computed on an 8 px grid and interpolated, with the image's interior level where a window has fewer than 30 such pixels.
+  - `invisible_fraction_local` (overall, along, across): the share with contrast_local < 0.05.
+  - gap runs along the boundary skeleton: 8-connected runs of invisible skeleton pixels; `gap_run_p50_px`, `gap_run_p90_px`, and `gap_share_gt5` / `_gt10` / `_gt20` (the share of the skeleton's length in runs longer than 5, 10, 20 px).
+  - `load_card` accepts v1 cards, and cards with keys left out on purpose (the scientist's imaging-only card); the twin fit uses the keys present.
+- *Tests* (known answers, beaded bricks): a 5-row gap is invisible over 3 rows with 3 × 3 and 1 row with 5 × 5 (local along 0.15-0.27, 5 × 5 along ≤ 0.12); gap runs p50 3 px, a long gap (13 invisible rows) counted in > 10 but not > 20; the local contrast stays 0.25 under a 20 % illumination gradient; v1 cards load. 11 card tests pass.
+- *Verdict:* done.
+
+### Example card v2 ([data/cards/coarse_cells_example_v2.json](data/cards/coarse_cells_example_v2.json))
+- Imaging numbers from the scientist's round-2 card (tool v1): 5 × 5 contrast median 0.171-0.235, invisible 1.5-2.7 % along, noise 0.006-0.012, dots 8.6-83 per megapixel, sharpness, soft group.
+- Cells, S and counts from the round-1 example card.
+- `contrast_local_*` = the round-1 example card's contrast (0.06-0.11 / 0.11-0.18 / 0.18-0.29): those numbers came from the scientist's own 3 × 3 measure with a local reference, which is why my v1 tool read 0.17-0.24 on the same images. That mismatch is one reason the round-2 twin was fitted to the wrong target.
+- `invisible_fraction_local_*` from the scientist's 3 × 3 statements (13-21 % along, 9-15 % across).
+- **Assumed** (listed in the card's "assumed" field, to be replaced by the scientist's tool-v2 card): gap runs p50 1-3 px, p90 3-6 px, share > 5 px 0.01-0.05, > 10 px ≤ 0.02, > 20 px ≤ 0.01.
+  The share above 5 px suggested in the brief (0.2-0.4) cannot be right: it exceeds the whole invisible share (0.13-0.21). Runs over 5 px with 3 × 3 are gaps of 8+ px, which a 5 × 5 window also sees, so 1-3 % invisible with 5 × 5 bounds them to a few percent.
+
+### The round-2 twin measured with card v2
+| sharp images | round-2 twin | example card v2 |
+|---|---|---|
+| invisible, 5 × 5 | 15-19 % | 1.5-2.7 % |
+| invisible, 3 × 3 local | 22-27 % | 13-21 % |
+| gap runs p50 / p90 | 5 / 18-20 px | 1-3 / 3-6 px (assumed) |
+| share in runs > 10 px | 0.13-0.15 | ≤ 0.02 (assumed) |
+| contrast median, 5 × 5 | 0.135-0.151 | 0.171-0.235 |
+| soft images: sharpness p10 | 0.38-0.42 | 0.16-0.33 |
+
+The round-2 twin had too many long gaps and too faint boundaries. Fitted to that card on the private side, the twin removed the gaps and became easy (F1 0.87-0.90 on the twin against 0.64 on the real images).
+
+### Twin with short gaps ([src/synth_cells.py](src/synth_cells.py))
+- *Change:*
+  - gaps are decided along the boundary's centre line and spread over its width (each boundary pixel takes the value at its nearest skeleton pixel), so a gap is a stretch where the whole line vanishes;
+  - regular beads per boundary segment: one gap of 3.8-5.2 px every 8-14 px, with period, gap and phase drawn per segment;
+  - long gaps made rare (0.3 % along, 0.2 % across);
+  - the old smooth darkness modulation weakened (0.6 → 0.3);
+  - contrast 0.12 → 0.17, interior level drawn 0.965-0.988, soft images' best side blur 1.9 → 1.3 px.
+  - `fit_to_card` fits the bead period from the v2 key `invisible_fraction_local_along` (inversely), with ranges as fields scaled at both ends. Version 1 cards fit as before.
+- *What failed first:* a random gap field (thresholded noise) gives gap lengths with a long tail, which the 5 × 5 window sees. The 5 × 5 share stayed at 0.35-0.45 of the 3 × 3 share, against ~0.12 on the private images.
+- *Result* (4 sharp + 2 soft images, seed 7):
+  - 5 × 5 contrast median 0.16-0.20 (target 0.171-0.235); local median 0.136-0.164 (0.11-0.18);
+  - 5 × 5 invisible along 2.3-3.3 % (1.5-2.7 %); local invisible along 8-10 % (13-21 %, **low**);
+  - gap runs p50 2 px, p90 5-6 px, share > 5 px 0.011-0.019, > 10 px ≤ 0.01, > 20 px ≤ 0.003 (all inside the assumed ranges);
+  - soft images: 5 × 5 contrast 0.108-0.124 (0.114-0.169), sharpness p10 0.29-0.35 (0.16-0.33).
+- **C-10 (soft sharpness noise floor):** with boundaries as dark as on the real images, the soft images' p10 falls from 0.38-0.55 to 0.29-0.35, at the top edge of the private range. Sharp images' p10 stays a little high (0.66-0.77 against 0.45-0.70).
+- *Residual:* the twin's 3 × 3 and 5 × 5 shares move together (ratio ~0.3), so it cannot reach 13-21 % with 3 × 3 while staying at 1.5-2.7 % with 5 × 5. Either the real gaps have a sharper length distribution than this rendering makes (a 3-4 px line with optical blur), or the scientist's 3 × 3 measure differs from tool v2's. The scientist's tool-v2 card will tell.
+- *Tests:* tests/test_synth_cells.py now against card v2: the v1 keys strict as before (median in range, each image within 60 %); the v2 keys at the median with 60 % slack (the residual above, recorded in the test). 27 generator tests and 11 card tests pass.
+  The tests that use the generator with the round-2 method code (width within 20 %, soft regions, no invented scratches, v1 family): 17 passed, 1 expected failure (thick scratches).
+
+### Realism on the new dev set (data/coarse_cells_cal3, 12 images; [results/flakes/cells_cal3/](results/flakes/cells_cal3/))
+| | private, real images | new twin (dev) |
+|---|---|---|
+| plain watershed (h 6, σ 2, area 400) | F1 0.72 (merges 152 / splits 97) | 0.752 (76 / 316) |
+| old code d99b04a, defaults | F1 0.64, AR −22 % | 0.789, AR −20 %, width read 31-40 px |
+| round-2 code through adapt's start settings ([scripts/cells_adapt_start_eval.py](scripts/cells_adapt_start_eval.py)) | F1 0.64, merges 36 / splits 165, S error 0.023, AR −9 % | 0.788, merges 15 / splits 282, S error 0.029, AR −17 to −31 % |
+
+- Reproduced: the watershed's level, the old code's width read and AR bias, round 2's failure mode through adapt's settings (splits dominate, ~23 per image against ~20; merges few).
+- **Not reproduced: the level of the tool.** On the twin both tool versions score ~0.79 and beat the watershed; on the real images both score 0.64 and lose to it (0.72). The twin is still easier than the real images for the tool's ridge-based boundary map.
+- A difference in the error pattern points to why: on the real images the watershed merges (152 merges, 97 splits), on the twin it splits (76 / 316). Watershed merges are what frequent short gaps do to a smoothed-intensity watershed, and the twin's short-gap share is the number still too low (8-10 % against 13-21 %).
+- *Pores ruled out as the missing piece:* at 60 instead of 25 dots per megapixel (4 clean images), the old code drops 0.815 → 0.752 and the watershed 0.777 → 0.735: both lose, and the ranking does not flip.
+- *Short gaps at the real level:* see below.
+- *Short gaps at the real level* (4 clean images, bead gaps every 6-10 px: local invisible along 0.19-0.20, but 5 × 5 invisible 0.066-0.079, three times the private 1.5-2.7 %; [results/flakes/cells_cal3/gaps_exp_hi/](results/flakes/cells_cal3/gaps_exp_hi/)):
+
+| 4 clean images | private, real | default twin (card-matched gaps; dev set) | twin with real-level short gaps |
+|---|---|---|---|
+| old code d99b04a | 0.64, AR −22 % | 0.79 (dev, 12 images), AR −20 % | **0.676**, AR −25 % |
+| plain watershed | 0.72 | 0.75 | 0.789 |
+| round-2 adapt start | 0.64, splits ~20 per image | 0.79, splits ~23 per image | 0.824, splits ~22 per image, S error 0.020 |
+
+  - With real-level short gaps, the old code fails as on the real images and loses to the watershed, as there.
+  - Round 2's hysteresis copes with short gaps, so its level stays far above the private 0.64 (P 0.79 / R 0.87 against P 0.66 / R 0.61 there), while its failure mode (splits) matches.
+  - Something else still makes the real images hard for the round-2 method. Not short gaps, not pores. Candidates the card does not measure: the length distribution of the cells (the card gives medians only: a tail of very long cells is cut more often), wider drawn boundaries in the masks (boundary share 7.8-15 % against 6.5-10.6 %), interior texture other than specks and pores.
+- *Verdict:* the twin now matches the card's directly comparable numbers better (contrast, 5 × 5 gaps, gap runs, noise; soft images' sharpness), but it **does not reproduce the private failures in level**: (i) is reproduced only with short gaps beyond the 5 × 5 measurement, and (ii) not at all (0.79-0.82 against 0.64).
+  - The defaults stay card-matched, because the 5 × 5 numbers are the ones measured with the same code on both sides.
+  - The real-level-gaps variant (`bead_period_px` (6, 10), `bead_gap_px` (4.0, 5.5)) is the harder twin for the old code.
+  - Needed next: the scientist's card made with tool v2 (the same 3 × 3 local measure and gap runs on both sides), and if possible the cells' length distribution (p10/p50/p90 of the major axis) and the drawn boundary width, which the card does not hold yet.
+
+### Regression (round 3)
+- Code `bb3e96b366`, run unattended by [scripts/cells_r3_regression.sh](scripts/cells_r3_regression.sh) ([results/flakes/cells_cal3/r3_regression/](results/flakes/cells_cal3/r3_regression/)).
+- lamellar_synth and Ti64 baselines ([baseline_v12](results/flakes/baseline_v12/)): **every number identical** to [baseline_v10](results/flakes/baseline_v10/) (worst family 0.657, pooled 0.29, scratch precision 0.92, crossing recall 0.818; Ti64 rotation check 0.218).
+- Stress sets with their params held fixed: 11 of 13 identical to the old code; purple_flakes_L10 and bainite_L06 show the same two small differences as since round 1, nothing new.
+- Full test suite: **181 passed**, 1 expected failure (thick scratches, not done).
+- No blind set this round: the round's changes act on adapt's path and on cut fragments, which the twin does not show at the real level (dev F1 0.771 against 0.772); the next private rerun is the test.
+- API spend: $0.

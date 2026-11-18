@@ -1,5 +1,7 @@
 """The calibrated coarse-cell twin: its images, measured by src.calibration_card with their own truth masks, must
-fall inside the ranges of the private images' card (data/cards/coarse_cells_example.json)."""
+fall inside the ranges of the private images' card (data/cards/coarse_cells_example_v2.json, round 3: the imaging
+numbers measured with the card tool on the private images, the short-gap numbers from the scientist's own 3 x 3
+measure, the gap runs assumed)."""
 
 from pathlib import Path
 
@@ -12,7 +14,7 @@ from src import calibration_card as cc
 from src.synth_cells import CellSpec, default_specs, generate, write_dataset
 
 ROOT = Path(__file__).resolve().parents[1]
-CARD = cc.load_card(ROOT / "data" / "cards" / "coarse_cells_example.json")
+CARD = cc.load_card(ROOT / "data" / "cards" / "coarse_cells_example_v2.json")
 
 
 def inside(value, rng, slack=0.15):
@@ -47,6 +49,18 @@ def test_sharp_twin_images_match_the_card(sharp, key):
     assert inside(float(np.median(vals)), CARD["summary"][key], slack=0.1), f"{key}: median {np.median(vals):.4g} outside {CARD['summary'][key]}"
     for row, v in zip(card["per_image"], vals):
         assert inside(v, CARD["summary"][key], slack=0.6), f"{row['image']}: {key} {v:.4g} outside {CARD['summary'][key]}"
+
+
+@pytest.mark.parametrize("key", ["contrast_local_median", "invisible_fraction_local_along",
+                                 "invisible_fraction_local_across", "gap_run_p50_px", "gap_run_p90_px", "gap_share_gt5",
+                                 "gap_share_gt10", "gap_share_gt20"])
+def test_sharp_twin_images_match_the_card_v2_short_gaps(sharp, key):
+    """The v2 keys at the median, with a wider slack (60 % of the range's width): the twin's 3 x 3 and 5 x 5 invisible
+    shares move together (ratio ~0.3; the private images ~0.12), so it sits a little low on the first and a little
+    high on the second (round 3); the gap runs are assumed values until the scientist's v2 card."""
+    _, _, card = sharp
+    vals = [cc._flat(row)[key] for row in card["per_image"]]
+    assert inside(float(np.median(vals)), CARD["summary"][key], slack=0.6), f"{key}: median {np.median(vals):.4g} outside {CARD['summary'][key]}"
 
 
 def test_the_field_is_filled_with_cells_of_varied_width(sharp):

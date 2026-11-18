@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import numpy as np
+import pytest
 from PIL import Image
 
 from src import knowledge
@@ -212,7 +213,9 @@ def test_adapt_takes_the_coarse_cell_twin_with_a_calibration_card(tmp_path):
         p.parent.mkdir(exist_ok=True)
         Image.fromarray(cells(s)["image"]).save(p)
         paths.append(p)
-    card = cc.load_card(Path(__file__).resolve().parents[1] / "data" / "cards" / "coarse_cells_example.json")
+    # (the card v2 example: the generator's reference since round 3; a v1 card's contrast was the scientist's 3 x 3
+    # measure read as the 5 x 5 one, and the twin fitted to it is rightly not trusted)
+    card = cc.load_card(Path(__file__).resolve().parents[1] / "data" / "cards" / "coarse_cells_example_v2.json")
     card["image_shape"] = list(shape)
     (tmp_path / "card.json").write_text(json.dumps(card))
     lines = []
@@ -224,3 +227,50 @@ def test_adapt_takes_the_coarse_cell_twin_with_a_calibration_card(tmp_path):
     assert any(t["metrics"].get("segmentation_f1") is not None for t in log["trials"])
     out = tmp_path / "results" / "adapt" / "cells"
     assert (out / "report.md").exists() and len(list((out / "labels").glob("*.png"))) == len(paths)
+
+
+def test_adapt_start_settings_carry_the_measured_width(tmp_path):
+    """Round-2 private rerun: adapt passed every param explicitly but flake_width_px null, so the method lost the
+    width: pores filled up to 26 px instead of ~120 (cells cut through them: ~20 splits per image), soft-region
+    detection off, flake_width_px_used empty in image_summaries.csv."""
+    from src import twin
+    from src.adapt import resolved_start
+    from src.methods import METHODS
+    from src.methods.flakes import _pore_area
+    from src.synth_cells import default_specs, generate as cells
+
+    spec = next(s for s in default_specs(seed=9, per_family=1, holdout=0) if s.family == "soft")
+    path = tmp_path / "s.png"
+    Image.fromarray(cells(spec)["image"]).save(path)
+    prof = twin.set_profile([path])
+    start = resolved_start(prof, "boundaries")
+    width = prof["by_mode"]["boundaries"]["flake_width_px"]
+    assert start["flake_width_px"] == pytest.approx(width, rel=0.01)
+    res = METHODS["flakes"]([path], start, tmp_path / "out")
+    s = res["image_summaries"]["s"]
+    assert s["flake_width_px_used"] == pytest.approx(width, rel=0.01)
+    assert s["soft_fraction"] > 0.1                                   # soft detection runs on adapt's params
+    assert _pore_area({"_width_used": s["flake_width_px_used"], "tile_px": start["tile_px"]}) > 60
+    for k in ("h_px", "min_area_px", "tile_px", "boundary_width_px"):   # the explicit params are kept as given
+        assert res["image_summaries"]["s"]["params_resolved"][k] == start[k]
+
+
+def test_the_guard_refuses_settings_that_cut_cells(tmp_path, monkeypatch):
+    """Round-2 private rerun: ~20 splits on every image passed the guard, which watched merges only. With the cells
+    per readable area expected from the card (or the twin's truth), too many flakes per area is refused too."""
+    import src.adapt as A
+
+    img = tmp_path / "a.png"
+    Image.fromarray(np.zeros((1000, 1000), np.uint8)).save(img)        # 1 megapixel
+
+    def fake_measure(sample, params, out_dir, workers=6):
+        n = {"start": 110, "chosen": 230}[params["tag"]]
+        return {"image_summaries": {"a": {"n_used_orientation": n, "n_flakes": n, "n_pockets": 0, "soft_fraction": 0.0,
+                                          "out_of_focus_fraction": 0.0, "median_length_px": 150.0}}}
+
+    monkeypatch.setattr(A, "measure_real", fake_measure)
+    monkeypatch.setattr(A.consistency, "check", lambda *a, **k: {"metrics": {"worst_consistency_ratio": 0.3}})
+    g = A.real_image_guard([img], {"tag": "start"}, {"tag": "chosen"}, tmp_path, {}, cells=True,
+                           twin_length_px=150.0, expected_density=100.0)
+    assert not g["keep_chosen"] and "cut" in g["reason"]
+    assert g["start"]["density"] == pytest.approx(110.0) and g["chosen"]["density"] == pytest.approx(230.0)
